@@ -1,6 +1,7 @@
 // Get DOM elements
 const todoInput = document.getElementById('todo-input');
 const addBtn = document.getElementById('add-btn');
+const countBtn = document.getElementById('count-btn'); // New button added
 const todoList = document.getElementById('todo-list');
 const loginInput = document.getElementById('username');
 const passwordInput = document.getElementById('password');
@@ -88,6 +89,12 @@ function saveTodos() {
     localStorage.setItem('todos', JSON.stringify(todos));
 }
 
+// Event handlers for new count button
+countBtn.addEventListener('click', () => {
+    const totalCount = todos.filter(todo => !todo.completed).length;
+    alert(`Total todos: ${totalCount}`);
+});
+
 // Event listeners
 addBtn.addEventListener('click', addTodo);
 todoInput.addEventListener('keypress', (e) => {
@@ -95,6 +102,16 @@ todoInput.addEventListener('keypress', (e) => {
         addTodo();
     }
 });
+
+// Create new count button
+const countBtnDiv = document.createElement('div');
+countBtnDiv.className = 'count-btn-div';
+document.body.appendChild(countBtnDiv);
+
+const countBtn = document.createElement('button');
+countBtn.textContent = 'Count Todos';
+countBtn.id = 'count-btn';
+document.body.appendChild(countBtn);
 
 if (user) {
     loginBtn.remove();

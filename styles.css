@@ -10,6 +10,22 @@ h1 {
     color: #333;
 }
 
+/* Add one count task button */
+.tasks-count {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.tasks-count span {
+    font-size: 16px;
+}
+
 .add-todo {
     display: flex;
     gap: 10px;
@@ -112,7 +128,7 @@ h1 {
     border: 1px solid #ccc;
 }
 
-#login-page form button {
+.add-count-btn {
     padding: 10px 15px;
     background-color: #4CAF50;
     color: white;
@@ -121,6 +137,11 @@ h1 {
     font-size: 16px;
 }
 
-#login-page form button:hover {
+.add-count-btn:hover {
     background-color: #45a049;
+}
+
+.add-count-btn {
+    position: relative;
+    top: 5px;
 }
