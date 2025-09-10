@@ -2,9 +2,30 @@
 const todoInput = document.getElementById('todo-input');
 const addBtn = document.getElementById('add-btn');
 const todoList = document.getElementById('todo-list');
+const loginInput = document.getElementById('username');
+const passwordInput = document.getElementById('password');
+const loginBtn = document.getElementById('login-btn');
 
 // Load todos from localStorage
 let todos = JSON.parse(localStorage.getItem('todos')) || [];
+let user = JSON.parse(localStorage.getItem('user')) || null;
+
+// Function to handle login form submission
+function handleLogin() {
+    const username = loginInput.value.trim();
+    const password = passwordInput.value.trim();
+    if (username === 'admin' && password === 'password') {
+        localStorage.setItem('user', JSON.stringify({username, password}));
+        loginInput.value = '';
+        passwordInput.value = '';
+    }
+}
+
+// Function to handle logout
+function handleLogout() {
+    localStorage.removeItem('user');
+    window.location.reload();
+}
 
 // Render todos to the page
 function renderTodos() {
@@ -40,7 +61,7 @@ function renderTodos() {
 // Add a new todo
 function addTodo() {
     const text = todoInput.value.trim();
-    if (text) {
+    if (text && user) {
         todos.push({ text, completed: false });
         todoInput.value = '';
         saveTodos();
@@ -74,6 +95,32 @@ todoInput.addEventListener('keypress', (e) => {
         addTodo();
     }
 });
+
+if (user) {
+    loginBtn.remove();
+} else {
+    loginBtn.addEventListener('click', handleLogin);
+    todoInput.disabled = true;
+    addBtn.disabled = true;
+}
+
+loginInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        handleLogin();
+    }
+});
+
+passwordInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        handleLogin();
+    }
+});
+
+// Add logout button
+const logoutBtn = document.createElement('button');
+logoutBtn.textContent = 'Logout';
+logoutBtn.onclick = handleLogout;
+document.body.appendChild(logoutBtn);
 
 // Initial render
 renderTodos();
