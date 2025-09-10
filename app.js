@@ -1,11 +1,14 @@
 // Get DOM elements
 const todoInput = document.getElementById('todo-input');
 const addBtn = document.getElementById('add-btn');
-const countBtn = document.getElementById('count-btn'); // New button added
+const countBtn = document.getElementById('count-btn'); 
+const countDiv = document.getElementById('count-div'); // New div for count display
 const todoList = document.getElementById('todo-list');
 const loginInput = document.getElementById('username');
 const passwordInput = document.getElementById('password');
 const loginBtn = document.getElementById('login-btn');
+const countDisplay = document.createElement('p'); // New element for display count
+countDisplay.id = 'count-display';
 
 // Load todos from localStorage
 let todos = JSON.parse(localStorage.getItem('todos')) || [];
@@ -19,12 +22,16 @@ function handleLogin() {
         localStorage.setItem('user', JSON.stringify({username, password}));
         loginInput.value = '';
         passwordInput.value = '';
+        if (!document.getElementById('count-display')) {
+            countDiv.appendChild(countDisplay);
+        }
     }
 }
 
 // Function to handle logout
 function handleLogout() {
     localStorage.removeItem('user');
+    countDiv.removeChild(countDisplay);
     window.location.reload();
 }
 
@@ -75,6 +82,7 @@ function toggleComplete(index) {
     todos[index].completed = !todos[index].completed;
     saveTodos();
     renderTodos();
+    countUpdate();
 }
 
 // Delete a todo
@@ -82,6 +90,7 @@ function deleteTodo(index) {
     todos.splice(index, 1);
     saveTodos();
     renderTodos();
+    countUpdate();
 }
 
 // Save todos to localStorage
@@ -89,10 +98,16 @@ function saveTodos() {
     localStorage.setItem('todos', JSON.stringify(todos));
 }
 
-// Event handlers for new count button
+// Update count display
+function countUpdate() {
+    const activeCount = todos.filter(todo => !todo.completed).length;
+    countDisplay.textContent = `Active Todos: ${activeCount}`;
+}
+
+// Event listeners for new count button
 countBtn.addEventListener('click', () => {
-    const totalCount = todos.filter(todo => !todo.completed).length;
-    alert(`Total todos: ${totalCount}`);
+    const totalCount = todos.length;
+    countDisplay.textContent = `Total Todos: ${totalCount}`;
 });
 
 // Event listeners
@@ -108,10 +123,15 @@ const countBtnDiv = document.createElement('div');
 countBtnDiv.className = 'count-btn-div';
 document.body.appendChild(countBtnDiv);
 
-const countBtn = document.createElement('button');
 countBtn.textContent = 'Count Todos';
 countBtn.id = 'count-btn';
 document.body.appendChild(countBtn);
+countBtnDiv.appendChild(countBtn);
+const countDiv = document.createElement('div');
+countDiv.id = 'count-div';
+document.body.appendChild(countDiv);
+
+countDiv.appendChild(countDisplay);
 
 if (user) {
     loginBtn.remove();
@@ -141,3 +161,4 @@ document.body.appendChild(logoutBtn);
 
 // Initial render
 renderTodos();
+countDisplay.textContent = `Active Todos: ${todos.length}`;
