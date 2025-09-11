@@ -6,6 +6,14 @@ const todoList = document.getElementById('todo-list');
 // Load todos from localStorage
 let todos = JSON.parse(localStorage.getItem('todos')) || [];
 
+// Load settings from localStorage
+let settings = JSON.parse(localStorage.getItem('settings')) || {
+    // Enable the use of localStorage to store todos
+    useLocalStorage: true,
+    // Disable the use of localStorage to retrieve todos on page load
+    loadOnPageLoad: true,
+};
+
 // Render todos to the page
 function renderTodos() {
     todoList.innerHTML = '';
@@ -44,6 +52,7 @@ function addTodo() {
         todos.push({ text, completed: false });
         todoInput.value = '';
         saveTodos();
+        saveSettings();
         renderTodos();
     }
 }
@@ -52,6 +61,7 @@ function addTodo() {
 function toggleComplete(index) {
     todos[index].completed = !todos[index].completed;
     saveTodos();
+    saveSettings();
     renderTodos();
 }
 
@@ -59,12 +69,51 @@ function toggleComplete(index) {
 function deleteTodo(index) {
     todos.splice(index, 1);
     saveTodos();
+    saveSettings();
     renderTodos();
 }
 
 // Save todos to localStorage
 function saveTodos() {
     localStorage.setItem('todos', JSON.stringify(todos));
+}
+
+// Save settings to localStorage
+function saveSettings() {
+    localStorage.setItem('settings', JSON.stringify(settings));
+}
+
+// Load settings from localStorage
+function loadSettings() {
+    settings = JSON.parse(localStorage.getItem('settings')) || {
+        // Enable the use of localStorage to store todos
+        useLocalStorage: true,
+        // Disable the use of localStorage to retrieve todos on page load
+        loadOnPageLoad: true,
+    };
+}
+
+// Load todos from localStorage when loadOnPageLoad is set to true
+if (settings.loadOnPageLoad) {
+    getTodosFromServer().then((todosFromServer) => {
+        todos = todosFromServer;
+        saveSettings();
+        renderTodos();
+    }).catch((error) => {
+        console.error('Error while loading todos:', error);
+    });
+}
+
+// Simulate a server call to retrieve todos from an API
+function getTodosFromServer() {
+    return new Promise((resolve, reject) => {
+        // Simulate a server response
+        const todosFromServer = [
+            { text: 'Todo 1', completed: false },
+            { text: 'Todo 2', completed: true },
+        ];
+        resolve(todosFromServer);
+    });
 }
 
 // Event listeners
@@ -76,4 +125,5 @@ todoInput.addEventListener('keypress', (e) => {
 });
 
 // Initial render
+loadSettings();
 renderTodos();
