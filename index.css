@@ -1,0 +1,14 @@
+// index.css
+
+/* Add new CSS rules here for custom styling */
+
+/* Unchanged existing CSS rules */
+
+/* This should remain as it is */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #F2F2F2;
+}
+
+/* Add the link to the new CSS file */
+<link rel="stylesheet" href="index.css">
