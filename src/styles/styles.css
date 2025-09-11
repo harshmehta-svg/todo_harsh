@@ -1,0 +1,63 @@
+// New file
+// src/styles/styles.css
+
+/* 
+This is a comment explaining the purpose of the file */
+
+/* 
+Import required CSS files 
+(assuming styles.css is being used in the application, no changes needed for this task) */
+
+@import 'styles';
+
+/* 
+Style for the body element 
+(NO changes here, just for completeness) */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+}
+
+/* 
+Style for the task list 
+(NO changes here, just for completeness) */
+
+.task-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* 
+Style for individual tasks 
+(NO changes here, just for completeness) */
+
+.task-list-item {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.task-list-item:last-child {
+    border-bottom: none;
+}
+
+/* 
+Style for task details 
+(NO changes here, just for completeness) */
+
+.task-details {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* 
+Style for task completion 
+(NO changes here, just for completeness) */
+
+.task-completed {
+    text-decoration: line-through;
+}
+
+/* 
+End of file content (no changes made, so it remains the same) */
