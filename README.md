@@ -1,9 +1,10 @@
 // New file
 
+
 REPOSITORY CONTEXT:
-Technology: unknown
-Files: 4
-README Context: Todo App
+Technology: nodejs/react
+Files: 8
+README Context: # Todo App
 
 ## Table of Contents
 - [Overview](#overview)
@@ -35,10 +36,10 @@ The project structure is organized as follows:
     public/
         index.html
     src/
-        styles/
-            styles.css
-        scripts/
-            script.js
+        App.css
+        App.js
+        index.css
+        index.js
     package.json
     README.md
 

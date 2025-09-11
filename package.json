@@ -2,7 +2,7 @@
   "name": "todo-app",
   "version": "1.0.0",
   "description": "A simple Todo List application built with front-end technologies.",
-  "main": "index.html",
+  "main": "src/index.js",
   "scripts": {
     "start": "live-server",
     "build": "tsc --outDir build",
