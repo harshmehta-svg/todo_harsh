@@ -3,6 +3,9 @@ const todoInput = document.getElementById('todo-input');
 const addBtn = document.getElementById('add-btn');
 const todoList = document.getElementById('todo-list');
 
+// Load package.json data
+const packageData = require('./package.json");
+
 // Load todos from localStorage
 let todos = JSON.parse(localStorage.getItem('todos')) || [];
 
@@ -74,6 +77,9 @@ todoInput.addEventListener('keypress', (e) => {
         addTodo();
     }
 });
+
+// Log package.json data
+console.log(packageData);
 
 // Initial render
 renderTodos();
