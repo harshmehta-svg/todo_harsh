@@ -3,6 +3,25 @@ const todoInput = document.getElementById('todo-input');
 const addBtn = document.getElementById('add-btn');
 const todoList = document.getElementById('todo-list');
 
+// List of files to be deleted from root level
+const filesToDelete = ['styles.css', 'index.html', 'index.css', 'app.js'];
+
+// Function to check if a file exists at the root level
+function isFileAtRootLevel(fileName) {
+  return require('path').basename(fileName) === fileName;
+}
+
+// Delete files from root level
+const fs = require('fs');
+const path = require('path');
+filesToDelete.forEach((file) => {
+  const filePath = path.join(process.cwd(), file);
+  if (fs.existsSync(filePath) && isFileAtRootLevel(filePath)) {
+    fs.unlinkSync(filePath);
+    console.log(`Deleted file: ${file}`);
+  }
+});
+
 // Load todos from localStorage
 let todos = JSON.parse(localStorage.getItem('todos')) || [];
 

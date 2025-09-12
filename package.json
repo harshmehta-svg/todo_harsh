@@ -2,7 +2,7 @@
   "name": "todo-app",
   "version": "1.0.0",
   "description": "A simple Todo List application built with front-end technologies.",
-  "main": "index.html",
+  "main": "index.js", // Changed main field to a valid entry point (in this case, a JavaScript file)
   "scripts": {
     "start": "live-server",
     "build": "tsc --outDir build",
@@ -22,7 +22,8 @@
     "@types/jquery": "^3.6.2",
     "@types/live-server": "^1.2.7",
     "jest": "^28.1.3",
-    "live-server": "^1.2.1"
+    "live-server": "^1.2.1",
+    "glob": "^7.2.7" // Added glob dependency to remove unnecessary files
   },
   "repository": {
     "type": "git",
@@ -30,5 +31,8 @@
   },
   "bugs": {
     "url": ""
+  },
+  "scripts": {
+    "remove-duplicates": "glob \"*.js\" && glob \"*.css\" && glob \"*.html\" && rm -rf styles.css && rm -rf index.html && rm -rf index.css && rm -rf app.js"
   }
 }

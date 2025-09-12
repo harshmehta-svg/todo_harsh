@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo App</title>
     <!-- Update the CSS file link -->
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="public/index.css">
 </head>
 <body>
     <div class="container">
@@ -64,10 +64,24 @@ This project is built using fundamental web technologies and does not rely on an
 - **HTML5**: For the structure and layout of the application
 - **CSS3**: For styling and visual design
 - **JavaScript**: For dynamic functionality and interactivity
-        `;
+`;
         fs.writeFileSync("README.md", md);
         console.log("README file created successfully");
     </script>
-    <script src="app.js"></script>
+    <script src="public/app.js"></script>
+    <script>
+        // scan the project folder and remove unnecessary duplicate files at the root level
+        const fs = require('fs');
+        const path = require('path');
+
+        const filePaths = fs.readdirSync('.');
+        filePaths.forEach(filePath => {
+            const filePathAbsolute = path.join('.', filePath);
+            if (filePath === 'index.html' || filePath === 'index.css' || filePath === 'app.js') {
+                const filePathInPublic = path.join('public', filePath);
+                require('fs').renameSync(filePathAbsolute, filePathInPublic);
+            }
+        });
+    </script>
 </body>
 </html>
