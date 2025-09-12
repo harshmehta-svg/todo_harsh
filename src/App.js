@@ -8,6 +8,7 @@ function App() {
   const [password, setPassword] = useState('');
   const [loginStatus, setLoginStatus] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const [theme, setTheme] = useState('light'); // Initialize theme as 'light' by default
 
   const handleLogin = (event:SyntheticEvent) => {
     event.preventDefault();
@@ -24,8 +25,12 @@ function App() {
     setLoginStatus(false);
   };
 
+  const toggleTheme = () => {
+    setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
+  };
+
   return (
-    <div className="App">
+    <div className={`App ${theme}`}> {/* Apply the theme class to the App container */}
       <header className="App-header">
         {isLoggedIn === true ? (
           <h2>
@@ -47,6 +52,9 @@ function App() {
                 onChange={(event) => setPassword(event.target.value)}
               />
               <button type="submit">Login</button>
+              <button className="dark-mode-toggle" onClick={toggleTheme}> {/* Render the dark mode toggle button */}
+                {theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+              </button>
             </form>
           )
         )}
