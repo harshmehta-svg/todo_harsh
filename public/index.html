@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App</title>
+</head>
+<body>
+    <div id="app"></div>
+    <form id="login-form">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username"><br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password"><br><br>
+        <button type="submit">Login</button>
+    </form>
+    <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.16.4/babel.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        // Get the form
+        var form = document.querySelector('#login-form');
+        
+        // Add event listener to form submit
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Get username and password
+            var username = document.querySelector('#username').value;
+            var password = document.querySelector('#password').value;
+            
+            console.log(username, password);
+            
+            // Todo: Send the username and password to your login API
+        });
+        
+        // Babel example code
+        const root = ReactDOM.createRoot(document.getElementById('app'));
+        root.render(<h1>Welcome to Todo App</h1>);
+        
+        // Example of React code
+        function TodoApp() {
+            const [todos, setTodos] = React.useState([]);
+            const [newTodo, setNewTodo] = React.useState('');
+            
+            const addTodo = () => {
+                setTodos([...todos, { id: Date.now(), text: newTodo, completed: false }]);
+                setNewTodo('');
+            };
+            
+            return (
+                <div>
+                    <input type="text" value={newTodo} onChange={e => setNewTodo(e.target.value)} />
+                    <button onClick={addTodo}>Add Todo</button>
+                    <ul>
+                        {todos.map(todo => (
+                            <li key={todo.id}>
+                                {todo.text}
+                                <button onClick={() => setTodos(todos.filter(t => t.id !== todo.id))}>Delete</button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            );
+        }
+        
+        root.render(<TodoApp />);
+    </script>
+</body>
+</html>

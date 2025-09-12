@@ -8,20 +8,23 @@ function App() {
   const [password, setPassword] = useState('');
   const [loginStatus, setLoginStatus] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const [invalidCredentials, setInvalidCredentials] = useState(false);
 
   const handleLogin = (event:SyntheticEvent) => {
     event.preventDefault();
     if (username === 'admin' && password === 'password') {
       setIsLoggedIn(true);
       setLoginStatus(true);
+      setInvalidCredentials(false);
     } else {
-      alert('Invalid username or password');
+      setInvalidCredentials(true);
     }
   };
 
   const handleLogout = () => {
     setIsLoggedIn(false);
     setLoginStatus(false);
+    setInvalidCredentials(false);
   };
 
   return (
@@ -47,6 +50,7 @@ function App() {
                 onChange={(event) => setPassword(event.target.value)}
               />
               <button type="submit">Login</button>
+              {invalidCredentials === true && <span style={{ color: 'red' }}>Invalid username or password!</span>}
             </form>
           )
         )}
@@ -55,4 +59,4 @@ function App() {
   );
 }
 
-export default App;
+export default App;

@@ -1,5 +1,5 @@
-// New file
 /* global document */
+/* eslint-disable no-unused-vars, no-undef */
 
 .login-card {
   max-width: 350px;
@@ -7,7 +7,7 @@
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .login-card label {
@@ -16,13 +16,15 @@
   margin-bottom: 10px;
 }
 
-.login-card input[type="text"], .login-card input[type="password"] {
+.login-card input[type="text"], 
+.login-card input[type="password"],
+.login-card input[type="email"] {
   width: 100%;
   padding: 10px;
   margin-bottom: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .login-card button[type="submit"] {
@@ -36,5 +38,66 @@
 }
 
 .login-card button[type="submit"]:hover {
+  background-color: #3e8e41;
+}
+
+.login-card input[type="submit"],
+.login-card a {
+  width: 100%;
+  padding: 10px;
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #ccc;
+  cursor: pointer;
+}
+
+.login-card a {
+  color: #4CAF50;
+  text-decoration: none;
+}
+
+/* Login Form Style */
+.login-form {
+  max-width: 350px;
+  margin: 40px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.login-form label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Input Fields in Login Form */
+.login-form input[type="text"],
+.login-form input[type="password"],
+.login-form input[type="email"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Submit Button in Login Form */
+.login-form button[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Hover Effect for Submit Button */
+.login-form button[type="submit"]:hover {
   background-color: #3e8e41;
 }

@@ -7,7 +7,8 @@
     "start": "live-server",
     "build": "tsc --outDir build",
     "test": "jest",
-    "clean": "rm -rf build && touch build"
+    "clean": "rm -rf build && touch build",
+    "login": "node scripts/login.js"
   },
   "keywords": [],
   "author": "",
@@ -15,15 +16,18 @@
   "dependencies": {
     "@types/node": "^16.11.3",
     "bcrypt": "^5.2.1",
+    "express": "^4.18.1", // Added express.js dependency
+    "passport": "^0.6.0", // Added passport.js dependency
+    "passport-jwt": "^4.0.1", // Added passport-jwt dependency
     "typescript": "^4.7.4"
   },
   "devDependencies": {
     "@types/jest": "^28.1.6",
     "@types/jquery": "^3.6.2",
     "@types/live-server": "^1.2.7",
+    "glob": "^7.2.7", // Added glob dependency to remove unnecessary files
     "jest": "^28.1.3",
-    "live-server": "^1.2.1",
-    "glob": "^7.2.7" // Added glob dependency to remove unnecessary files
+    "live-server": "^1.2.1"
   },
   "repository": {
     "type": "git",
@@ -33,6 +37,8 @@
     "url": ""
   },
   "scripts": {
-    "remove-duplicates": "glob \"*.js\" && glob \"*.css\" && glob \"*.html\" && rm -rf styles.css && rm -rf index.html && rm -rf index.css && rm -rf app.js"
+    "remove-duplicates": "glob \"*.js\" && glob \"*.css\" && glob \"*.html\" && rm -rf styles.css && rm -rf index.html && rm -rf index.css && rm -rf app.js",
+    "start:dev": "nodemon index.js",
+    "start:server": "node index.js"
   }
 }
