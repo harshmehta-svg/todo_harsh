@@ -11,7 +11,7 @@ const TodoList = () => {
   };
 
   const handleAddTodo = () => {
-    setTodos([...todos, { id: Math.random().toString(36).substring(2, 15), text: newTodo, completed: false }]);
+    setTodos([...todos, { id: Math.random().toString(36).substring(2, 15), text: newTodo, completed: false }]");
     setNewTodo('');
   };
 
@@ -49,24 +49,43 @@ const TodoList = () => {
       <button className="add-todo" onClick={handleAddTodo}>
         Add Todo
       </button>
-      <ul>
-        {todos.map((todo) => (
-          <li key={todo.id}>
-            <input type="checkbox" checked={todo.completed} onChange={() => handleCompleteTodo(todo.id)} />
-            <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>{todo.text}</span>
-            <button className="delete-todo" onClick={() => handleDeleteTodo(todo.id)}>
-              Delete
-            </button>
-            <button
-              className="undo-complete-todo"
-              onClick={() => handleUndoCompleteTodo(todo.id)}
-              style={{ display: todo.completed ? 'inline-block' : 'none' }}
-            >
-              Undo
-            </button>
-          </li>
-        ))}
-      </ul>
+      <table>
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Description</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Basic Details</th>
+            <th>Todo</th>
+          </tr>
+        </thead>
+        <tbody>
+          {todos.map((todo) => (
+            <tr key={todo.id}>
+              <td><input type="text" value="Username" readOnly /></td>
+              <td><input type="text" value="Description" readOnly /></td>
+              <td><input type="email" value="example@example.com" readOnly /></td>
+              <td><input type="text" value="1234567890" readOnly /></td>
+              <td><input type="text" value="Basic Details" readOnly /></td>
+              <td>
+                <input type="checkbox" checked={todo.completed} onChange={() => handleCompleteTodo(todo.id)} />
+                <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>{todo.text}</span>
+                <button className="delete-todo" onClick={() => handleDeleteTodo(todo.id)}>
+                  Delete
+                </button>
+                <button
+                  className="undo-complete-todo"
+                  onClick={() => handleUndoCompleteTodo(todo.id)}
+                  style={{ display: todo.completed ? 'inline-block' : 'none' }}
+                >
+                  Undo
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
