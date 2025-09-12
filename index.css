@@ -1,14 +1,26 @@
-// index.css
+// This is not the file to modify based on the task
+// We will write a script to delete files instead
 
-/* Add new CSS rules here for custom styling */
+// This is a separate node script to handle the task
+// Create a new file (e.g., clean-root-level-files.js)
+// Add the following content:
+const fs = require('fs');
+const path = require('path');
 
-/* Unchanged existing CSS rules */
+// Define the files to delete
+const filesToDelete = ['styles.css', 'index.html', 'index.css', 'app.js'];
 
-/* This should remain as it is */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #F2F2F2;
-}
+// Iterate through the files to delete
+filesToDelete.forEach(fileToDelete => {
+    // Construct the full path to the file
+    const filePath = path.join(process.cwd(), fileToDelete);
 
-/* Add the link to the new CSS file */
-<link rel="stylesheet" href="index.css">
+    // Check if the file exists
+    if (fs.existsSync(filePath)) {
+        // Delete the file
+        fs.unlinkSync(filePath);
+        console.log(`Deleted file: ${fileToDelete}`);
+    }
+});
+
+// Don't delete the file we are editing, we won't be making changes to this file

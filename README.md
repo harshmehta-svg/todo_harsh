@@ -1,14 +1,14 @@
 public/
-    index.html
+  index.html
+  app.js
 src/
-    components/
-        TodoList.js
-        Task.js
-    styles/
-        styles.css
-    scripts/
-        script.js
-        services/
-            auth.js
-    package.json
-    README.md
+  components/
+    TodoList.js
+    Task.js
+  styles/
+    styles.css
+  scripts/
+    script.js
+    services/
+      auth.js
+package.json
