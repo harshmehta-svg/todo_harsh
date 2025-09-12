@@ -1,11 +1,18 @@
 // src/styles/styles.css
 
+/* Global Styles */
+
 body {
   font-family: Arial, sans-serif;
   background-color: #f0f0f0;
 }
 
-/* Global Styles */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #2f2f2f;
+    color: #fff;
+  }
+}
 
 .container {
   max-width: 400px;
@@ -15,6 +22,11 @@ body {
   border: 1px solid #ddd;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.container.dark-mode {
+  background-color: #333;
+  border-color: #444;
 }
 
 .form-container {
@@ -27,6 +39,11 @@ body {
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
+.form-container.dark-mode {
+  background-color: #444;
+  border-color: #555;
+}
+
 /* Login Page Styles */
 
 .login-page {
@@ -35,6 +52,10 @@ body {
   justify-content: center;
   height: 100vh;
   background-color: #f0f0f0;
+}
+
+.login-page.dark-mode {
+  background-color: #2f2f2f;
 }
 
 .login-form {
@@ -52,6 +73,16 @@ body {
   border: 1px solid #ccc;
 }
 
+.login-form input[type="text"], .login-form input[type="password"] {
+  color: #333;
+  background-color: #f9f9f9;
+}
+
+.login-form input[type="text"].dark-mode, .login-form input[type="password"].dark-mode {
+  color: #fff;
+  background-color: #333;
+}
+
 .login-form button[type="submit"] {
   width: 100%;
   padding: 10px;
@@ -64,4 +95,40 @@ body {
 
 .login-form button[type="submit"]:hover {
   background-color: #3e8e41;
+}
+
+.login-form button[type="submit"].dark-mode {
+  background-color: #008000;
+}
+
+/* Dark Mode Styles */
+
+body.dark-mode {
+  background-color: #2f2f2f;
+  color: #fff;
+}
+
+.body.dark-mode {
+  background-color: #333;
+}
+
+/* Utility Classes */
+
+.dark-mode {
+  background-color: #333;
+  color: #fff;
+}
+
+/* Responsive Design */
+
+@media (max-width: 768px) {
+  .login-form {
+    width: 80%;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-form {
+    width: 90%;
+  }
 }
