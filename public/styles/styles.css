@@ -1,0 +1,181 @@
+/* 
+ * styles.css
+ * 
+ * Updated to work with dark mode
+ */
+
+/* 
+ * Global Styles 
+ */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  font-size: 18px;
+  line-height: 1.5;
+  color: #333;
+  background-color: #f2f2f2;
+  transition: background-color 0.3s ease-in-out;
+}
+
+body[data-theme='dark'] {
+  background-color: #333;
+  color: #fff;
+}
+
+.container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 
+ * Button Styles 
+ */
+
+button {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #444;
+}
+
+button:active {
+  background-color: #555;
+}
+
+/* 
+ * Input Styles 
+ */
+
+input[type='text'],
+input[type='email'] {
+  display: block;
+  width: 100%;
+  height: 40px;
+  margin-bottom: 20px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+}
+
+/* 
+ * Select Styles 
+ */
+
+select {
+  display: block;
+  width: 100%;
+  height: 40px;
+  margin-bottom: 20px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+}
+
+/* 
+ * Todo List Styles 
+ */
+
+.todo-list {
+  margin-top: 20px;
+}
+
+.todo-item {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.todo-item:last-child {
+  border-bottom: none;
+}
+
+.todo-item span {
+  font-size: 16px;
+  color: #666;
+}
+
+.todo-item button {
+  float: right;
+  background-color: transparent;
+  border: none;
+  padding: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.todo-item button:hover {
+  background-color: #333;
+}
+
+/* 
+ * Modal Styles 
+ */
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.modal__content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.modal__content h2 {
+  margin-top: 0;
+}
+
+/* 
+ * Theme Switcher Styles 
+ */
+
+.theme-switcher {
+  display: none;
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.theme-switcher button {
+  background-color: transparent;
+  border: none;
+  padding: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.theme-switcher button:hover {
+  background-color: #333;
+}
