@@ -1,6 +1,6 @@
 // @flow
-
 import React, { useState } from 'react';
+import UserList from './UserList'; // import UserList component
 import './App.css';
 
 function App() {
@@ -8,12 +8,27 @@ function App() {
   const [password, setPassword] = useState('');
   const [loginStatus, setLoginStatus] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const [users, setUsers] = useState([]); // initialize users array
 
   const handleLogin = (event:SyntheticEvent) => {
     event.preventDefault();
     if (username === 'admin' && password === 'password') {
       setIsLoggedIn(true);
       setLoginStatus(true);
+      // load pre-existing users or dummy data for demo purposes
+      let usersArray = [
+        {
+          id: 1,
+          name: 'John Doe',
+          email: 'john@example.com',
+        },
+        {
+          id: 2,
+          name: 'Jane Smith',
+          email: 'jane@example.com',
+        },
+      ];
+      setUsers(usersArray);
     } else {
       alert('Invalid username or password');
     }
@@ -22,15 +37,20 @@ function App() {
   const handleLogout = () => {
     setIsLoggedIn(false);
     setLoginStatus(false);
+    setUsers([]);
   };
 
   return (
     <div className="App">
       <header className="App-header">
         {isLoggedIn === true ? (
-          <h2>
-            Welcome, {username}! <button onClick={handleLogout}>Logout</button>
-          </h2>
+          <div>
+            <h2>
+              Welcome, {username}! <button onClick={handleLogout}>Logout</button>
+            </h2>
+            <h3>User List:</h3>
+            <UserList users={users} />
+          </div>
         ) : (
           loginStatus === false && (
             <form onSubmit={handleLogin}>
