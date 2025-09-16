@@ -34,7 +34,11 @@ const TodoList = () => {
   return (
     <div
       className={`todo-list ${darkMode ? 'dark-mode' : ''}`}
-      style={{ background: darkMode ? '#333' : '#f0f0f0', color: darkMode ? '#fff' : '#333' }}
+      style={{
+        background: darkMode ? '#333' : '#f0f0f0',
+        color: darkMode ? '#fff' : '#333',
+        background: darkMode ? '#555' : 'gray'
+      }}
     >
       <h2>Todo List</h2>
       <button className="mode-switch" onClick={handleModeSwitch}>
