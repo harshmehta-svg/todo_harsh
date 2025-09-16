@@ -1,5 +1,3 @@
-// src/styles/styles.css
-
 /* Global Styles */
 
 body {
@@ -103,13 +101,76 @@ body {
 
 /* Dark Mode Styles */
 
+.dark-mode-switch {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.dark-mode-switch label {
+  position: relative;
+  width: 30px;
+  height: 20px;
+  display: block;
+  border-radius: 20px;
+  background-color: #ccc;
+  transition: background-color 0.5s ease-in-out;
+}
+
+.dark-mode-switch label::before {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #fff;
+  transition: transform 0.5s ease-in-out;
+}
+
+.dark-mode-switch label.check {
+  background-color: #666;
+}
+
+.dark-mode-switch label.check::before {
+  transform: translateX(20px);
+}
+
 body.dark-mode {
   background-color: #2f2f2f;
   color: #fff;
 }
 
-.body.dark-mode {
+.container.dark-mode {
   background-color: #333;
+  border-color: #444;
+}
+
+.form-container.dark-mode {
+  background-color: #444;
+  border-color: #555;
+}
+
+.login-page.dark-mode {
+  background-color: #2f2f2f;
+}
+
+.login-form input[type="text"].dark-mode, .login-form input[type="password"].dark-mode {
+  color: #fff;
+  background-color: #333;
+}
+
+.login-form button[type="submit"].dark-mode {
+  background-color: #008000;
 }
 
 /* Utility Classes */

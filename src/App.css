@@ -1,5 +1,5 @@
-// New file
 /* global document */
+/* global React, ReactDOM */
 
 .login-card {
   max-width: 350px;
@@ -37,4 +37,33 @@
 
 .login-card button[type="submit"]:hover {
   background-color: #3e8e41;
+}
+
+.login-card button[type="login"] {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.login-card button[type="login"]:hover {
+  background-color: #0056b3;
+}
+
+.new-login-button {
+  margin: 10px auto;
+  text-align: center;
+}
+
+.new-login-button a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.new-login-button a:hover {
+  color: #0056b3;
 }
