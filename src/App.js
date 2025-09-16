@@ -1,5 +1,4 @@
 // @flow
-
 import React, { useState } from 'react';
 import './App.css';
 
@@ -8,6 +7,7 @@ function App() {
   const [password, setPassword] = useState('');
   const [loginStatus, setLoginStatus] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const [tasks, setTasks] = useState([]); // Add task state to App component
 
   const handleLogin = (event:SyntheticEvent) => {
     event.preventDefault();
@@ -24,13 +24,26 @@ function App() {
     setLoginStatus(false);
   };
 
+  const handleAddTask = () => {
+    setTasks([...tasks, { id: tasks.length + 1, completed: false }]);
+  };
+
+  const countIncompleteTasks = () => {
+    return tasks.filter(task => !task.completed).length;
+  };
+
   return (
     <div className="App">
       <header className="App-header">
+        <button className="count-button" onClick={handleAddTask}>Add Task</button>
+
         {isLoggedIn === true ? (
-          <h2>
-            Welcome, {username}! <button onClick={handleLogout}>Logout</button>
-          </h2>
+          <div>
+            <h2>
+              Welcome, {username}! <button onClick={handleLogout}>Logout</button>
+            </h2>
+            Tasks: {countIncompleteTasks()}
+          </div>
         ) : (
           loginStatus === false && (
             <form onSubmit={handleLogin}>

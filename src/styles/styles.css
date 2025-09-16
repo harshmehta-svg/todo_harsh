@@ -112,6 +112,24 @@ body.dark-mode {
   background-color: #333;
 }
 
+/* Count Button Styles */
+
+.count-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4CAF50;
+  color: #fff;
+  cursor: pointer;
+}
+
+.count-button:hover {
+  background-color: #3e8e41;
+}
+
 /* Utility Classes */
 
 .dark-mode {
