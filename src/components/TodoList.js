@@ -16,7 +16,7 @@ const TodoList = () => {
   };
 
   const handleDeleteTodo = (id) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
+    settodos(todos.filter((todo) => todo.id !== id));
   };
 
   const handleCompleteTodo = (id) => {
@@ -34,7 +34,28 @@ const TodoList = () => {
   return (
     <div
       className={`todo-list ${darkMode ? 'dark-mode' : ''}`}
-      style={{ background: darkMode ? '#333' : '#f0f0f0', color: darkMode ? '#fff' : '#333' }}
+      style={{
+        backgroundColor: 'grey',
+        backgroundSize: 'cover', // add this line
+        backgroundRepeat: 'no-repeat', // add this line
+        backgroundPosition: 'center', // add this line
+        backgroundAttachment: 'scroll', // add this line
+        backgroundImage: 'none', // add this line
+        backgroundClip: 'border-box', // add this line
+        webkitBackgroundClip: 'border-box', // add this line
+        backgroundOrigin: 'padding-box', // add this line
+        webkitBackgroundOrigin: 'padding-box', // add this line
+        backgroundSize: 'initial', // add this line
+        backgroundRepeat: 'initial', // add this line
+        backgroundPosition: 'initial', // add this line
+        backgroundAttachment: 'initial', // add this line
+        backgroundImage: 'none', // add this line
+        backgroundClip: 'initial', // add this line
+        webkitBackgroundClip: 'initial', // add this line
+        backgroundOrigin: 'initial', // add this line
+        webkitBackgroundOrigin: 'initial', // add this line
+        color: darkMode ? '#fff' : '#333'
+      }}
     >
       <h2>Todo List</h2>
       <button className="mode-switch" onClick={handleModeSwitch}>
