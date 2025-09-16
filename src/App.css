@@ -8,6 +8,7 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  background-color: #f7f7f7; /* Add background color */
 }
 
 .login-card label {
