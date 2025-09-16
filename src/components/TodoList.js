@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const TodoList = () => {
-  const [todos, setTodos] = React.useState([]);
-  const [newTodo, setNewTodo] = React.useState('');
-  const [darkMode, setDarkMode] = React.useState(localStorage.getItem('darkMode') === 'true');
+  const [todos, setTodos] = useState([]);
+  const [newTodo, setNewTodo] = useState('');
+  const [newUser, setUser] = useState('');
+  const [newEmail, setEmail] = useState('');
+  const [newPhone, setPhone] = useState('');
+  const [users, setUsers] = useState([]);
+  const [darkMode, setDarkMode] = useState(localStorage.getItem('darkMode') === 'true');
 
   const handleModeSwitch = () => {
     setDarkMode(!darkMode);
@@ -31,6 +35,17 @@ const TodoList = () => {
     );
   };
 
+  const handleAddUser = () => {
+    setUsers([...users, { id: Math.random().toString(36).substring(2, 15), username: newUser, email: newEmail, phone: newPhone }]);
+    setUser('');
+    setEmail('');
+    setPhone('');
+  };
+
+  const handleDeleteUser = (id) => {
+    setUsers(users.filter((user) => user.id !== id));
+  };
+
   return (
     <div
       className={`todo-list ${darkMode ? 'dark-mode' : ''}`}
@@ -49,10 +64,35 @@ const TodoList = () => {
       <button className="add-todo" onClick={handleAddTodo}>
         Add Todo
       </button>
+      <input
+        type="text"
+        placeholder="New Username"
+        value={newUser}
+        onChange={(e) => setUser(e.target.value)}
+      />
+      <button className="add-user" onClick={() => handleAddUser()}>
+        Add User
+      </button>
+      <input
+        type="email"
+        placeholder="New Email"
+        value={newEmail}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <input
+        type="text"
+        placeholder="New Phone Number"
+        value={newPhone}
+        onChange={(e) => setPhone(e.target.value)}
+      />
       <ul>
         {todos.map((todo) => (
           <li key={todo.id}>
-            <input type="checkbox" checked={todo.completed} onChange={() => handleCompleteTodo(todo.id)} />
+            <input
+              type="checkbox"
+              checked={todo.completed}
+              onChange={() => handleCompleteTodo(todo.id)}
+            />
             <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>{todo.text}</span>
             <button className="delete-todo" onClick={() => handleDeleteTodo(todo.id)}>
               Delete
@@ -63,6 +103,19 @@ const TodoList = () => {
               style={{ display: todo.completed ? 'inline-block' : 'none' }}
             >
               Undo
+            </button>
+          </li>
+        ))}
+      </ul>
+      <h2>User List</h2>
+      <ul>
+        {users.map((user) => (
+          <li key={user.id}>
+            <span>{user.username}</span>
+            <span style={{ color: 'blue' }}>{user.email}</span>
+            <span style={{ color: 'green' }}>{user.phone}</span>
+            <button className="delete-user" onClick={() => handleDeleteUser(user.id)}>
+              Delete
             </button>
           </li>
         ))}

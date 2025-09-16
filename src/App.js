@@ -24,12 +24,18 @@ function App() {
     setLoginStatus(false);
   };
 
+  // Added p tag in header
+  const handleHeaderUpdate = () => {
+    console.log('Header updated');
+  };
+
   return (
     <div className="App">
       <header className="App-header">
         {isLoggedIn === true ? (
           <h2>
-            Welcome, {username}! <button onClick={handleLogout}>Logout</button>
+            Welcome, {username}! 
+            <button onClick={handleLogout}>Logout</button>
           </h2>
         ) : (
           loginStatus === false && (
@@ -49,6 +55,10 @@ function App() {
               <button type="submit">Login</button>
             </form>
           )
+        )}
+        <p>Username: {username} | Password: {password}</p>
+        {isLoggedIn === true && (
+          <button onClick={handleHeaderUpdate}>Update Header</button>
         )}
       </header>
     </div>
