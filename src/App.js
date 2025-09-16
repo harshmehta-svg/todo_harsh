@@ -27,6 +27,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <p>Hello ASP</p>
         {isLoggedIn === true ? (
           <h2>
             Welcome, {username}! <button onClick={handleLogout}>Logout</button>
