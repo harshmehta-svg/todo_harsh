@@ -1,60 +1,107 @@
 import React from 'react';
+import { useReducer } from 'react';
+
+const initialState = {
+  todos: [],
+  darkMode: JSON.parse(localStorage.getItem('darkMode')) || false,
+  newTodo: '',
+};
+
+const todoReducer = (state, action) => {
+  switch (action.type) {
+    case 'ADD_TODO':
+      return { ...state, todos: [...state.todos, action.todo] };
+    case 'TOGGLE_MODE':
+      return { ...state, darkMode: !state.darkMode };
+    case 'SET_TODO':
+      return { ...state, newTodo: action.newTodo };
+    case 'DELETE_TODO':
+      return { ...state, todos: state.todos.filter((todo) => todo.id !== action.id) };
+    case 'COMPLETE_TODO':
+      return {
+        ...state,
+        todos: state.todos.map((todo) =>
+          todo.id === action.id ? { ...todo, completed: !todo.completed } : todo
+        ),
+      };
+    case 'UNDO_COMPLETE_TODO':
+      return {
+        ...state,
+        todos: state.todos.map((todo) =>
+          todo.id === action.id ? { ...todo, completed: false } : todo
+        ),
+      };
+    default:
+      return state;
+  }
+};
 
 const TodoList = () => {
-  const [todos, setTodos] = React.useState([]);
-  const [newTodo, setNewTodo] = React.useState('');
-  const [darkMode, setDarkMode] = React.useState(localStorage.getItem('darkMode') === 'true');
+  const [state, dispatch] = useReducer(todoReducer, initialState);
 
   const handleModeSwitch = () => {
-    setDarkMode(!darkMode);
-    localStorage.setItem('darkMode', !darkMode);
+    dispatch({ type: 'TOGGLE_MODE' });
+    localStorage.setItem('darkMode', state.darkMode);
   };
 
   const handleAddTodo = () => {
-    setTodos([...todos, { id: Math.random().toString(36).substring(2, 15), text: newTodo, completed: false }]);
-    setNewTodo('');
+    const newTodo = {
+      id: Math.random().toString(36).substring(2, 15),
+      text: state.newTodo,
+      completed: false,
+    };
+    dispatch({ type: 'ADD_TODO', todo: newTodo });
+    dispatch({ type: 'SET_TODO', newTodo: '' });
   };
 
   const handleDeleteTodo = (id) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
+    dispatch({ type: 'DELETE_TODO', id });
   };
 
   const handleCompleteTodo = (id) => {
-    setTodos(
-      todos.map((todo) => (todo.id === id ? { ...todo, completed: !todo.completed } : todo))
-    );
+    dispatch({ type: 'COMPLETE_TODO', id });
   };
 
   const handleUndoCompleteTodo = (id) => {
-    setTodos(
-      todos.map((todo) => (todo.id === id ? { ...todo, completed: false } : todo))
-    );
+    dispatch({ type: 'UNDO_COMPLETE_TODO', id });
   };
 
   return (
     <div
-      className={`todo-list ${darkMode ? 'dark-mode' : ''}`}
-      style={{ background: darkMode ? '#333' : '#f0f0f0', color: darkMode ? '#fff' : '#333' }}
+      className={`todo-list ${state.darkMode ? 'dark-mode' : ''}`}
+      style={{
+        background: state.darkMode ? '#333' : '#f0f0f0',
+        color: state.darkMode ? '#fff' : '#333',
+      }}
     >
       <h2>Todo List</h2>
       <button className="mode-switch" onClick={handleModeSwitch}>
-        {darkMode ? 'Light Mode' : 'Dark Mode'}
+        {state.darkMode ? 'Light Mode' : 'Dark Mode'}
       </button>
       <input
         type="text"
         placeholder="New Todo..."
-        value={newTodo}
-        onChange={(e) => setNewTodo(e.target.value)}
+        value={state.newTodo}
+        onChange={(e) => dispatch({ type: 'SET_TODO', newTodo: e.target.value })}
       />
       <button className="add-todo" onClick={handleAddTodo}>
         Add Todo
       </button>
       <ul>
-        {todos.map((todo) => (
+        {state.todos.map((todo) => (
           <li key={todo.id}>
-            <input type="checkbox" checked={todo.completed} onChange={() => handleCompleteTodo(todo.id)} />
-            <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>{todo.text}</span>
-            <button className="delete-todo" onClick={() => handleDeleteTodo(todo.id)}>
+            <input
+              type="checkbox"
+              checked={todo.completed}
+              onChange={() => handleCompleteTodo(todo.id)}
+            />
+            <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>
+              {todo.text}
+            </span>
+            <button
+              className="delete-todo"
+              onClick={() => handleDeleteTodo(todo.id)}
+            >
               Delete
             </button>
             <button

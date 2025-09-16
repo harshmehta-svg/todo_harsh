@@ -1,4 +1,3 @@
-// New file
 import React, { useState } from 'react';
 import './App.css';
 
@@ -105,10 +104,10 @@ function App() {
   return (
     <div className="app-container">
       <h1>Todo List App</h1>
-      {localStorage.getItem('logged_in') ? (
+      {!localStorage.getItem('logged_in') ? (
         <Login />
       ) : (
-        <Login></Login>
+        <></>
       )}
       {localStorage.getItem('logged_in') ? (
         <div>
