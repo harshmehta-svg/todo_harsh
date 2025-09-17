@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const TodoList = () => {
   const [todos, setTodos] = React.useState([]);
   const [newTodo, setNewTodo] = React.useState('');
   const [darkMode, setDarkMode] = React.useState(localStorage.getItem('darkMode') === 'true');
+  const [githubAPI, setGithubAPI] = React.useState(false);
 
   const handleModeSwitch = () => {
     setDarkMode(!darkMode);
@@ -29,6 +31,28 @@ const TodoList = () => {
     setTodos(
       todos.map((todo) => (todo.id === id ? { ...todo, completed: false } : todo))
     );
+  };
+
+  useEffect(() => {
+    const fetchTodos = async () => {
+      try {
+        const response = await axios.get('https://api.github.com/users/octocat/todos');
+        setTodos(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchTodos();
+  }, []);
+
+  const handleFetchGitHub = async () => {
+    try {
+      const response = await axios.get('https://api.github.com/users/octocat/todos');
+      setGithubAPI(true);
+      setTodos(response.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -67,6 +91,18 @@ const TodoList = () => {
           </li>
         ))}
       </ul>
+      {githubAPI ? (
+        <p>
+          fetched from{' '}
+          <a href="https://api.github.com/users/octocat/todos" target="_blank" rel="noopener noreferrer">
+            GitHub API
+          </a>
+        </p>
+      ) : (
+        <button className="fetch-github" onClick={handleFetchGitHub}>
+          Fetch GitHub Todos
+        </button>
+      )}
     </div>
   );
 };
