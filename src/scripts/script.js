@@ -1,4 +1,3 @@
-// New file
 import React, { useState } from 'react';
 import './App.css';
 
@@ -7,31 +6,72 @@ const storedTodos = localStorage.getItem('todos') ? JSON.parse(localStorage.getI
 const storedUserData = localStorage.getItem('userdata') ? JSON.parse(localStorage.getItem('userdata')) : { username: '', password: '' };
 
 // Function to authenticate user login
-function authenticateUser(username, password) {
+function authenticateUser(username, password, API_Call) {
   if (username === storedUserData.username && password === storedUserData.password) {
     localStorage.setItem('logged_in', true);
     return true;
+  } else {
+    API_Call()
+      .then((res) => {
+        if (res.data.username === username && res.data.password === password) {
+          localStorage.setItem('logged_in', true);
+          return true;
+        } else {
+          return false;
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        return false;
+      });
   }
-  localStorage.setItem('logged_in', false);
-  return false;
 }
+
+// API Call for authentification
+const API = async () => {
+  const response = await fetch('https://example.com/api/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ username: 'your_username', password: 'your_password' }),
+  });
+
+  if (response.ok) {
+    const user = await response.json();
+    return user;
+  } else {
+    return false;
+  }
+};
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessages, setErrorMessages] = useState([]);
+  const [API_Call, setAPI_Call] = useState(API);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setErrorMessages([]);
+    setAPI_Call(API);
     if (!username || !password) {
       setErrorMessages([...errorMessages, 'Please fill in all fields']);
       return;
     }
-    if (authenticateUser(username, password)) {
+    if (authenticateUser(username, password, setAPI_Call)) {
       window.location.href = '/todo';
     } else {
       setErrorMessages([...errorMessages, 'Invalid username or password']);
+    }
+  };
+
+  const handleAPI_Call = async () => {
+    const data = await API_Call();
+    if (data) {
+      console.log(data);
+    } else {
+      console.log('Authentication failed');
     }
   };
 
@@ -106,11 +146,6 @@ function App() {
     <div className="app-container">
       <h1>Todo List App</h1>
       {localStorage.getItem('logged_in') ? (
-        <Login />
-      ) : (
-        <Login></Login>
-      )}
-      {localStorage.getItem('logged_in') ? (
         <div>
           <input
             type="text"
@@ -142,7 +177,7 @@ function App() {
           <button onClick={handleUndoCompleted}>Undo Completed</button>
         </div>
       ) : (
-        <div>Please log in to access the Todo List App.</div>
+        <Login />
       )}
     </div>
   );
