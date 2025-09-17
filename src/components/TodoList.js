@@ -1,4 +1,5 @@
 import React from 'react';
+import './TodoList.css';
 
 const TodoList = () => {
   const [todos, setTodos] = React.useState([]);
@@ -40,6 +41,10 @@ const TodoList = () => {
       <button className="mode-switch" onClick={handleModeSwitch}>
         {darkMode ? 'Light Mode' : 'Dark Mode'}
       </button>
+      <div className="mode-toggle-switch">
+        <input type="checkbox" checked={darkMode} onChange={handleModeSwitch} />
+        <label>Enable Dark Mode</label>
+      </div>
       <input
         type="text"
         placeholder="New Todo..."

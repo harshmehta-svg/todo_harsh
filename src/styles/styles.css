@@ -112,6 +112,15 @@ body.dark-mode {
   background-color: #333;
 }
 
+.container.dark-mode-body {
+  background-color: #333;
+  color: #fff;
+}
+
+.login-page.dark-mode-body {
+  background-color: #2f2f2f;
+}
+
 /* Utility Classes */
 
 .dark-mode {
@@ -131,4 +140,25 @@ body.dark-mode {
   .login-form {
     width: 90%;
   }
+}
+
+/* Update container styles for dark mode based on body class */
+body.dark-mode .container, body.dark-mode .form-container {
+  background-color: #333;
+  border-color: #444;
+}
+
+/* Update login page styles for dark mode based on body class */
+body.dark-mode .login-page {
+  background-color: #2f2f2f;
+}
+
+/* Update login form styles for dark mode based on body class */
+body.dark-mode .login-form input[type="text"], body.dark-mode .login-form input[type="password"] {
+  color: #fff;
+  background-color: #333;
+}
+
+body.dark-mode .login-form button[type="submit"] {
+  background-color: #008000;
 }
