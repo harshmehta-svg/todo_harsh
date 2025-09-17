@@ -6,15 +6,30 @@
     <title>Todo App</title>
     <!-- Update the CSS file link -->
     <link rel="stylesheet" href="public/index.css">
+    <!-- Add Header tag with best design -->
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="title">
+            <h1>Todo App</h1>
+        </div>
+    </header>
 </head>
 <body>
     <div class="container">
-        <h1>Todo App</h1>
-        <div class="input-container">
-            <input type="text" id="todo-input" placeholder="Enter a new todo">
-            <button id="add-btn">Add Todo</button>
+        <div class="header-container"> <!-- Container for the header content -->
+            <h1>Todo App</h1>
+            <div class="input-container">
+                <input type="text" id="todo-input" placeholder="Enter a new todo">
+                <button id="add-btn">Add Todo</button>
+            </div>
+            <ul id="todo-list"></ul>
         </div>
-        <ul id="todo-list"></ul>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/packagist@1.1.0/dist/packagist.min.js"></script>
     <script>
