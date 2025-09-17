@@ -1,5 +1,6 @@
 // New file
 /* global document */
+/* global React */
 
 .login-card {
   max-width: 350px;
@@ -36,5 +37,75 @@
 }
 
 .login-card button[type="submit"]:hover {
+  background-color: #3e8e41;
+}
+
+/* Dark Mode Styles */
+
+body.dark {
+  background-color: #333;
+  color: #fff;
+}
+
+body.dark .login-card {
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  border-color: #555;
+}
+
+body.dark .login-card label {
+  color: #aaa;
+}
+
+body.dark .login-card input[type="text"], body.dark .login-card input[type="password"] {
+  border-color: #555;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+body.dark .login-card button[type="submit"] {
+  background-color: #555;
+  color: #fff;
+}
+
+body.dark .login-card button[type="submit"]:hover {
+  background-color: #444;
+}
+
+/* Signup Page Styles */
+
+.signup-card {
+  max-width: 350px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.signup-card label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.signup-card input[type="text"], .signup-card input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.signup-card button[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.signup-card button[type="submit"]:hover {
   background-color: #3e8e41;
 }

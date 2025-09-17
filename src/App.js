@@ -1,6 +1,4 @@
-// @flow
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
@@ -8,8 +6,10 @@ function App() {
   const [password, setPassword] = useState('');
   const [loginStatus, setLoginStatus] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const [darkMode, setDarkMode] = useState(false);
+  const [theme, setTheme] = useState('light');
 
-  const handleLogin = (event:SyntheticEvent) => {
+  const handleLogin = (event: SyntheticEvent) => {
     event.preventDefault();
     if (username === 'admin' && password === 'password') {
       setIsLoggedIn(true);
@@ -24,12 +24,39 @@ function App() {
     setLoginStatus(false);
   };
 
+  const handleDarkMode = () => {
+    setDarkMode(!darkMode);
+    setTheme(darkMode ? 'dark' : 'light');
+  };
+
+  useEffect(() => {
+    const localTheme = localStorage.getItem('theme');
+    if (localTheme) {
+      setTheme(localTheme);
+      setDarkMode(localTheme === 'dark');
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
   return (
-    <div className="App">
+    <div
+      className={`App ${darkMode ? 'dark' : ''}`}
+      style={{
+        backgroundColor: darkMode ? '#333' : '',
+        color: darkMode ? '#fff' : '',
+      }}
+    >
       <header className="App-header">
+        <button className="toggle-button" onClick={handleDarkMode}>
+          {darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+        </button>
         {isLoggedIn === true ? (
           <h2>
-            Welcome, {username}! <button onClick={handleLogout}>Logout</button>
+            Welcome, {username}!{' '}
+            <button onClick={handleLogout}>Logout</button>
           </h2>
         ) : (
           loginStatus === false && (

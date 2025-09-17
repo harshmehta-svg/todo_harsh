@@ -1,4 +1,3 @@
-// New file
 import React, { useState } from 'react';
 import './App.css';
 
@@ -14,6 +13,15 @@ function authenticateUser(username, password) {
   }
   localStorage.setItem('logged_in', false);
   return false;
+}
+
+// Function to signup user
+function signupUser(username, password) {
+  storedUserData.username = username;
+  storedUserData.password = password;
+  localStorage.setItem('userdata', JSON.stringify(storedUserData));
+  localStorage.setItem('logged_in', true);
+  return true;
 }
 
 function Login() {
@@ -35,6 +43,20 @@ function Login() {
     }
   };
 
+  const handleSignup = (e) => {
+    e.preventDefault();
+    setErrorMessages([]);
+    if (!username || !password) {
+      setErrorMessages([...errorMessages, 'Please fill in all fields']);
+      return;
+    }
+    if (signupUser(username, password)) {
+      window.location.href = '/todo';
+    } else {
+      setErrorMessages([...errorMessages, 'Username already exists']);
+    }
+  };
+
   return (
     <div className="login-container">
       <h2>Login</h2>
@@ -52,14 +74,31 @@ function Login() {
           placeholder="Password"
         />
         <button type="submit">Login</button>
-        {errorMessages && (
-          <div className="error-message">
-            {errorMessages.map((message, index) => (
-              <span key={index}>{message}</span>
-            ))}
-          </div>
-        )}
       </form>
+      <hr />
+      <h2>Signup</h2>
+      <form onSubmit={handleSignup}>
+        <input
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Username"
+        />
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+        />
+        <button type="submit">Signup</button>
+      </form>
+      {errorMessages && (
+        <div className="error-message">
+          {errorMessages.map((message, index) => (
+            <span key={index}>{message}</span>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -108,7 +147,7 @@ function App() {
       {localStorage.getItem('logged_in') ? (
         <Login />
       ) : (
-        <Login></Login>
+        <Login />
       )}
       {localStorage.getItem('logged_in') ? (
         <div>

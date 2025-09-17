@@ -11,4 +11,5 @@ src/
     script.js
     services/
       auth.js
+      auth.signup.js
 package.json
