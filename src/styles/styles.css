@@ -14,6 +14,12 @@ body {
   }
 }
 
+/* Add this styles for dark mode */
+.dark-mode {
+  background-color: #333;
+  color: #fff;
+}
+
 .container {
   max-width: 400px;
   margin: 40px auto;
@@ -27,6 +33,7 @@ body {
 .container.dark-mode {
   background-color: #333;
   border-color: #444;
+  color: #fff;
 }
 
 .form-container {
@@ -42,6 +49,7 @@ body {
 .form-container.dark-mode {
   background-color: #444;
   border-color: #555;
+  color: #fff;
 }
 
 /* Login Page Styles */
@@ -56,6 +64,7 @@ body {
 
 .login-page.dark-mode {
   background-color: #2f2f2f;
+  color: #fff;
 }
 
 .login-form {
@@ -71,10 +80,10 @@ body {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
+  color: #333;
 }
 
 .login-form input[type="text"], .login-form input[type="password"] {
-  color: #333;
   background-color: #f9f9f9;
 }
 
@@ -113,10 +122,28 @@ body.dark-mode {
 }
 
 /* Utility Classes */
-
-.dark-mode {
+.container.dark-mode {
   background-color: #333;
+  border-color: #444;
+}
+
+.form-container.dark-mode {
+  background-color: #444;
+  border-color: #555;
+}
+
+.login-page.dark-mode {
+  background-color: #2f2f2f;
   color: #fff;
+}
+
+.login-form input[type="text"], .login-form input[type="password"] {
+  color: #fff;
+}
+
+.login-form input[type="text"].dark-mode, .login-form input[type="password"].dark-mode {
+  color: #fff;
+  background-color: #333;
 }
 
 /* Responsive Design */

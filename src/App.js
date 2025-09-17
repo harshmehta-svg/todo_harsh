@@ -1,6 +1,6 @@
 // @flow
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
@@ -23,6 +23,12 @@ function App() {
     setIsLoggedIn(false);
     setLoginStatus(false);
   };
+
+  useEffect(() => {
+    if (isLoggedIn === true) {
+      console.log('User logged in.');
+    }
+  }, [isLoggedIn]);
 
   return (
     <div className="App">
