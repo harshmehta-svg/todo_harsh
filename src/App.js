@@ -50,6 +50,9 @@ function App() {
             </form>
           )
         )}
+        {loginStatus === false && (
+          <button onClick={() => alert('Not implemented yet!')}>Signup</button>
+        )}
       </header>
     </div>
   );
