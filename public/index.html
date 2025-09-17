@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="login-container">
+        <form class="form-container">
+            <h2>Login</h2>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Login</button>
+            <p>Don't have an account? <a href="/register">Register</a></p>
+        </form>
+    </div>
+    
+    <!-- Scripts Importing -->
+    <script src="https://cdn.jsdelivr.net/npm/react@17.0.2/umd/react.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/babel-standalone@6.26.0/babel.min.js"></script>
+    <!-- JavaScript Code for the Login Form -->
+    <script type="text/babel">
+      const loginForm = document.querySelector('.form-container');
+      loginForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const form = new FormData(loginForm);
+          fetch('/login', {
+              method: 'POST',
+              body: form,
+          })
+          .then((response) => response.json())
+          .then((data) => {
+              if(data.status === 'success') {
+                  window.location.href = '/dashboard';
+              } else {
+                  alert('Invalid credentials');
+              }
+          })
+          .catch((error) => console.error(error));
+      });
+    </script>
+</body>
+</html>

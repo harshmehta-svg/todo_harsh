@@ -2,6 +2,9 @@
 
 import React, { useState } from 'react';
 import './App.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Login from './components/Login';
+import Dashboard from './components/Dashboard';
 
 function App() {
   const [username, setUsername] = useState('');
@@ -9,7 +12,7 @@ function App() {
   const [loginStatus, setLoginStatus] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
 
-  const handleLogin = (event:SyntheticEvent) => {
+  const handleLogin = (event: SyntheticEvent) => {
     event.preventDefault();
     if (username === 'admin' && password === 'password') {
       setIsLoggedIn(true);
@@ -25,33 +28,54 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <header className="App-header">
-        {isLoggedIn === true ? (
-          <h2>
-            Welcome, {username}! <button onClick={handleLogout}>Logout</button>
-          </h2>
-        ) : (
-          loginStatus === false && (
-            <form onSubmit={handleLogin}>
-              <input
-                type="text"
-                placeholder="Enter username"
-                value={username}
-                onChange={(event) => setUsername(event.target.value)}
+    <BrowserRouter>
+      <div className="App">
+        <header className="App-header">
+          <Routes>
+            <Route path="/" element={
+              <Login
+                username={username}
+                setUsername={setUsername}
+                password={password}
+                setPassword={setPassword}
+                loginStatus={loginStatus}
+                handleLogin={handleLogin}
               />
-              <input
-                type="password"
-                placeholder="Enter password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
+            />
+            <Route path="/dashboard" element={
+              <Dashboard
+                isLoggedIn={isLoggedIn}
+                username={username}
+                handleLogout={handleLogout}
               />
-              <button type="submit">Login</button>
-            </form>
-          )
-        )}
-      </header>
-    </div>
+            } />
+          </Routes>
+          {isLoggedIn === true ? (
+            <h2>
+              Welcome, {username}! <button onClick={handleLogout}>Logout</button>
+            </h2>
+          ) : (
+            loginStatus === false && (
+              <form onSubmit={handleLogin}>
+                <input
+                  type="text"
+                  placeholder="Enter username"
+                  value={username}
+                  onChange={(event) => setUsername(event.target.value)}
+                />
+                <input
+                  type="password"
+                  placeholder="Enter password"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                />
+                <button type="submit">Login</button>
+              </form>
+            )
+          )}
+        </header>
+      </div>
+    </BrowserRouter>
   );
 }
 
