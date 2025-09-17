@@ -3,6 +3,14 @@
 import React, { useState } from 'react';
 import './App.css';
 
+function AppHeader() {
+  return (
+    <header className="App-header">
+      <p>Welcome to Todo App</p>
+    </header>
+  );
+}
+
 function App() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -26,6 +34,7 @@ function App() {
 
   return (
     <div className="App">
+      <AppHeader />
       <header className="App-header">
         {isLoggedIn === true ? (
           <h2>
