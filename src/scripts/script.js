@@ -1,4 +1,3 @@
-// New file
 import React, { useState } from 'react';
 import './App.css';
 
@@ -35,6 +34,21 @@ function Login() {
     }
   };
 
+  // Remove index.html from the list of unneeded files
+  const removeIndexFile = (fileName) => {
+    if (fileName === 'index.html') {
+      return false;
+    }
+    return true;
+  };
+
+  const handleRemoveFile = () => {
+    // Mock implementation to get list of files
+    const files = ['file1.txt', 'file2.js', 'index.html', 'other.js'];
+    const filteredFiles = files.filter(removeIndexFile);
+    console.log(filteredFiles);
+  };
+
   return (
     <div className="login-container">
       <h2>Login</h2>
@@ -59,6 +73,7 @@ function Login() {
             ))}
           </div>
         )}
+        <button onClick={handleRemoveFile}>Remove File</button>
       </form>
     </div>
   );
