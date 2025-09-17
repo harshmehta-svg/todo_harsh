@@ -1,7 +1,7 @@
-// @flow
-
 import React, { useState } from 'react';
 import './App.css';
+import { Router, Route, Switch } from 'react-router-dom';
+import Login from './Login';
 
 function App() {
   const [username, setUsername] = useState('');
@@ -26,31 +26,36 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        {isLoggedIn === true ? (
-          <h2>
-            Welcome, {username}! <button onClick={handleLogout}>Logout</button>
-          </h2>
-        ) : (
-          loginStatus === false && (
-            <form onSubmit={handleLogin}>
-              <input
-                type="text"
-                placeholder="Enter username"
-                value={username}
-                onChange={(event) => setUsername(event.target.value)}
-              />
-              <input
-                type="password"
-                placeholder="Enter password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-              />
-              <button type="submit">Login</button>
-            </form>
-          )
-        )}
-      </header>
+      <Router>
+        <Switch>
+          <Route path={"/"} exact>
+            {isLoggedIn === true ? (
+              <h2>
+                Welcome, {username}! <button onClick={handleLogout}>Logout</button>
+              </h2>
+            ) : (
+              loginStatus === false && (
+                <form onSubmit={handleLogin}>
+                  <input
+                    type="text"
+                    placeholder="Enter username"
+                    value={username}
+                    onChange={(event) => setUsername(event.target.value)}
+                  />
+                  <input
+                    type="password"
+                    placeholder="Enter password"
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                  />
+                  <button type="submit">Login</button>
+                </form>
+              )
+            )}
+          </Route>
+          <Route path="/login" component={Login} />
+        </Switch>
+      </Router>
     </div>
   );
 }
