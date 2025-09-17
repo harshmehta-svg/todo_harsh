@@ -1,5 +1,3 @@
-// @flow
-
 import React, { useState } from 'react';
 import './App.css';
 
@@ -8,8 +6,9 @@ function App() {
   const [password, setPassword] = useState('');
   const [loginStatus, setLoginStatus] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const [isDarkMode, setDarkMode] = useState(false);
 
-  const handleLogin = (event:SyntheticEvent) => {
+  const handleLogin = (event: SyntheticEvent) => {
     event.preventDefault();
     if (username === 'admin' && password === 'password') {
       setIsLoggedIn(true);
@@ -24,12 +23,18 @@ function App() {
     setLoginStatus(false);
   };
 
+  const handleToggleDarkMode = () => {
+    setDarkMode(!isDarkMode);
+  };
+
   return (
-    <div className="App">
+    <div className={isDarkMode ? 'App dark-mode' : 'App'}>
       <header className="App-header">
         {isLoggedIn === true ? (
           <h2>
-            Welcome, {username}! <button onClick={handleLogout}>Logout</button>
+            Welcome, {username}!{' '}
+            <button onClick={handleLogout}>Logout</button>
+            <button onClick={handleToggleDarkMode}>Toggle Dark Mode</button>
           </h2>
         ) : (
           loginStatus === false && (

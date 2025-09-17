@@ -38,3 +38,38 @@
 .login-card button[type="submit"]:hover {
   background-color: #3e8e41;
 }
+
+.login-card {
+  /* Dark mode styles */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.login-card .dark-mode {
+  background-color: #333;
+  color: #fff;
+}
+
+.login-card.dark-mode label {
+  color: #fff;
+}
+
+.login-card.dark-mode input[type="text"], .login-card.dark-mode input[type="password"] {
+  border: 1px solid #666;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  transition: border-color 0.3s ease;
+}
+
+.login-card.dark-mode input[type="text"]:hover, .login-card.dark-mode input[type="password"]:hover {
+  border-color: #555;
+}
+
+.login-card.dark-mode button[type="submit"] {
+  background-color: #555;
+  border: none;
+  color: #fff;
+  transition: background-color 0.3s ease;
+}
+
+.login-card.dark-mode button[type="submit"]:hover {
+  background-color: #444;
+}
