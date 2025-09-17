@@ -31,8 +31,5 @@
   },
   "bugs": {
     "url": ""
-  },
-  "scripts": {
-    "remove-duplicates": "glob \"*.js\" && glob \"*.css\" && glob \"*.html\" && rm -rf styles.css && rm -rf index.html && rm -rf index.css && rm -rf app.js"
   }
 }
