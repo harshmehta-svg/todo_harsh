@@ -1,151 +1,210 @@
 // New file
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import bcrypt from 'bcryptjs';
 import './App.css';
 
 // Import local storage data
 const storedTodos = localStorage.getItem('todos') ? JSON.parse(localStorage.getItem('todos')) : [];
 const storedUserData = localStorage.getItem('userdata') ? JSON.parse(localStorage.getItem('userdata')) : { username: '', password: '' };
 
+// Function to hash password
+const hashPassword = (password) => {
+    return bcrypt.hashSync(password, 10);
+};
+
+// Function to compare hashed password with provided password
+const comparePasswords = (storedPassword, providedPassword) => {
+    return bcrypt.compareSync(providedPassword, storedPassword);
+};
+
 // Function to authenticate user login
 function authenticateUser(username, password) {
-  if (username === storedUserData.username && password === storedUserData.password) {
-    localStorage.setItem('logged_in', true);
-    return true;
-  }
-  localStorage.setItem('logged_in', false);
-  return false;
+    if (username === storedUserData.username && comparePasswords(storedUserData.password, password)) {
+        localStorage.setItem('logged_in', true);
+        return true;
+    }
+    localStorage.setItem('logged_in', false);
+    return false;
 }
 
 function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMessages, setErrorMessages] = useState([]);
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [errorMessages, setErrorMessages] = useState([]);
+    const [isRegistered, setIsRegistered] = useState(false);
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    setErrorMessages([]);
-    if (!username || !password) {
-      setErrorMessages([...errorMessages, 'Please fill in all fields']);
-      return;
-    }
-    if (authenticateUser(username, password)) {
-      window.location.href = '/todo';
-    } else {
-      setErrorMessages([...errorMessages, 'Invalid username or password']);
-    }
-  };
+    useEffect(() => {
+        if (storedUserData.username && storedUserData.password) {
+            setIsRegistered(true);
+        }
+    }, []);
 
-  return (
-    <div className="login-container">
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="Username"
-        />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-        />
-        <button type="submit">Login</button>
-        {errorMessages && (
-          <div className="error-message">
-            {errorMessages.map((message, index) => (
-              <span key={index}>{message}</span>
-            ))}
-          </div>
-        )}
-      </form>
-    </div>
-  );
+    const handleLogin = (e) => {
+        e.preventDefault();
+        setErrorMessages([]);
+        if (!username || !password) {
+            setErrorMessages([...errorMessages, 'Please fill in all fields']);
+            return;
+        }
+        if (authenticateUser(username, password)) {
+            window.location.href = '/todo';
+        } else {
+            setErrorMessages([...errorMessages, 'Invalid username or password']);
+        }
+    };
+
+    const handleRegister = (e) => {
+        e.preventDefault();
+        setErrorMessages([]);
+        if (!username || !password) {
+            setErrorMessages([...errorMessages, 'Please fill in all fields']);
+            return;
+        }
+        const hashedPassword = hashPassword(password);
+        storedUserData.username = username;
+        storedUserData.password = hashedPassword;
+        localStorage.setItem('userdata', JSON.stringify(storedUserData));
+        localStorage.setItem('logged_in', true);
+        setIsRegistered(true);
+        window.location.href = '/todo';
+    };
+
+    return (
+        <div className="login-container">
+            <h2>Login/ Register</h2>
+            {isRegistered ? (
+                <form onSubmit={handleLogin}>
+                    <input
+                        type="text"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        placeholder="Username"
+                    />
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Password"
+                    />
+                    <button type="submit">Login</button>
+                    {errorMessages && (
+                        <div className="error-message">
+                            {errorMessages.map((message, index) => (
+                                <span key={index}>{message}</span>
+                            ))}
+                        </div>
+                    )}
+                </form>
+            ) : (
+                <form onSubmit={handleRegister}>
+                    <input
+                        type="text"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        placeholder="Username"
+                    />
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Password"
+                    />
+                    <button type="submit">Register</button>
+                    {errorMessages && (
+                        <div className="error-message">
+                            {errorMessages.map((message, index) => (
+                                <span key={index}>{message}</span>
+                            ))}
+                        </div>
+                    )}
+                </form>
+            )}
+        </div>
+    );
 }
 
 function App() {
-  // Get existing todos from local storage
-  const [todos, setTodos] = useState(storedTodos);
+    // Get existing todos from local storage
+    const [todos, setTodos] = useState(storedTodos);
 
-  // State for displaying todo list
-  const [showCompleted, setShowCompleted] = useState(false);
+    // State for displaying todo list
+    const [showCompleted, setShowCompleted] = useState(false);
 
-  const handleAddTodo = (newTodo) => {
-    setTodos([...todos, { text: newTodo, completed: false }]);
-    // Save data in local storage
-    localStorage.setItem('todos', JSON.stringify(todos));
-  };
+    const handleAddTodo = (newTodo) => {
+        setTodos([...todos, { text: newTodo, completed: false }]);
+        // Save data in local storage
+        localStorage.setItem('todos', JSON.stringify(todos));
+    };
 
-  const handleToggleCompleted = (index) => {
-    const newTodos = [...todos];
-    newTodos[index].completed = !newTodos[index].completed;
-    setTodos(newTodos);
-  };
+    const handleToggleCompleted = (index) => {
+        const newTodos = [...todos];
+        newTodos[index].completed = !newTodos[index].completed;
+        setTodos(newTodos);
+    };
 
-  const handleDeleteTodo = (index) => {
-    const newTodos = [...todos];
-    newTodos.splice(index, 1);
-    setTodos(newTodos);
-  };
+    const handleDeleteTodo = (index) => {
+        const newTodos = [...todos];
+        newTodos.splice(index, 1);
+        setTodos(newTodos);
+    };
 
-  const handleUndoCompleted = () => {
-    const newTodos = [...todos];
-    newTodos.reverse();
-    newTodos.forEach((todo, index) => {
-      if (index < Math.floor(newTodos.length / 2)) {
-        newTodos[index].completed = false;
-      } else {
-        newTodos[index].completed = true;
-      }
-    });
-    setTodos(newTodos);
-  };
+    const handleUndoCompleted = () => {
+        const newTodos = [...todos];
+        newTodos.reverse();
+        newTodos.forEach((todo, index) => {
+            if (index < Math.floor(newTodos.length / 2)) {
+                newTodos[index].completed = false;
+            } else {
+                newTodos[index].completed = true;
+            }
+        });
+        setTodos(newTodos);
+    };
 
-  return (
-    <div className="app-container">
-      <h1>Todo List App</h1>
-      {localStorage.getItem('logged_in') ? (
-        <Login />
-      ) : (
-        <Login></Login>
-      )}
-      {localStorage.getItem('logged_in') ? (
-        <div>
-          <input
-            type="text"
-            placeholder="What needs to be done?"
-            onKeyPress={(e) => {
-              if (e.key === 'Enter') {
-                handleAddTodo(e.target.value);
-                e.target.value = '';
-              }
-            }}
-          />
-          <ul>
-            {todos.map((todo, index) => (
-              <li key={index}>
-                <input
-                  type="checkbox"
-                  checked={todo.completed}
-                  onChange={() => handleToggleCompleted(index)}
-                />
-                <span
-                  style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}
-                >
-                  {todo.text}
-                </span>
-                <button onClick={() => handleDeleteTodo(index)}>Delete</button>
-              </li>
-            ))}
-          </ul>
-          <button onClick={handleUndoCompleted}>Undo Completed</button>
+    return (
+        <div className="app-container">
+            <h1>Todo List App</h1>
+            {localStorage.getItem('logged_in') ? (
+                <Login />
+            ) : (
+                <div>Please log in or register to access the Todo List App.</div>
+            )}
+            {localStorage.getItem('logged_in') ? (
+                <div>
+                    <input
+                        type="text"
+                        placeholder="What needs to be done?"
+                        onKeyPress={(e) => {
+                            if (e.key === 'Enter') {
+                                handleAddTodo(e.target.value);
+                                e.target.value = '';
+                            }
+                        }}
+                    />
+                    <ul>
+                        {todos.map((todo, index) => (
+                            <li key={index}>
+                                <input
+                                    type="checkbox"
+                                    checked={todo.completed}
+                                    onChange={() => handleToggleCompleted(index)}
+                                />
+                                <span
+                                    style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}
+                                >
+                                    {todo.text}
+                                </span>
+                                <button onClick={() => handleDeleteTodo(index)}>Delete</button>
+                            </li>
+                        ))}
+                    </ul>
+                    <button onClick={handleUndoCompleted}>Undo Completed</button>
+                </div>
+            ) : (
+                <div>Please log in or register to access the Todo List App.</div>
+            )}
         </div>
-      ) : (
-        <div>Please log in to access the Todo List App.</div>
-      )}
-    </div>
-  );
+    );
 }
 
 export default App;

@@ -1,19 +1,20 @@
-// @flow
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import './Login.css';
 
 function App() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginStatus, setLoginStatus] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const [redirectToHome, setRedirectToHome] = useState(false);
 
-  const handleLogin = (event:SyntheticEvent) => {
+  const handleLogin = (event) => {
     event.preventDefault();
     if (username === 'admin' && password === 'password') {
       setIsLoggedIn(true);
       setLoginStatus(true);
+      setRedirectToHome(true);
     } else {
       alert('Invalid username or password');
     }
@@ -23,6 +24,12 @@ function App() {
     setIsLoggedIn(false);
     setLoginStatus(false);
   };
+
+  useEffect(() => {
+    if (redirectToHome) {
+      window.location.href = '/';
+    }
+  }, [redirectToHome]);
 
   return (
     <div className="App">
@@ -50,7 +57,18 @@ function App() {
             </form>
           )
         )}
+        {loginStatus === true &&
+          isLoggedIn === null && (
+            <div className="nav-link">
+              <p>Don't have an account?</p> <a href="/register">Sign Up</a>
+            </div>
+          )}
       </header>
+      <div className="links">
+        <a href="/Login">Login</a>
+        <p>or</p>
+        <a href="/register">Register</a>
+      </div>
     </div>
   );
 }
