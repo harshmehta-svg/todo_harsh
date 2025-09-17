@@ -49,6 +49,7 @@ const TodoList = () => {
       <button className="add-todo" onClick={handleAddTodo}>
         Add Todo
       </button>
+      {todos.length > 0 && <p>Total tasks: {todos.length}</p>}
       <ul>
         {todos.map((todo) => (
           <li key={todo.id}>
