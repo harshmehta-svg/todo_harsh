@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import './App.css';
+import './Login.css'; // Importing the new login CSS file
 
 function App() {
   const [username, setUsername] = useState('');
@@ -24,16 +25,40 @@ function App() {
     setLoginStatus(false);
   };
 
+  const handleOpenLogin = () => {
+    document.getElementById('login-modal').style.display = 'block';
+  };
+
+  const handleCloseLogin = () => {
+    document.getElementById('login-modal').style.display = 'none';
+  };
+
+  const login = () => {
+    // Close the login modal
+    handleCloseLogin();
+    handleLogin(event); // Submit the form
+  };
+
   return (
     <div className="App">
       <header className="App-header">
         {isLoggedIn === true ? (
           <h2>
-            Welcome, {username}! <button onClick={handleLogout}>Logout</button>
+            Welcome, {username}!
+            <button onClick={handleLogout}>Logout</button>
           </h2>
         ) : (
           loginStatus === false && (
-            <form onSubmit={handleLogin}>
+            <button onClick={handleOpenLogin}>Login</button>
+          )
+        )}
+        {/* Adding the modal element for the login form*/}
+        <div id="login-modal" className="modal">
+          <div className="modal-content">
+            <span className="close" onClick={handleCloseLogin}>
+              &times;
+            </span>
+            <form onSubmit={login}>
               <input
                 type="text"
                 placeholder="Enter username"
@@ -47,9 +72,16 @@ function App() {
                 onChange={(event) => setPassword(event.target.value)}
               />
               <button type="submit">Login</button>
+              <button
+                type="button"
+                onClick={handleCloseLogin}
+                style={{ float: 'right' }}
+              >
+                Cancel
+              </button>
             </form>
-          )
-        )}
+          </div>
+        </div>
       </header>
     </div>
   );

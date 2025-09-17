@@ -1,14 +1,14 @@
 // New file
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import axios from 'axios';
 
 // Import local storage data
 const storedTodos = localStorage.getItem('todos') ? JSON.parse(localStorage.getItem('todos')) : [];
-const storedUserData = localStorage.getItem('userdata') ? JSON.parse(localStorage.getItem('userdata')) : { username: '', password: '' };
 
 // Function to authenticate user login
 function authenticateUser(username, password) {
-  if (username === storedUserData.username && password === storedUserData.password) {
+  if (username === 'admin' && password === 'password') {
     localStorage.setItem('logged_in', true);
     return true;
   }
@@ -20,18 +20,24 @@ function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessages, setErrorMessages] = useState([]);
+  const [loggingIn, setLoggingIn] = useState(false);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setErrorMessages([]);
+    setLoggingIn(true);
     if (!username || !password) {
       setErrorMessages([...errorMessages, 'Please fill in all fields']);
       return;
     }
-    if (authenticateUser(username, password)) {
+    try {
+      const response = await axios.post('/login', { username, password });
+      localStorage.setItem('logged_in', true);
       window.location.href = '/todo';
-    } else {
+    } catch (error) {
       setErrorMessages([...errorMessages, 'Invalid username or password']);
+    } finally {
+      setLoggingIn(false);
     }
   };
 
@@ -51,7 +57,7 @@ function Login() {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
         />
-        <button type="submit">Login</button>
+        <button type="submit">{loggingIn ? 'Logging in...' : 'Login'}</button>
         {errorMessages && (
           <div className="error-message">
             {errorMessages.map((message, index) => (
@@ -106,41 +112,39 @@ function App() {
     <div className="app-container">
       <h1>Todo List App</h1>
       {localStorage.getItem('logged_in') ? (
-        <Login />
-      ) : (
-        <Login></Login>
-      )}
-      {localStorage.getItem('logged_in') ? (
-        <div>
-          <input
-            type="text"
-            placeholder="What needs to be done?"
-            onKeyPress={(e) => {
-              if (e.key === 'Enter') {
-                handleAddTodo(e.target.value);
-                e.target.value = '';
-              }
-            }}
-          />
-          <ul>
-            {todos.map((todo, index) => (
-              <li key={index}>
-                <input
-                  type="checkbox"
-                  checked={todo.completed}
-                  onChange={() => handleToggleCompleted(index)}
-                />
-                <span
-                  style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}
-                >
-                  {todo.text}
-                </span>
-                <button onClick={() => handleDeleteTodo(index)}>Delete</button>
-              </li>
-            ))}
-          </ul>
-          <button onClick={handleUndoCompleted}>Undo Completed</button>
-        </div>
+        <>
+          <Login />
+          <div>
+            <input
+              type="text"
+              placeholder="What needs to be done?"
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  handleAddTodo(e.target.value);
+                  e.target.value = '';
+                }
+              }}
+            />
+            <ul>
+              {todos.map((todo, index) => (
+                <li key={index}>
+                  <input
+                    type="checkbox"
+                    checked={todo.completed}
+                    onChange={() => handleToggleCompleted(index)}
+                  />
+                  <span
+                    style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}
+                  >
+                    {todo.text}
+                  </span>
+                  <button onClick={() => handleDeleteTodo(index)}>Delete</button>
+                </li>
+              ))}
+            </ul>
+            <button onClick={handleUndoCompleted}>Undo Completed</button>
+          </div>
+        </>
       ) : (
         <div>Please log in to access the Todo List App.</div>
       )}
