@@ -7,7 +7,9 @@
     "start": "live-server",
     "build": "tsc --outDir build",
     "test": "jest",
-    "clean": "rm -rf build && touch build"
+    "clean": "rm -rf build && touch build",
+    "login": "node server/login.js", // Added new script to start login server
+    "remove-duplicates": "glob \"*.js\" && glob \"*.css\" && glob \"*.html\" && rm -rf styles.css && rm -rf index.html && rm -rf index.css && rm -rf app.js"
   },
   "keywords": [],
   "author": "",
@@ -15,7 +17,8 @@
   "dependencies": {
     "@types/node": "^16.11.3",
     "bcrypt": "^5.2.1",
-    "typescript": "^4.7.4"
+    "typescript": "^4.7.4",
+    "express": "^4.17.1" // Added express dependency for server
   },
   "devDependencies": {
     "@types/jest": "^28.1.6",
@@ -31,8 +34,5 @@
   },
   "bugs": {
     "url": ""
-  },
-  "scripts": {
-    "remove-duplicates": "glob \"*.js\" && glob \"*.css\" && glob \"*.html\" && rm -rf styles.css && rm -rf index.html && rm -rf index.css && rm -rf app.js"
   }
 }
