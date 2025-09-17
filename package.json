@@ -7,7 +7,8 @@
     "start": "live-server",
     "build": "tsc --outDir build",
     "test": "jest",
-    "clean": "rm -rf build && touch build"
+    "clean": "rm -rf build && touch build",
+    "signup": "npm run create-signup-page" // New script to run the signup page
   },
   "keywords": [],
   "author": "",
