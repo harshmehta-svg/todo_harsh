@@ -1,4 +1,3 @@
-// New file
 import React, { useState } from 'react';
 import './App.css';
 
@@ -14,6 +13,83 @@ function authenticateUser(username, password) {
   }
   localStorage.setItem('logged_in', false);
   return false;
+}
+
+// Function to handle user registration
+async function registerUser(username, password) {
+  // You can replace this with your actual database or API call
+  const response = await fetch('/api/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password }),
+  });
+  const data = await response.json();
+  if (data.success) {
+    localStorage.setItem('userdata', JSON.stringify({ username, password }));
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function Signup() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [errorMessages, setErrorMessages] = useState([]);
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    setErrorMessages([]);
+    if (!username || !password || !confirmPassword) {
+      setErrorMessages([...errorMessages, 'Please fill in all fields']);
+      return;
+    }
+    if (password !== confirmPassword) {
+      setErrorMessages([...errorMessages, 'Passwords do not match']);
+      return;
+    }
+    const result = await registerUser(username, password);
+    if (result) {
+      window.location.href = '/login';
+    } else {
+      setErrorMessages([...errorMessages, 'Registration failed']);
+    }
+  };
+
+  return (
+    <div className="login-container">
+      <h2>Signup</h2>
+      <form onSubmit={handleSignup}>
+        <input
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Username"
+        />
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+        />
+        <input
+          type="password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          placeholder="Confirm Password"
+        />
+        <button type="submit">Signup</button>
+        {errorMessages && (
+          <div className="error-message">
+            {errorMessages.map((message, index) => (
+              <span key={index}>{message}</span>
+            ))}
+          </div>
+        )}
+      </form>
+    </div>
+  );
 }
 
 function Login() {
@@ -65,10 +141,8 @@ function Login() {
 }
 
 function App() {
-  // Get existing todos from local storage
   const [todos, setTodos] = useState(storedTodos);
 
-  // State for displaying todo list
   const [showCompleted, setShowCompleted] = useState(false);
 
   const handleAddTodo = (newTodo) => {
@@ -106,11 +180,6 @@ function App() {
     <div className="app-container">
       <h1>Todo List App</h1>
       {localStorage.getItem('logged_in') ? (
-        <Login />
-      ) : (
-        <Login></Login>
-      )}
-      {localStorage.getItem('logged_in') ? (
         <div>
           <input
             type="text"
@@ -131,7 +200,9 @@ function App() {
                   onChange={() => handleToggleCompleted(index)}
                 />
                 <span
-                  style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}
+                  style={{
+                    textDecoration: todo.completed ? 'line-through' : 'none',
+                  }}
                 >
                   {todo.text}
                 </span>
@@ -142,7 +213,10 @@ function App() {
           <button onClick={handleUndoCompleted}>Undo Completed</button>
         </div>
       ) : (
-        <div>Please log in to access the Todo List App.</div>
+        <div>
+          <Login />
+          <Signup />
+        </div>
       )}
     </div>
   );

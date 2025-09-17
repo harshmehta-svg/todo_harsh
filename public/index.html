@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Todo App</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="root"></div>
+  <script src="index.js"></script>
+  <script src="signup.js"></script>
+</body>
+</html>
+
+<script>
+  function Signup() {
+    function showSignup() {
+      // Remove any existing elements
+      const signupElement = document.createElement('div');
+      signupElement.id = 'signup';
+      signupElement.innerHTML = `
+        <h2>Sign Up</h2>
+        <input id="name" type="text" placeholder="Name" />
+        <input id="email" type="email" placeholder="Email" />
+        <input id="password" type="password" placeholder="Password" />
+        <button id="signup-btn">Sign Up</button>
+      `;
+      document.getElementById('root').appendChild(signupElement);
+    }
+
+    function handleSignupForm() {
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      // Validate form data
+      if (name && email && password) {
+        // Send user data to API for server-side processing
+        const user = { name, email, password };
+        console.log('Signup data:', user);
+        // Clear the signup form
+        document.getElementById('name').value = '';
+        document.getElementById('email').value = '';
+        document.getElementById('password').value = '';
+      } else {
+        alert('Please fill in all fields!');
+      }
+    }
+
+    document.getElementById('signup-btn').addEventListener('click', handleSignupForm);
+    showSignup();
+  }
+
+  Signup();
+</script>

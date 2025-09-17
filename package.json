@@ -2,12 +2,13 @@
   "name": "todo-app",
   "version": "1.0.0",
   "description": "A simple Todo List application built with front-end technologies.",
-  "main": "index.js", // Changed main field to a valid entry point (in this case, a JavaScript file)
+  "main": "index.js", 
   "scripts": {
     "start": "live-server",
     "build": "tsc --outDir build",
     "test": "jest",
-    "clean": "rm -rf build && touch build"
+    "clean": "rm -rf build && touch build",
+    "signup": "node server/signup.js" // Added script to run signup functionality
   },
   "keywords": [],
   "author": "",
@@ -15,15 +16,21 @@
   "dependencies": {
     "@types/node": "^16.11.3",
     "bcrypt": "^5.2.1",
+    "express": "^4.17.1", // Added express dependency for server
+    "mongodb": "^4.0.3", // Added mongodb dependency for database
+    "react": "^18.2.0",
     "typescript": "^4.7.4"
   },
   "devDependencies": {
     "@types/jest": "^28.1.6",
     "@types/jquery": "^3.6.2",
     "@types/live-server": "^1.2.7",
+    "bcryptjs": "^2.4.0", // Changed bcrypt to bcryptjs
+    "express-validator": "^10.0.1", // Added express-validator dependency for validation
     "jest": "^28.1.3",
     "live-server": "^1.2.1",
-    "glob": "^7.2.7" // Added glob dependency to remove unnecessary files
+    "glob": "^7.2.7",
+    "mongoose": "^6.0.10" // Added mongoose dependency for odm
   },
   "repository": {
     "type": "git",
