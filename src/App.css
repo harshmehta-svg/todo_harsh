@@ -1,5 +1,5 @@
-// New file
 /* global document */
+/* global console */
 
 .login-card {
   max-width: 350px;
@@ -37,4 +37,33 @@
 
 .login-card button[type="submit"]:hover {
   background-color: #3e8e41;
+}
+
+/* DARK MODE STYLES */
+.login-card.dark-mode {
+  background-color: #333;
+  border: 1px solid #555;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+.login-card.dark-mode label {
+  color: #ddd;
+}
+
+.login-card.dark-mode input[type="text"], .login-card.dark-mode input[type="password"] {
+  background-color: #444;
+  color: #fff;
+  border: 1px solid #555;
+}
+
+.login-card.dark-mode button[type="submit"] {
+  background-color: #777;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.login-card.dark-mode button[type="submit"]:hover {
+  background-color: #666;
 }
