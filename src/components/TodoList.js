@@ -31,6 +31,12 @@ const TodoList = () => {
     );
   };
 
+  const handleSubmitNewTodo = (e) => {
+    if (e.key === 'Enter' && newTodo.trim() !== '') {
+      handleAddTodo();
+    }
+  };
+
   return (
     <div
       className={`todo-list ${darkMode ? 'dark-mode' : ''}`}
@@ -45,6 +51,8 @@ const TodoList = () => {
         placeholder="New Todo..."
         value={newTodo}
         onChange={(e) => setNewTodo(e.target.value)}
+        onKeyPress={handleSubmitNewTodo}
+        autoFocus
       />
       <button className="add-todo" onClick={handleAddTodo}>
         Add Todo

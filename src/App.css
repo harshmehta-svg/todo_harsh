@@ -1,4 +1,3 @@
-// New file
 /* global document */
 
 .login-card {
@@ -36,5 +35,43 @@
 }
 
 .login-card button[type="submit"]:hover {
+  background-color: #3e8e41;
+}
+
+.task-card {
+  max-width: 350px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.task-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.task-list li {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.task-list li:last-child {
+  border-bottom: none;
+}
+
+.task-add-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.task-add-btn:hover {
   background-color: #3e8e41;
 }

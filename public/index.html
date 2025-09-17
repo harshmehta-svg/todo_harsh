@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List App</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <h1>Todo List App</h1>
+    <input id="new-task" type="text" placeholder="Add new task">
+    <button id="add-btn">Add Task</button>
+    <ul id="task-list"></ul>
+
+    <!-- Additional HTML to add new task form -->
+    <form id="new-task-form">
+        <input id="new-task-name" type="text" placeholder="Task name">
+        <textarea id="new-task-description" placeholder="Task description"></textarea>
+        <button id="save-btn">Save Task</button>
+    </form>
+
+    <script>
+        // Get elements
+        const taskList = document.getElementById('task-list');
+        const addBtn = document.getElementById('add-btn');
+        const newTask = document.getElementById('new-task');
+        const newTaskForm = document.getElementById('new-task-form');
+        const saveBtn = document.getElementById('save-btn');
+        const newTaskName = document.getElementById('new-task-name');
+        const newTaskDescription = document.getElementById('new-task-description');
+
+        // Add event listeners
+        addBtn.addEventListener('click', () => {
+            const task = document.createElement('li');
+            task.textContent = newTask.value;
+            taskList.appendChild(task);
+            newTask.value = '';
+        });
+
+        newTaskForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const task = document.createElement('li');
+            task.textContent = `${newTaskName.value} - ${newTaskDescription.value}`;
+            taskList.appendChild(task);
+            newTaskName.value = '';
+            newTaskDescription.value = '';
+        });
+    </script>
+</body>
+</html>
