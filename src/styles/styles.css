@@ -1,7 +1,4 @@
-// src/styles/styles.css
-
 /* Global Styles */
-
 body {
   font-family: Arial, sans-serif;
   background-color: #f0f0f0;
@@ -45,13 +42,13 @@ body {
 }
 
 /* Login Page Styles */
-
 .login-page {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
   background-color: #f0f0f0;
+  transition: background-color 0.3s ease-in-out;
 }
 
 .login-page.dark-mode {
@@ -73,12 +70,14 @@ body {
   border: 1px solid #ccc;
 }
 
-.login-form input[type="text"], .login-form input[type="password"] {
+.login-form input[type="text"], 
+.login-form input[type="password"] {
   color: #333;
   background-color: #f9f9f9;
 }
 
-.login-form input[type="text"].dark-mode, .login-form input[type="password"].dark-mode {
+.login-form input[type="text"].dark-mode, 
+.login-form input[type="password"].dark-mode {
   color: #fff;
   background-color: #333;
 }
@@ -101,8 +100,59 @@ body {
   background-color: #008000;
 }
 
-/* Dark Mode Styles */
+/* Switcher for Light and Dark Modes */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
 
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: transform 0.3s ease-in-out;
+}
+
+input[type="checkbox"].dark-mode + .slider {
+  background-color: #666;
+}
+
+input[type="checkbox"].dark-mode + .slider:before {
+  transform: translateX(26px);
+}
+
+input[type="checkbox"].dark-mode:checked + .slider:before {
+  transform: translateX(0px);
+}
+
+input[type="checkbox"].dark-mode:checked + .slider {
+  background-color: #999;
+}
+
+/* Dark Mode Styles */
 body.dark-mode {
   background-color: #2f2f2f;
   color: #fff;
@@ -113,14 +163,12 @@ body.dark-mode {
 }
 
 /* Utility Classes */
-
 .dark-mode {
   background-color: #333;
   color: #fff;
 }
 
 /* Responsive Design */
-
 @media (max-width: 768px) {
   .login-form {
     width: 80%;

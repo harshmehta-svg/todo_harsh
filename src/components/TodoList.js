@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import LoginPage from './LoginPage';
+import TodoListPage from './TodoListPage';
+import RegisterPage from './RegisterPage';
 
 const TodoList = () => {
-  const [todos, setTodos] = React.useState([]);
-  const [newTodo, setNewTodo] = React.useState('');
-  const [darkMode, setDarkMode] = React.useState(localStorage.getItem('darkMode') === 'true');
+  const [todos, setTodos] = useState([]);
+  const [newTodo, setNewTodo] = useState('');
+  const [darkMode, setDarkMode] = useState(localStorage.getItem('darkMode') === 'true');
+  const [auth, setAuth] = useState({isAuthenticated: false, token: ''});
 
   const handleModeSwitch = () => {
     setDarkMode(!darkMode);
@@ -31,12 +36,35 @@ const TodoList = () => {
     );
   };
 
+  const handleLogin = (loginData) => {
+    // implement login logic
+    setAuth({ isAuthenticated: true, token: 'token' });
+  };
+
+  const handleLogout = () => {
+    setAuth({ isAuthenticated: false, token: '' });
+  };
+
+  const handleRegister = (registerData) => {
+    // implement register logic
+    setAuth({ isAuthenticated: true, token: 'token' });
+  };
+
   return (
-    <div
-      className={`todo-list ${darkMode ? 'dark-mode' : ''}`}
-      style={{ background: darkMode ? '#333' : '#f0f0f0', color: darkMode ? '#fff' : '#333' }}
-    >
-      <h2>Todo List</h2>
+    <div>
+      {
+        auth.isAuthenticated 
+          ? <Routes>
+              <Route path="/" element={<TodoListPage todos={todos} setTodos={setTodos} newTodo={newTodo} setNewTodo={setNewTodo} darkMode={darkMode} setDarkMode={setDarkMode} handleAddTodo={handleAddTodo} handleDeleteTodo={handleDeleteTodo} handleCompleteTodo={handleCompleteTodo} handleUndoCompleteTodo={handleUndoCompleteTodo} />} />
+              <Route path="/login" element={<LoginPage handleLogin={handleLogin} />} />
+              <Route path="/register" element={<RegisterPage handleRegister={handleRegister} />} />
+            </Routes> 
+          : 
+          <Routes>
+            <Route path="/" element={<LoginPage handleLogin={handleLogin} />} />
+            <Route path="*' " element={<RegisterPage handleRegister={handleRegister} />} />
+          </Routes>
+      }
       <button className="mode-switch" onClick={handleModeSwitch}>
         {darkMode ? 'Light Mode' : 'Dark Mode'}
       </button>
@@ -49,24 +77,6 @@ const TodoList = () => {
       <button className="add-todo" onClick={handleAddTodo}>
         Add Todo
       </button>
-      <ul>
-        {todos.map((todo) => (
-          <li key={todo.id}>
-            <input type="checkbox" checked={todo.completed} onChange={() => handleCompleteTodo(todo.id)} />
-            <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>{todo.text}</span>
-            <button className="delete-todo" onClick={() => handleDeleteTodo(todo.id)}>
-              Delete
-            </button>
-            <button
-              className="undo-complete-todo"
-              onClick={() => handleUndoCompleteTodo(todo.id)}
-              style={{ display: todo.completed ? 'inline-block' : 'none' }}
-            >
-              Undo
-            </button>
-          </li>
-        ))}
-      </ul>
     </div>
   );
 };

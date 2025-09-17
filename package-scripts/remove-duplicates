@@ -1,0 +1,36 @@
+package-scripts/remove-duplicates
+const fs = require('fs');
+const path = require('path');
+
+function removeDuplicates(filePath) {
+  // Remove existing files
+  const files = fs.readdirSync(filePath).filter(file => fs.statSync(path.join(filePath, file)).isFile()).map(file => path.join(filePath, file));
+  const rmCommand = files.map(file => `rm -f ${file}`);
+  const rmCommandGlob = `rm -f ${filePath}/**/*`;
+
+  // Update glob and rm commands to handle new files
+  const newFiles = fs.readdirSync(filePath).filter(file => fs.statSync(path.join(filePath, file)).isFile() && !files.includes(path.join(filePath, file)));
+  rmCommand.push(...newFiles.map(file => `rm -f ${file}`));
+  rmCommandGlob += ` && rm -f ${filePath}/**/*`;
+
+  // Execute rm command
+  execCommand(rmCommand.join(' && '));
+  execCommand(rmCommandGlob);
+
+  // Log output
+  console.log('Removed duplicate files.');
+}
+
+// Function to execute a command in shell
+function execCommand(command) {
+  const exec = require('child_process').exec;
+  exec(command, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`exec error: ${error}`);
+      return;
+    }
+    console.log(stdout);
+  });
+}
+
+module.exports = removeDuplicates;

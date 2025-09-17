@@ -1,14 +1,14 @@
-// New file
 import React, { useState } from 'react';
+import bcrypt from 'bcryptjs';
 import './App.css';
 
 // Import local storage data
 const storedTodos = localStorage.getItem('todos') ? JSON.parse(localStorage.getItem('todos')) : [];
-const storedUserData = localStorage.getItem('userdata') ? JSON.parse(localStorage.getItem('userdata')) : { username: '', password: '' };
+const storedUserData = localStorage.getItem('userdata') ? JSON.parse(localStorage.getItem('userdata')) : { username: '', password: '', hashedPassword: '' };
 
 // Function to authenticate user login
 function authenticateUser(username, password) {
-  if (username === storedUserData.username && password === storedUserData.password) {
+  if (username === storedUserData.username && bcrypt.compareSync(password, storedUserData.hashedPassword)) {
     localStorage.setItem('logged_in', true);
     return true;
   }
@@ -35,6 +35,20 @@ function Login() {
     }
   };
 
+  const handleRegister = (e) => {
+    e.preventDefault();
+    setErrorMessages([]);
+    if (!username || !password) {
+      setErrorMessages([...errorMessages, 'Please fill in all fields']);
+      return;
+    }
+    const hashedPassword = bcrypt.hashSync(password, 10);
+    storedUserData.username = username;
+    storedUserData.hashedPassword = hashedPassword;
+    localStorage.setItem('userdata', JSON.stringify(storedUserData));
+    window.location.href = '/todo';
+  };
+
   return (
     <div className="login-container">
       <h2>Login</h2>
@@ -52,14 +66,16 @@ function Login() {
           placeholder="Password"
         />
         <button type="submit">Login</button>
-        {errorMessages && (
-          <div className="error-message">
-            {errorMessages.map((message, index) => (
-              <span key={index}>{message}</span>
-            ))}
-          </div>
-        )}
       </form>
+      <hr />
+      <p>Don't have an account? <a href="#" onClick={handleRegister}>Register</a></p>
+      {errorMessages && (
+        <div className="error-message">
+          {errorMessages.map((message, index) => (
+            <span key={index}>{message}</span>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -106,11 +122,6 @@ function App() {
     <div className="app-container">
       <h1>Todo List App</h1>
       {localStorage.getItem('logged_in') ? (
-        <Login />
-      ) : (
-        <Login></Login>
-      )}
-      {localStorage.getItem('logged_in') ? (
         <div>
           <input
             type="text"
@@ -142,7 +153,7 @@ function App() {
           <button onClick={handleUndoCompleted}>Undo Completed</button>
         </div>
       ) : (
-        <div>Please log in to access the Todo List App.</div>
+        <Login />
       )}
     </div>
   );
