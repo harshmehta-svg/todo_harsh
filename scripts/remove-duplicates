@@ -1,0 +1,49 @@
+// scripts/remove-duplicates
+
+const path = require('path');
+const glob = require('glob');
+
+/**
+ * Removes duplicate files from the project.
+ *
+ * @returns {void}
+ */
+async function removeDuplicates() {
+  const files = glob.sync('**/*', { nodir: true, cwd: process.cwd() });
+  const uniqueFiles = new Set();
+
+  for (const file of files) {
+    if (!uniqueFiles.has(file)) {
+      uniqueFiles.add(file);
+    } else {
+      // Remove the file
+      const filePath = path.join(process.cwd(), file);
+      console.log(`Removing file: ${filePath}`);
+      try {
+        await fs.promises.unlink(filePath);
+      } catch (error) {
+        console.error(`Error removing file: ${error}`);
+      }
+    }
+  }
+}
+
+/**
+ * Runs the remove-duplicates task.
+ *
+ * @returns {void}
+ */
+async function run() {
+  try {
+    await removeDuplicates();
+  } catch (error) {
+    console.error(`Error running remove-duplicates task: ${error}`);
+  }
+}
+
+/**
+ * Exports the run function.
+ *
+ * @type {(import('module').Context) => Promise<void>}
+ */
+export default run;
