@@ -27,6 +27,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <p>&nbsp;</p>  {/* Add <p></p> tag in header */}
         {isLoggedIn === true ? (
           <h2>
             Welcome, {username}! <button onClick={handleLogout}>Logout</button>
