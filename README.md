@@ -6,7 +6,7 @@ src/
     TodoList.js
     Task.js
   styles/
-    styles.css
+    # styles have been moved to CSS in the root directory
   scripts/
     script.js
     services/
