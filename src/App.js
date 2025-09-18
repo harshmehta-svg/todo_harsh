@@ -22,6 +22,7 @@ function App() {
   const handleLogout = () => {
     setIsLoggedIn(false);
     setLoginStatus(false);
+    window.location.href = window.location.href.split('?')[0];
   };
 
   return (
