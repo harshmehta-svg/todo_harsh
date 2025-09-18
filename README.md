@@ -1,5 +1,4 @@
 public/
-  index.html
   app.js
 src/
   components/
