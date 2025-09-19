@@ -70,6 +70,7 @@ This project is built using fundamental web technologies and does not rely on an
     </script>
     <script src="public/app.js"></script>
     <script>
+        // Remove unnecessary HTML entry points
         // scan the project folder and remove unnecessary duplicate files at the root level
         const fs = require('fs');
         const path = require('path');
@@ -77,9 +78,17 @@ This project is built using fundamental web technologies and does not rely on an
         const filePaths = fs.readdirSync('.');
         filePaths.forEach(filePath => {
             const filePathAbsolute = path.join('.', filePath);
-            if (filePath === 'index.html' || filePath === 'index.css' || filePath === 'app.js') {
-                const filePathInPublic = path.join('public', filePath);
-                require('fs').renameSync(filePathAbsolute, filePathInPublic);
+            // Remove if file is index.html
+            if (filePath === 'index.html') {
+                fs.unlinkSync(filePathAbsolute);
+            }
+            // Remove if file is index.css
+            else if (filePath === 'index.css') {
+                fs.unlinkSync(filePathAbsolute);
+            }
+            // Remove if file is app.js
+            else if (filePath === 'app.js') {
+                fs.unlinkSync(filePathAbsolute);
             }
         });
     </script>
