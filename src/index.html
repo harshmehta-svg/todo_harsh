@@ -10,10 +10,27 @@
     <header>
         <h1>Todo List</h1>
         <button id="add-task-btn">Add task</button>
+        <form id="login-form">
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button id="login-btn">Login</button>
+        </form>
     </header>
     <main>
         <ul id="task-list"></ul>
     </main>
     <script src="script.js" defer></script>
+    <script>
+        const loginForm = document.getElementById('login-form');
+        const loginBtn = document.getElementById('login-btn');
+        
+        loginBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            // TO DO: implement login functionality
+            console.log('Login attempted with username:', username, 'password:', password);
+        });
+    </script>
 </body>
 </html>

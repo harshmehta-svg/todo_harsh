@@ -24,6 +24,12 @@ function App() {
     setLoginStatus(false);
   };
 
+  const handleRegistration = (event:SyntheticEvent) => {
+    event.preventDefault();
+    // Add registration logic here
+    console.log('Registration not implemented yet');
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -33,21 +39,40 @@ function App() {
           </h2>
         ) : (
           loginStatus === false && (
-            <form onSubmit={handleLogin}>
-              <input
-                type="text"
-                placeholder="Enter username"
-                value={username}
-                onChange={(event) => setUsername(event.target.value)}
-              />
-              <input
-                type="password"
-                placeholder="Enter password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-              />
-              <button type="submit">Login</button>
-            </form>
+            <div>
+              {loginStatus === false && (
+                <form onSubmit={handleLogin}>
+                  <input
+                    type="text"
+                    placeholder="Enter username"
+                    value={username}
+                    onChange={(event) => setUsername(event.target.value)}
+                  />
+                  <input
+                    type="password"
+                    placeholder="Enter password"
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                  />
+                  <button type="submit">Login</button>
+                </form>
+              )}
+              <form onSubmit={handleRegistration}>
+                <input
+                  type="text"
+                  placeholder="Enter new username"
+                  value={username}
+                  onChange={(event) => setUsername(event.target.value)}
+                />
+                <input
+                  type="password"
+                  placeholder="Enter new password"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                />
+                <button type="submit">Register</button>
+              </form>
+            </div>
           )
         )}
       </header>

@@ -102,14 +102,14 @@ function App() {
     setTodos(newTodos);
   };
 
+  // Function to save user data in local storage
+  const handleSaveUser = () => {
+    localStorage.setItem('userdata', JSON.stringify({ username, password }));
+  };
+
   return (
     <div className="app-container">
       <h1>Todo List App</h1>
-      {localStorage.getItem('logged_in') ? (
-        <Login />
-      ) : (
-        <Login></Login>
-      )}
       {localStorage.getItem('logged_in') ? (
         <div>
           <input
@@ -140,9 +140,13 @@ function App() {
             ))}
           </ul>
           <button onClick={handleUndoCompleted}>Undo Completed</button>
+          <button onClick={handleSaveUser}>Save Username and Password</button>
         </div>
       ) : (
-        <div>Please log in to access the Todo List App.</div>
+        <div>
+          <Login/>
+          <p>Login to access the Todo List App.</p>
+        </div>
       )}
     </div>
   );

@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 const TodoList = () => {
   const [todos, setTodos] = React.useState([]);
   const [newTodo, setNewTodo] = React.useState('');
   const [darkMode, setDarkMode] = React.useState(localStorage.getItem('darkMode') === 'true');
+  const [ isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [ username, setUsername] = React.useState('');
+  const [ password, setPassword] = React.useState('');
+  const history = useHistory();
 
   const handleModeSwitch = () => {
     setDarkMode(!darkMode);
@@ -31,42 +36,84 @@ const TodoList = () => {
     );
   };
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (!username || !password) return;
+    setIsLoggedIn(true);
+    history.push('/logged-in');
+  };
+
   return (
     <div
       className={`todo-list ${darkMode ? 'dark-mode' : ''}`}
       style={{ background: darkMode ? '#333' : '#f0f0f0', color: darkMode ? '#fff' : '#333' }}
     >
-      <h2>Todo List</h2>
-      <button className="mode-switch" onClick={handleModeSwitch}>
-        {darkMode ? 'Light Mode' : 'Dark Mode'}
-      </button>
-      <input
-        type="text"
-        placeholder="New Todo..."
-        value={newTodo}
-        onChange={(e) => setNewTodo(e.target.value)}
-      />
-      <button className="add-todo" onClick={handleAddTodo}>
-        Add Todo
-      </button>
-      <ul>
-        {todos.map((todo) => (
-          <li key={todo.id}>
-            <input type="checkbox" checked={todo.completed} onChange={() => handleCompleteTodo(todo.id)} />
-            <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>{todo.text}</span>
-            <button className="delete-todo" onClick={() => handleDeleteTodo(todo.id)}>
-              Delete
-            </button>
-            <button
-              className="undo-complete-todo"
-              onClick={() => handleUndoCompleteTodo(todo.id)}
-              style={{ display: todo.completed ? 'inline-block' : 'none' }}
-            >
-              Undo
-            </button>
-          </li>
-        ))}
-      </ul>
+      {isLoggedIn ? (
+        <div style={{ textAlign: 'center', fontSize: 24 }}>
+          <h2>Logged in as: {username}</h2>
+          <button
+            className="logout-btn"
+            onClick={() => {
+              setIsLoggedIn(false);
+              setUsername('');
+              setPassword('');
+              history.push('/');
+            }}
+          >
+            Logout
+          </button>
+        </div>
+      ) : (
+        <React.Fragment>
+          <h2>Todo List</h2>
+          <button className="mode-switch" onClick={handleModeSwitch}>
+            {darkMode ? 'Light Mode' : 'Dark Mode'}
+          </button>
+          <input
+            type="text"
+            placeholder="New Todo..."
+            value={newTodo}
+            onChange={(e) => setNewTodo(e.target.value)}
+          />
+          <button className="add-todo" onClick={handleAddTodo}>
+            Add Todo
+          </button>
+          <ul>
+            {todos.map((todo) => (
+              <li key={todo.id}>
+                <input type="checkbox" checked={todo.completed} onChange={() => handleCompleteTodo(todo.id)} />
+                <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>{todo.text}</span>
+                <button className="delete-todo" onClick={() => handleDeleteTodo(todo.id)}>
+                  Delete
+                </button>
+                <button
+                  className="undo-complete-todo"
+                  onClick={() => handleUndoCompleteTodo(todo.id)}
+                  style={{ display: todo.completed ? 'inline-block' : 'none' }}
+                >
+                  Undo
+                </button>
+              </li>
+            ))}
+          </ul>
+          <form onSubmit={handleSubmit}>
+            <h2>Login</h2>
+            <input
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <button type="submit">Login</button>
+          </form>
+        </React.Fragment>
+      )}
     </div>
   );
 };

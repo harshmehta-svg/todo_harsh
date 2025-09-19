@@ -25,6 +25,24 @@
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
+.login-card input[type="username"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px; /* added margin-bottom */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.login-card input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
 .login-card button[type="submit"] {
   width: 100%;
   padding: 10px;
