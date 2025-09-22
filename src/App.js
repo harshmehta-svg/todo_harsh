@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import './App.css';
+import Users from './Users'; // new import for Users page
 
 function App() {
   const [username, setUsername] = useState('');
@@ -50,6 +51,8 @@ function App() {
             </form>
           )
         )}
+        <button onClick={() => setIsLoggedIn(false)}>Dashboard</button> // new button linking to Users page
+        <Users /> // new component to render Users page
       </header>
     </div>
   );
