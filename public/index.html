@@ -1,0 +1,120 @@
+// New file
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Todo App</title>
+</head>
+<body>
+<div class="app">
+  <header>
+    <nav>
+      <ul>
+        <li><a href="#">Todo App</a></li>
+        <li><a href="#">Features</a></li>
+        <li><a href="#">About</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <div class="todo-list">
+      <div class="todo-list-header">
+        <h2>Todo List</h2>
+        <input type="text" id="task" placeholder="Enter task">
+        <button id="add-task">Add Task</button>
+      </div>
+      <ul id="tasks">
+        <!-- Task list will be generated dynamically -->
+      </ul>
+    </div>
+    <div class="user-list">
+      <h2>User List</h2>
+      <table class="user-table">
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><input type="text" id="username" placeholder="Username"></td>
+            <td><input type="email" id="email" placeholder="Email"></td>
+            <td><input type="tel" id="phone-number" placeholder="Phone Number"></td>
+          </tr>
+        </tbody>
+      </table>
+      <button id="add-user">Add User</button>
+    </div>
+  </main>
+</div>
+
+<!-- Importing CSS file for styling -->
+<link rel="stylesheet" href="styles.css">
+
+<!-- Importing JavaScript file for dynamic functionality -->
+<script src="script.js"></script>
+
+<style>
+  /* Adding CSS styles for the todo list and user list */
+  .todo-list {
+    width: 80%;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+  }
+
+  .todo-list-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+  }
+
+  .user-list {
+    width: 80%;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+  }
+
+  .user-table {
+    width: 100%;
+  }
+
+  th, td {
+    padding: 10px;
+  }
+
+  th {
+    background-color: #f0f0f0;
+  }
+
+  tr {
+    border-bottom: 1px solid #ddd;
+  }
+
+  tr:hover {
+    background-color: #f9f9f9;
+  }
+
+  button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }
+</style>
+
+</body>
+</html>

@@ -1,6 +1,4 @@
-// New file
 /* global document */
-
 .login-card {
   max-width: 350px;
   margin: 0 auto;
@@ -37,4 +35,58 @@
 
 .login-card button[type="submit"]:hover {
   background-color: #3e8e41;
+}
+
+.user-table {
+  width: 80%;
+  margin: 40px auto;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-collapse: collapse;
+}
+
+.user-table th {
+  background-color: #f0f0f0;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.user-table th, .user-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.user-table tr {
+  border-bottom: 1px solid #ddd;
+}
+
+.user-table tr:last-child {
+  border-bottom: none;
+}
+
+.user-table tr:hover {
+  background-color: #f0f0f0;
+}
+
+.user-table th {
+  text-align: left;
+}
+
+.user-table th:nth-child(1),
+.user-table td:nth-child(1) {
+  width: 20%;
+}
+
+.user-table th:nth-child(2),
+.user-table td:nth-child(2) {
+  width: 40%;
+}
+
+.user-table th:nth-child(3),
+.user-table td:nth-child(3) {
+  width: 20%;
+}
+
+.user-table th:nth-child(4),
+.user-table td:nth-child(4) {
+  width: 20%;
 }
