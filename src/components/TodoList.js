@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const TodoList = () => {
-  const [todos, setTodos] = React.useState([]);
-  const [newTodo, setNewTodo] = React.useState('');
-  const [darkMode, setDarkMode] = React.useState(localStorage.getItem('darkMode') === 'true');
+  const [todos, setTodos] = useState([]);
+  const [newTodo, setNewTodo] = useState('');
+  const [darkMode, setDarkMode] = useState(localStorage.getItem('darkMode') === 'true');
+  const [user, setUser] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleModeSwitch = () => {
     setDarkMode(!darkMode);
@@ -31,6 +34,60 @@ const TodoList = () => {
     );
   };
 
+  useEffect(() => {
+    axios.get('/api/auth/check')
+      .then(response => {
+        if (response.status === 200) {
+          setIsLoggedIn(true);
+          axios.get('/api/user/data')
+            .then(response => {
+              setUser(response.data);
+            })
+            .catch(error => {
+              console.error(error);
+            });
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
+
+  const handleLogin = () => {
+    axios.post('/api/auth/login', {
+      username: 'test',
+      password: 'test'
+    })
+      .then(response => {
+        if (response.status === 200) {
+          setIsLoggedIn(true);
+          axios.get('/api/user/data')
+            .then(response => {
+              setUser(response.data);
+            })
+            .catch(error => {
+              console.error(error);
+            });
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+
+  const handleLogout = () => {
+    axios.post('/api/auth/logout')
+      .then(response => {
+        if (response.status === 200) {
+          setIsLoggedIn(false);
+          setUser(null);
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+
   return (
     <div
       className={`todo-list ${darkMode ? 'dark-mode' : ''}`}
@@ -46,27 +103,60 @@ const TodoList = () => {
         value={newTodo}
         onChange={(e) => setNewTodo(e.target.value)}
       />
-      <button className="add-todo" onClick={handleAddTodo}>
-        Add Todo
-      </button>
+      {isLoggedIn ? (
+        <button className="add-todo" onClick={handleAddTodo}>
+          Add Todo
+        </button>
+      ) : (
+        <button className="add-todo" onClick={handleLogin}>
+          Login to add tasks
+        </button>
+      )}
       <ul>
         {todos.map((todo) => (
           <li key={todo.id}>
             <input type="checkbox" checked={todo.completed} onChange={() => handleCompleteTodo(todo.id)} />
             <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>{todo.text}</span>
-            <button className="delete-todo" onClick={() => handleDeleteTodo(todo.id)}>
-              Delete
-            </button>
-            <button
-              className="undo-complete-todo"
-              onClick={() => handleUndoCompleteTodo(todo.id)}
-              style={{ display: todo.completed ? 'inline-block' : 'none' }}
-            >
-              Undo
-            </button>
+            {isLoggedIn ? (
+              <button
+                className="delete-todo"
+                onClick={() => handleDeleteTodo(todo.id)}
+              >
+                Delete
+              </button>
+            ) : (
+              <button className="delete-todo" disabled>
+                Delete
+              </button>
+            )}
+            {isLoggedIn ? (
+              <button
+                className="undo-complete-todo"
+                onClick={() => handleUndoCompleteTodo(todo.id)}
+                style={{ display: todo.completed ? 'inline-block' : 'none' }}
+              >
+                Undo
+              </button>
+            ) : (
+              <button
+                className="undo-complete-todo"
+                style={{ display: 'none' }}
+              >
+                Undo
+              </button>
+            )}
           </li>
         ))}
       </ul>
+      {isLoggedIn ? (
+        <button className="logout-todo" onClick={handleLogout}>
+          Logout
+        </button>
+      ) : (
+        <button className="logout-todo" disabled>
+          Logout
+        </button>
+      )}
     </div>
   );
 };

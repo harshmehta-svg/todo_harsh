@@ -7,7 +7,8 @@
     "start": "live-server",
     "build": "tsc --outDir build",
     "test": "jest",
-    "clean": "rm -rf build && touch build"
+    "clean": "rm -rf build && touch build",
+    "remove-duplicates": "glob \"*.js\" && glob \"*.css\" && rm -rf styles.css && rm -rf index.css && rm -rf app.js"
   },
   "keywords": [],
   "author": "",
@@ -31,8 +32,5 @@
   },
   "bugs": {
     "url": ""
-  },
-  "scripts": {
-    "remove-duplicates": "glob \"*.js\" && glob \"*.css\" && glob \"*.html\" && rm -rf styles.css && rm -rf index.html && rm -rf index.css && rm -rf app.js"
   }
 }

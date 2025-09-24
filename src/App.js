@@ -1,6 +1,6 @@
 // @flow
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
@@ -8,6 +8,7 @@ function App() {
   const [password, setPassword] = useState('');
   const [loginStatus, setLoginStatus] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const handleLogin = (event:SyntheticEvent) => {
     event.preventDefault();
@@ -24,13 +25,22 @@ function App() {
     setLoginStatus(false);
   };
 
+  const handleToggleDarkMode = () => {
+    setIsDarkMode(prevMode => !prevMode);
+  };
+
+  useEffect(() => {
+    document.body.classList.toggle('dark-mode', isDarkMode);
+  }, [isDarkMode]);
+
   return (
     <div className="App">
       <header className="App-header">
         {isLoggedIn === true ? (
-          <h2>
-            Welcome, {username}! <button onClick={handleLogout}>Logout</button>
-          </h2>
+          <div>
+            <h2>Welcome, {username}! <button onClick={handleLogout}>Logout</button></h2>
+            <button onClick={handleToggleDarkMode}>Toggle Dark Mode</button>
+          </div>
         ) : (
           loginStatus === false && (
             <form onSubmit={handleLogin}>
@@ -51,6 +61,9 @@ function App() {
           )
         )}
       </header>
+      <style jsx>{`
+        .dark-mode { background-color: #333; color: #fff; }
+      `}</style>
     </div>
   );
 }
