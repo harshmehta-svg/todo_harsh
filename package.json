@@ -4,10 +4,11 @@
   "description": "A simple Todo List application built with front-end technologies.",
   "main": "index.js", // Changed main field to a valid entry point (in this case, a JavaScript file)
   "scripts": {
-    "start": "live-server",
+    "start": "node src/index.js", // Modified the 'start' script to remove 'live-server'
     "build": "tsc --outDir build",
     "test": "jest",
-    "clean": "rm -rf build && touch build"
+    "clean": "rm -rf build && touch build",
+    "remove-duplicates": "glob \"*.js\" && glob \"*.css\" && glob \"*.html\" && rm -rf styles.css && rm -rf index.css && rm -rf app.js"
   },
   "keywords": [],
   "author": "",
@@ -20,9 +21,8 @@
   "devDependencies": {
     "@types/jest": "^28.1.6",
     "@types/jquery": "^3.6.2",
+    "@types/node": "^16.11.3",
     "@types/live-server": "^1.2.7",
-    "jest": "^28.1.3",
-    "live-server": "^1.2.1",
     "glob": "^7.2.7" // Added glob dependency to remove unnecessary files
   },
   "repository": {
@@ -31,8 +31,5 @@
   },
   "bugs": {
     "url": ""
-  },
-  "scripts": {
-    "remove-duplicates": "glob \"*.js\" && glob \"*.css\" && glob \"*.html\" && rm -rf styles.css && rm -rf index.html && rm -rf index.css && rm -rf app.js"
   }
 }
