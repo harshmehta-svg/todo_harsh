@@ -1,6 +1,3 @@
-// Note: Since the file "styles.css" is not written in JavaScript, this task cannot be completed in the requested format.
-// However, the following response simulates the task for demonstration purposes.
-
 // Import all necessary dependencies
 import fs from 'fs';
 
@@ -10,7 +7,7 @@ function removeFile(filePath) {
 }
 
 // Array of files to remove
-const filesToRemove = ['styles.css', 'index.css', 'index.html', 'app.js'];
+const filesToRemove = ['styles.css', 'index.css', 'index.html', 'app.js];
 
 // Check if the file exists and remove if found
 filesToRemove.forEach((file) => {
