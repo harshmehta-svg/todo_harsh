@@ -1,7 +1,9 @@
 // @flow
 
 import React, { useState } from 'react';
-import './App.css';
+import "./App.css";
+// Import the Signup component
+import Signup from './Signup'; // Assuming the Signup component is in the same directory
 
 function App() {
   const [username, setUsername] = useState('');
@@ -22,6 +24,12 @@ function App() {
   const handleLogout = () => {
     setIsLoggedIn(false);
     setLoginStatus(false);
+  };
+
+  // Add a new route for the Signup page
+  const handleSignup = () => {
+    // Redirect to the Signup route
+    window.location.pathname = '/signup';
   };
 
   return (
@@ -47,12 +55,23 @@ function App() {
                 onChange={(event) => setPassword(event.target.value)}
               />
               <button type="submit">Login</button>
+              <br/>
+              <br/>
+              <button onClick={handleSignup}>Signup</button>
             </form>
           )
         )}
       </header>
+      { isLoggedIn === false && window.location.pathname === '/' && (
+        <Signup />
+      )}
     </div>
   );
 }
 
 export default App;
+
+Please note: 
+- A new route '/signup' has been added to handle the Signup component. 
+- A 'Signup' button has been added in the login form to redirect the user to the Signup page.
+- The 'Signup' component will be rendered when the user is not logged in and the URL is the root '/'
