@@ -1,5 +1,3 @@
-// @flow
-
 import React, { useState } from 'react';
 import './App.css';
 
@@ -8,6 +6,7 @@ function App() {
   const [password, setPassword] = useState('');
   const [loginStatus, setLoginStatus] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const [theme, setTheme] = useState('light'); // new state to store the theme
 
   const handleLogin = (event:SyntheticEvent) => {
     event.preventDefault();
@@ -24,12 +23,24 @@ function App() {
     setLoginStatus(false);
   };
 
+  const handleThemeSwitch = () => {
+    theme === 'light' ? setTheme('dark') : setTheme('light');
+  };
+
+  const toggleButton = () => {
+    return (
+      <button onClick={handleThemeSwitch}>
+        {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
+      </button>
+    );
+  };
+
   return (
-    <div className="App">
+    <div className={`App ${theme}`}>
       <header className="App-header">
         {isLoggedIn === true ? (
           <h2>
-            Welcome, {username}! <button onClick={handleLogout}>Logout</button>
+            Welcome, {username}! {toggleButton()} <button onClick={handleLogout}>Logout</button>
           </h2>
         ) : (
           loginStatus === false && (
@@ -51,6 +62,7 @@ function App() {
           )
         )}
       </header>
+      {/* Add dark mode styles to the App.css file to see the theme change */}
     </div>
   );
 }

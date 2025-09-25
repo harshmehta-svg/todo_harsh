@@ -1,4 +1,5 @@
 import React from 'react';
+import './TodoList.css';
 
 const TodoList = () => {
   const [todos, setTodos] = React.useState([]);
@@ -8,6 +9,7 @@ const TodoList = () => {
   const handleModeSwitch = () => {
     setDarkMode(!darkMode);
     localStorage.setItem('darkMode', !darkMode);
+    document.body.classList.toggle('dark-mode');
   };
 
   const handleAddTodo = () => {

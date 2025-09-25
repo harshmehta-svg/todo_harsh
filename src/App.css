@@ -1,4 +1,3 @@
-// New file
 /* global document */
 
 .login-card {
@@ -37,4 +36,45 @@
 
 .login-card button[type="submit"]:hover {
   background-color: #3e8e41;
+}
+
+/* Dark Mode Styles */
+.login-card {
+  background-color: #333;
+  color: #fff;
+}
+
+.login-card input[type="text"], .login-card input[type="password"] {
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #555;
+}
+
+.login-card button[type="submit"] {
+  background-color: #555;
+  color: #fff;
+}
+
+.login-card button[type="submit"]:hover {
+  background-color: #444;
+}
+
+/* Media Queries for Dark Mode */
+@media (prefers-color-scheme: dark) {
+  .login-card {
+    background-color: #333;
+    color: #fff;
+  }
+  .login-card input[type="text"], .login-card input[type="password"] {
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #555;
+  }
+  .login-card button[type="submit"] {
+    background-color: #555;
+    color: #fff;
+  }
+  .login-card button[type="submit"]:hover {
+    background-color: #444;
+  }
 }
