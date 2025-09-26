@@ -2,12 +2,14 @@
   "name": "todo-app",
   "version": "1.0.0",
   "description": "A simple Todo List application built with front-end technologies.",
-  "main": "index.js", // Changed main field to a valid entry point (in this case, a JavaScript file)
+  "main": "index.js",
   "scripts": {
     "start": "live-server",
     "build": "tsc --outDir build",
     "test": "jest",
-    "clean": "rm -rf build && touch build"
+    "clean": "rm -rf build && touch build",
+    "test:unit": "jest --config=jest.config.js --coverage",
+    "test:e2e": "jest --config=jest.config.js --watchAll"
   },
   "keywords": [],
   "author": "",
@@ -23,7 +25,15 @@
     "@types/live-server": "^1.2.7",
     "jest": "^28.1.3",
     "live-server": "^1.2.1",
-    "glob": "^7.2.7" // Added glob dependency to remove unnecessary files
+    "glob": "^7.2.7",
+    "jest-config": "^28.1.3",
+    "jest-junit": "^12.12.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^13.4.0",
+    "ts-jest": "^28.14.3",
+    "ts-node": "^10.7.0"
   },
   "repository": {
     "type": "git",
