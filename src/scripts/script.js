@@ -1,4 +1,3 @@
-// New file
 import React, { useState } from 'react';
 import './App.css';
 
@@ -16,6 +15,63 @@ function authenticateUser(username, password) {
   return false;
 }
 
+function Signup() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [errorMessages, setErrorMessages] = useState([]);
+
+  const handleSignup = (e) => {
+    e.preventDefault();
+    setErrorMessages([]);
+    if (!username || !password || !confirmPassword) {
+      setErrorMessages(['Please fill in all fields']);
+      return;
+    }
+    if (password !== confirmPassword) {
+      setErrorMessages(['Passwords do not match']);
+      return;
+    }
+    localStorage.setItem('userdata', JSON.stringify({ username, password }));
+    localStorage.setItem('logged_in', true);
+    window.location.href = '/todo';
+  };
+
+  return (
+    <div className="signup-container">
+      <h2>Signup</h2>
+      <form onSubmit={handleSignup}>
+        <input
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Username"
+        />
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+        />
+        <input
+          type="password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          placeholder="Confirm Password"
+        />
+        <button type="submit">Signup</button>
+        {errorMessages && (
+          <div className="error-message">
+            {errorMessages.map((message, index) => (
+              <span key={index}>{message}</span>
+            ))}
+          </div>
+        )}
+      </form>
+    </div>
+  );
+}
+
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -25,13 +81,13 @@ function Login() {
     e.preventDefault();
     setErrorMessages([]);
     if (!username || !password) {
-      setErrorMessages([...errorMessages, 'Please fill in all fields']);
+      setErrorMessages(['Please fill in all fields']);
       return;
     }
     if (authenticateUser(username, password)) {
       window.location.href = '/todo';
     } else {
-      setErrorMessages([...errorMessages, 'Invalid username or password']);
+      setErrorMessages(['Invalid username or password']);
     }
   };
 
@@ -106,9 +162,13 @@ function App() {
     <div className="app-container">
       <h1>Todo List App</h1>
       {localStorage.getItem('logged_in') ? (
-        <Login />
+        <div>
+          <Login />
+        </div>
       ) : (
-        <Login></Login>
+        <div>
+          <Signup />
+        </div>
       )}
       {localStorage.getItem('logged_in') ? (
         <div>
@@ -142,7 +202,7 @@ function App() {
           <button onClick={handleUndoCompleted}>Undo Completed</button>
         </div>
       ) : (
-        <div>Please log in to access the Todo List App.</div>
+        <div>Please log in or signup to access the Todo List App.</div>
       )}
     </div>
   );

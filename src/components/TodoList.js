@@ -1,17 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 
 const TodoList = () => {
-  const [todos, setTodos] = React.useState([]);
-  const [newTodo, setNewTodo] = React.useState('');
-  const [darkMode, setDarkMode] = React.useState(localStorage.getItem('darkMode') === 'true');
+  const [todos, setTodos] = useState([]);
+  const [newTodo, setNewTodo] = useState('');
+  const [darkMode, setDarkMode] = useState(localStorage.getItem('darkMode') === 'true');
+  const [userData, setUserData] = useState({ email: '', password: '' });
 
   const handleModeSwitch = () => {
     setDarkMode(!darkMode);
     localStorage.setItem('darkMode', !darkMode);
   };
 
-  const handleAddTodo = () => {
-    setTodos([...todos, { id: Math.random().toString(36).substring(2, 15), text: newTodo, completed: false }]);
+  const handleAddTodo = async () => {
+    const todoData = await axios.post('/api/todos', { text: newTodo });
+    setTodos([...todos, { id: todoData.data.id, text: newTodo, completed: false }]);
     setNewTodo('');
   };
 
@@ -29,6 +32,16 @@ const TodoList = () => {
     setTodos(
       todos.map((todo) => (todo.id === id ? { ...todo, completed: false } : todo))
     );
+  };
+
+  const handleSubmitSignup = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await axios.post('/api/users/register', userData);
+      console.log(response);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -52,8 +65,14 @@ const TodoList = () => {
       <ul>
         {todos.map((todo) => (
           <li key={todo.id}>
-            <input type="checkbox" checked={todo.completed} onChange={() => handleCompleteTodo(todo.id)} />
-            <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>{todo.text}</span>
+            <input
+              type="checkbox"
+              checked={todo.completed}
+              onChange={() => handleCompleteTodo(todo.id)}
+            />
+            <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>
+              {todo.text}
+            </span>
             <button className="delete-todo" onClick={() => handleDeleteTodo(todo.id)}>
               Delete
             </button>
@@ -67,6 +86,24 @@ const TodoList = () => {
           </li>
         ))}
       </ul>
+      <div>
+        <h2>Sign up</h2>
+        <form onSubmit={handleSubmitSignup}>
+          <input
+            type="email"
+            placeholder="Email"
+            value={userData.email}
+            onChange={(e) => setUserData({ ...userData, email: e.target.value })}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={userData.password}
+            onChange={(e) => setUserData({ ...userData, password: e.target.value })}
+          />
+          <button type="submit">Sign up</button>
+        </form>
+      </div>
     </div>
   );
 };
