@@ -101,6 +101,63 @@ body {
   background-color: #008000;
 }
 
+/* Signup Page Styles */
+
+.signup-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+}
+
+.signup-page.dark-mode {
+  background-color: #2f2f2f;
+}
+
+.signup-form {
+  width: 300px;
+}
+
+.signup-form label, .signup-form input {
+  display: block;
+  margin-bottom: 20px;
+}
+
+.signup-form input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.signup-form input[type="text"], .signup-form input[type="email"], .signup-form input[type="password"] {
+  color: #333;
+  background-color: #f9f9f9;
+}
+
+.signup-form input[type="text"].dark-mode, .signup-form input[type="email"].dark-mode, .signup-form input[type="password"].dark-mode {
+  color: #fff;
+  background-color: #333;
+}
+
+.signup-form button[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.signup-form button[type="submit"]:hover {
+  background-color: #3e8e41;
+}
+
+.signup-form button[type="submit"].dark-mode {
+  background-color: #008000;
+}
+
 /* Dark Mode Styles */
 
 body.dark-mode {
@@ -122,13 +179,13 @@ body.dark-mode {
 /* Responsive Design */
 
 @media (max-width: 768px) {
-  .login-form {
+  .login-form, .signup-form {
     width: 80%;
   }
 }
 
 @media (max-width: 480px) {
-  .login-form {
+  .login-form, .signup-form {
     width: 90%;
   }
 }
