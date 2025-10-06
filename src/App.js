@@ -1,19 +1,40 @@
 // @flow
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import analytics from 'lib/analytics';
 import './App.css';
+import { useAnalytics } from './hooks/useAnalytics.js';
 
 function App() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginStatus, setLoginStatus] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const globalContext = {
+    user: {
+      id: 1,
+      name: 'John Doe',
+    },
+    company: {
+      id: 1,
+      name: 'ABC Company',
+    },
+    region: {
+      id: 1,
+      name: 'North America',
+    },
+  };
 
-  const handleLogin = (event:SyntheticEvent) => {
+  const handleLogin = (event: any) => {
     event.preventDefault();
     if (username === 'admin' && password === 'password') {
       setIsLoggedIn(true);
       setLoginStatus(true);
+      useAnalytics.track('Login Successful', {
+        user: globalContext.user,
+        company: globalContext.company,
+        region: globalContext.region,
+      });
     } else {
       alert('Invalid username or password');
     }
@@ -22,7 +43,12 @@ function App() {
   const handleLogout = () => {
     setIsLoggedIn(false);
     setLoginStatus(false);
+    useAnalytics.track('Logout');
   };
+
+  useEffect(() => {
+    useAnalytics.init(globalContext);
+  }, [globalContext]);
 
   return (
     <div className="App">
