@@ -1,17 +1,22 @@
 // @flow
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectIsLoggedIn, selectLoginStatus } from './features/authSlice>';
+import { login, logout } from './features/authSlice'; // Import actions
 
 function App() {
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const loginStatus = useSelector(selectLoginStatus);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [loginStatus, setLoginStatus] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(null);
 
   const handleLogin = (event:SyntheticEvent) => {
     event.preventDefault();
     if (username === 'admin' && password === 'password') {
+      dispatch(login());
       setIsLoggedIn(true);
       setLoginStatus(true);
     } else {
@@ -20,6 +25,7 @@ function App() {
   };
 
   const handleLogout = () => {
+    dispatch(logout());
     setIsLoggedIn(false);
     setLoginStatus(false);
   };
@@ -56,3 +62,33 @@ function App() {
 }
 
 export default App;
+
+// features/authSlice.js
+
+import { createSlice } from '@reduxjs/toolkit';
+
+export const initialState = {
+  isLoggedIn: false,
+  loginStatus: false,
+};
+
+export const authSlice = createSlice({
+  name: 'auth',
+  initialState,
+  reducers: {
+    login: (state) => {
+      state.isLoggedIn = true;
+      state.loginStatus = true;
+    },
+    logout: (state) => {
+      state.isLoggedIn = false;
+      state.loginStatus = false;
+    },
+  },
+});
+
+export const { login, logout } = authSlice.actions;
+export const selectIsLoggedIn = (state) => state.auth.isLoggedIn;
+export const selectLoginStatus = (state) => state.auth.loginStatus;
+
+export default authSlice.reducer;
