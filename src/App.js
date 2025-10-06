@@ -1,15 +1,28 @@
 // @flow
 
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import './App.css';
+import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
+import { useDarkMode } from 'usehooks-ts';
+
+const queryClient = new QueryClient();
 
 function App() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginStatus, setLoginStatus] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const { theme, setTheme } = useDarkMode();
 
-  const handleLogin = (event:SyntheticEvent) => {
+  const { data, isLoading, error, refetch } = useQuery(['posts'], async () => {
+    const response = await fetch('/api/posts');
+    return response.json();
+  }, {
+    staleTime: 100000, // 100 seconds
+    cacheTime: 200000, // 200 seconds
+  });
+
+  const handleLogin = (event: SyntheticEvent) => {
     event.preventDefault();
     if (username === 'admin' && password === 'password') {
       setIsLoggedIn(true);
@@ -24,12 +37,17 @@ function App() {
     setLoginStatus(false);
   };
 
+  const toggleTheme = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark');
+  };
+
   return (
-    <div className="App">
+    <div className={`App ${theme}`}>
       <header className="App-header">
         {isLoggedIn === true ? (
           <h2>
-            Welcome, {username}! <button onClick={handleLogout}>Logout</button>
+            Welcome, {username}!{' '}
+            <button onClick={handleLogout}>Logout</button>
           </h2>
         ) : (
           loginStatus === false && (
@@ -50,9 +68,25 @@ function App() {
             </form>
           )
         )}
+        <>
+          <button onClick={toggleTheme}> Toggle Theme </button>
+        </>
       </header>
+      <p>
+        posts is <strong>still</strong> loading :{' '}
+        {isLoading ? 'Yup' : 'Nope'}
+      </p>
+      <p>{error}</p>
+      <button onClick={refetch}>REFETCH posts</button>
+      {data && <p> data {JSON.stringify(data)}</p>}
     </div>
   );
 }
 
-export default App;
+export default () => {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <App />
+    </QueryClientProvider>
+  );
+};

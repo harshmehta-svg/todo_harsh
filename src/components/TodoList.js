@@ -1,33 +1,78 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useQuery, useQueryClient, QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
 
 const TodoList = () => {
-  const [todos, setTodos] = React.useState([]);
-  const [newTodo, setNewTodo] = React.useState('');
-  const [darkMode, setDarkMode] = React.useState(localStorage.getItem('darkMode') === 'true');
+  const [todos, setTodos] = useState([])
+  const [newTodo, setNewTodo] = useState('')
+  const [darkMode, setDarkMode] = useState(localStorage.getItem('darkMode') === 'true')
+
+  const { data, error, isLoading } = useQuery(['posts'], async () => {
+    const response = await fetch('/api/posts')
+    return response.json()
+  },
+  {
+    staleTime: 1000 * 60,  // 1 minute
+    cacheTime: 0,
+    refetchOnWindowFocus: false,
+  }
+  )
 
   const handleModeSwitch = () => {
-    setDarkMode(!darkMode);
-    localStorage.setItem('darkMode', !darkMode);
+    setDarkMode(!darkMode)
+    localStorage.setItem('darkMode', !darkMode)
   };
 
-  const handleAddTodo = () => {
-    setTodos([...todos, { id: Math.random().toString(36).substring(2, 15), text: newTodo, completed: false }]);
-    setNewTodo('');
+  const handleAddTodo = async () => {
+    const postData = await fetch('/api/posts', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ text: newTodo, completed: false }),
+    })
+    const newTodoData = await postData.json()
+    if(newTodoData.success) {
+      setTodos([...todos, { id: newTodoData.data.id, text: newTodo, completed: false }])
+      setNewTodo('')
+      await queryClient.invalidateQueries(['posts'])
+    } else {
+      alert(newTodoData.error)
+    }
   };
 
   const handleDeleteTodo = (id) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
+    setTodos(todos.filter((todo) => todo.id !== id))
+    queryClient.deleteQuery(['posts', id])
   };
 
-  const handleCompleteTodo = (id) => {
-    setTodos(
-      todos.map((todo) => (todo.id === id ? { ...todo, completed: !todo.completed } : todo))
-    );
+  const handleCompleteTodo = async (id) => {
+    const putData = await fetch(`/api/posts/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ completed: !todos.find((todo) => todo.id === id).completed })
+    })
+    const newTodoData = await putData.json()
+    if(newTodoData.success) {
+      setTodos(
+        todos.map((todo) =>
+          (todo.id === id ? { ...todo, completed: newTodoData.data.completed } : todo)
+        )
+      )
+      await queryClient.invalidateQueries(['posts'])
+    } else {
+      alert(newTodoData.error)
+    }
   };
 
   const handleUndoCompleteTodo = (id) => {
     setTodos(
-      todos.map((todo) => (todo.id === id ? { ...todo, completed: false } : todo))
+      todos.map((todo) =>
+        (todo.id === id ? { ...todo, completed: false } : todo)
+      )
     );
   };
 
@@ -50,7 +95,7 @@ const TodoList = () => {
         Add Todo
       </button>
       <ul>
-        {todos.map((todo) => (
+        {data ? data.map((todo) => (
           <li key={todo.id}>
             <input type="checkbox" checked={todo.completed} onChange={() => handleCompleteTodo(todo.id)} />
             <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>{todo.text}</span>
@@ -65,7 +110,7 @@ const TodoList = () => {
               Undo
             </button>
           </li>
-        ))}
+        )) : 'Loading...'}
       </ul>
     </div>
   );
