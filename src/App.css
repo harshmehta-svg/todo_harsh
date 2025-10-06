@@ -1,4 +1,3 @@
-// New file
 /* global document */
 
 .login-card {
@@ -37,4 +36,36 @@
 
 .login-card button[type="submit"]:hover {
   background-color: #3e8e41;
+}
+
+ typing-animation {
+  position: relative;
+}
+
+.typing-animation .cursor {
+  position: absolute;
+  width: 2px;
+  height: 100%;
+  background-color: #000;
+  animation: blink 0.8s infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.typing-animation span {
+  animation: type 5s steps(40);
+}
+
+@keyframes type {
+  0% {
+    width: 0;
+  }
+}
+
+.typing-animation .text {
+  white-space: nowrap;
 }

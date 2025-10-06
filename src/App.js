@@ -1,13 +1,40 @@
 // @flow
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import TextStreamComponent from './TextStreamComponent'; // new import
 
 function App() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginStatus, setLoginStatus] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const [aiText, setAiText] = useState(''); // new state
+  const [loading, setLoading] = useState(false); // new state
+
+  useEffect(() => {
+    setLoading(true);
+    const timer = setTimeout(() => { // simulate streaming
+      setLoading(false);
+      setAiText('T'); // T
+      setTimeout(() => {
+        setAiText('He'); // He
+        setTimeout(() => {
+          setAiText('ll'); // ll
+          setTimeout(() => {
+            setAiText('o'); // o
+            setTimeout(() => {
+              setAiText('!'); // !
+              setTimeout(() => {
+                setAiText(''); // reset
+              }, 1000);
+            }, 1000);
+          }, 1000);
+        }, 1000);
+      }, 1000);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleLogin = (event:SyntheticEvent) => {
     event.preventDefault();
@@ -51,6 +78,9 @@ function App() {
           )
         )}
       </header>
+      <div className="App-body">
+        <TextStreamComponent text={aiText} loading={loading} /> {/* render TextStreamComponent */}
+      </div>
     </div>
   );
 }

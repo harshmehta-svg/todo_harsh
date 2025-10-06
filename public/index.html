@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo App</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <div id="root"></div>
+  <script src="index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react@17.0.2/umd/react.development.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@17.0.2/umd/react-dom.development.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.16.0/babel.min.js"></script>
+</body>
+</html>
+
+<script type="text/babel">
+import React from 'react';
+import ReactDOM from 'react-dom';
+import TextStreamComponent from './components/text-stream-component';
+
+class App extends React.Component {
+  render() {
+    return (
+      <div>
+        <h1>Streaming Text Response Component</h1>
+        <TextStreamComponent />
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(<App />, document.getElementById('root'));
+</script>
