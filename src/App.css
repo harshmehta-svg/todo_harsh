@@ -1,4 +1,3 @@
-// New file
 /* global document */
 
 .login-card {
@@ -36,5 +35,66 @@
 }
 
 .login-card button[type="submit"]:hover {
+  background-color: #3e8e41;
+}
+
+.conversation-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.conversation-thread {
+  background-color: #f7f7f7;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px;
+  width: calc(33.33% - 20px);
+  height: 200px;
+  overflow-y: auto;
+}
+
+.conversation-thread-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.conversation-thread-header h2 {
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+.conversation-thread-message {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.conversation-thread-message .message-text {
+  font-size: 14px;
+  font-weight: normal;
+  color: #333;
+}
+
+.conversation-thread-button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.conversation-thread-button:hover {
   background-color: #3e8e41;
 }
