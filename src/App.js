@@ -1,7 +1,6 @@
-// @flow
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import ChatInterface from './ChatInterface'; // new import
 
 function App() {
   const [username, setUsername] = useState('');
@@ -9,7 +8,7 @@ function App() {
   const [loginStatus, setLoginStatus] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
 
-  const handleLogin = (event:SyntheticEvent) => {
+  const handleLogin = (event: SyntheticEvent) => {
     event.preventDefault();
     if (username === 'admin' && password === 'password') {
       setIsLoggedIn(true);
@@ -29,7 +28,8 @@ function App() {
       <header className="App-header">
         {isLoggedIn === true ? (
           <h2>
-            Welcome, {username}! <button onClick={handleLogout}>Logout</button>
+            Welcome, {username}!{' '}
+            <button onClick={handleLogout}>Logout</button>
           </h2>
         ) : (
           loginStatus === false && (
@@ -51,6 +51,14 @@ function App() {
           )
         )}
       </header>
+      <div className="App-content">
+        {isLoggedIn === true && (
+          <React.Fragment>
+            <h2>Chat Interface</h2>
+            <ChatInterface />
+          </React.Fragment>
+        )}
+      </div>
     </div>
   );
 }
