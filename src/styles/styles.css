@@ -1,5 +1,3 @@
-// src/styles/styles.css
-
 /* Global Styles */
 
 body {
@@ -111,6 +109,62 @@ body.dark-mode {
 .body.dark-mode {
   background-color: #333;
 }
+
+/* NotificationBell CSS Styles */
+
+.notification-bell {
+  position: relative;
+  cursor: pointer;
+}
+
+.notification-bell-badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: red;
+  color: white;
+  padding: 2px 5px;
+  border-radius: 50%;
+}
+
+ notification-dropdown {
+    position: absolute;
+    right: 0;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .notification-dropdown li {
+    padding: 10px;
+    border-bottom: 1px solid #cccccc;
+  }
+
+  .notification-dropdown li:hover {
+    background-color: #f0f0f0;
+  }
+
+  .notification-dropdown li:last-child {
+    border-bottom: none;
+  }
+
+  .mark-all-as-read-button {
+    position: absolute;
+    bottom: -30px;
+    right: -30px;
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .mark-all-as-read-button:hover {
+    background-color: #3e8e41;
+  }
 
 /* Utility Classes */
 
