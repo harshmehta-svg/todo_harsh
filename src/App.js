@@ -1,13 +1,20 @@
 // @flow
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import { useProviderQuery } from './AuthProvider';
+import { createAnalytics } from './useAnalytics';
+import analyticsConfig from './analyticsConfig';
 
 function App() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginStatus, setLoginStatus] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
+
+  const authData = useProviderQuery();
+
+  const analytics = createAnalytics(analyticsConfig, authData);
 
   const handleLogin = (event:SyntheticEvent) => {
     event.preventDefault();
@@ -23,6 +30,10 @@ function App() {
     setIsLoggedIn(false);
     setLoginStatus(false);
   };
+
+  useEffect(() => {
+    analytics.sendEvent('LOGIN_SUBMITED');
+  }, []);
 
   return (
     <div className="App">
