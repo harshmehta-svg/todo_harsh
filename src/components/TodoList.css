@@ -1,0 +1,72 @@
+// src/components/TodoList.css
+
+/* 
+ * Todo List Styles
+ */
+
+.todo-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.todo-table th {
+  border: 1px solid #ddd; /* changed from #ccc to #ddd for dark mode */
+  padding: 10px;
+  text-align: left;
+}
+
+.todo-table th:first-child {
+  width: 50px;
+}
+
+.todo-table th:nth-child(2) {
+  width: 70%;
+}
+
+.todo-table td {
+  border: 1px solid #444; /* changed from #ddd to #444 for dark mode */
+  padding: 10px;
+}
+
+.todo-table td button {
+  background-color: #64ff00; /* changed from #4CAF50 to #64ff00 for dark mode */
+  color: black;
+  padding: 5px 6px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.todo-table td button:hover {
+  background-color: #3e8e41; /* changed from #3e8e41 to match the original background color of the button */
+}
+
+.completed {
+  text-decoration-color: #aaa; /* changed to maintain contrast with dark mode */
+  text-decoration: line-through;
+}
+
+body.dark .todo-table th,
+body.dark .todo-table td {
+  background-color: #333; /* added to handle dark mode */
+  color: #ccc; /* changed to handle dark mode */
+}
+
+body.dark .todo-table th {
+  border-color: #444; /* added to handle dark mode */
+}
+
+body.dark .todo-table td button {
+  background-color: #64ff00; /* changed to maintain contrast with dark mode */
+  color: black;
+}
+
+body.dark .todo-table td button:hover {
+  background-color: #3e8e41; /* changed to maintain contrast with dark mode */
+}
+
+body, html {
+  scroll-behavior: smooth;
+}
+
+/* End Todo List Styles */
