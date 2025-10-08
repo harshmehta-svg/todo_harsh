@@ -7,7 +7,8 @@
     "start": "live-server",
     "build": "tsc --outDir build",
     "test": "jest",
-    "clean": "rm -rf build && touch build"
+    "clean": "rm -rf build && touch build",
+    "remove-duplicates": "glob \"*.js\" && glob \"*.css\" && glob \"*.html\" && rm -rf styles.css && rm -rf index.html && rm -rf index.css && rm -rf app.js"
   },
   "keywords": [],
   "author": "",
@@ -36,3 +37,88 @@
     "remove-duplicates": "glob \"*.js\" && glob \"*.css\" && glob \"*.html\" && rm -rf styles.css && rm -rf index.html && rm -rf index.css && rm -rf app.js"
   }
 }
+
+# Todo App
+
+## Table of Contents
+- [Overview](#overview)
+- [Technology Stack](#technology-stack)
+- [Project Structure](#project-structure)
+- [Features](#features)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Usage](#usage)
+- [API Documentation](#api-documentation)
+- [Key Components](#key-components)
+- [Testing](#testing)
+- [Deployment](#deployment)
+- [Contributing](#contributing)
+- [License](#license)
+- [Features and Updates](#features-and-updates)
+
+## Overview
+This repository contains a Todo List application that allows users to manage their daily tasks. The project appears to have two distinct implementations: a simple, functional vanilla JavaScript version in the root directory and a more complex React-based version within the `src` directory.
+
+The core functionality includes adding new tasks, marking them as complete, undoing completion, and deleting them. All task data is persisted in the browser's local storage, ensuring that the user's list is saved across sessions. The application also now features a dark mode option.
+
+## Technology Stack
+  - JavaScript
+  - React
+  - TypeScript
+  - Jest
+  - Live-server
+
+## Project Structure
+The project is structured in the following folders:
+
+  - `src`: contains the React-based implementation of the Todo List application
+  - `root`: contains the simple, functional vanilla JavaScript version of the Todo List application
+
+## Features
+  - Add new tasks
+  - Mark tasks as complete
+  - Undo completion of tasks
+  - Delete tasks
+  - Dark mode option
+
+## Prerequisites
+  - Node.js installed on your machine
+  - Familiarity with React and JavaScript
+
+## Installation
+  1. Clone the repository to your local machine
+  2. Run `npm install` to install the required dependencies
+  3. Run `npm start` to start the application
+
+## Configuration
+  - No configuration is required
+
+## Usage
+  1. Open `http://localhost:8080` in your browser
+  2. Follow the prompts to add, mark complete, undo completion, and delete tasks
+  3. Toggle the dark mode option at the top right corner of the application
+
+## API Documentation
+To be added
+
+## Key Components
+  - Todo List component
+  - Dark Mode component
+  - Task List component
+
+## Testing
+Testing is done using Jest. Run `npm test` to run the tests
+
+## Deployment
+To be added
+
+## Contributing
+Contributions are welcome. Please follow the standard guidelines for contributing to open-source projects
+
+## License
+MIT License
+
+## Features and Updates
+  - Version 1.0.0: Initial release
+  - Version 1.1.0: Added dark mode feature

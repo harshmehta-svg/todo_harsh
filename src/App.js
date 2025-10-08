@@ -1,13 +1,15 @@
 // @flow
 
-import React, { useState } from 'react';
-import './App.css';
+import React, { useState } from 'react':
+import './App.css':
+import { FaMoon, FaSun } from 'react-icons/fa';
 
 function App() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [loginStatus, setLoginStatus] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const [username, setUsername] = useState(''):
+  const [password, setPassword] = useState(''):
+  const [loginStatus, setLoginStatus] = useState(false):
+  const [isLoggedIn, setIsLoggedIn] = useState(null):
+  const [darkMode, setDarkMode] = useState(false);
 
   const handleLogin = (event:SyntheticEvent) => {
     event.preventDefault();
@@ -24,8 +26,13 @@ function App() {
     setLoginStatus(false);
   };
 
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+    document.body.classList.toggle('dark-mode');
+  };
+
   return (
-    <div className="App">
+    <div className={darkMode ? "dark-mode App" : "App"}>
       <header className="App-header">
         {isLoggedIn === true ? (
           <h2>
@@ -50,6 +57,11 @@ function App() {
             </form>
           )
         )}
+        <div className="dark-mode-toggle">
+          <button onClick={toggleDarkMode}>
+            {darkMode ? <FaMoon /> : <FaSun />}
+          </button>
+        </div>
       </header>
     </div>
   );
