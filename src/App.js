@@ -8,6 +8,7 @@ function App() {
   const [password, setPassword] = useState('');
   const [loginStatus, setLoginStatus] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const handleLogin = (event:SyntheticEvent) => {
     event.preventDefault();
@@ -24,8 +25,12 @@ function App() {
     setLoginStatus(false);
   };
 
+  const handleDarkModeToggle = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
   return (
-    <div className="App">
+    <div className={`App ${isDarkMode ? 'App-dark' : ''}`}>
       <header className="App-header">
         {isLoggedIn === true ? (
           <h2>
@@ -50,6 +55,9 @@ function App() {
             </form>
           )
         )}
+        <button onClick={handleDarkModeToggle}>
+          {isDarkMode ? 'Light Mode' : 'Dark Mode'}
+        </button>
       </header>
     </div>
   );

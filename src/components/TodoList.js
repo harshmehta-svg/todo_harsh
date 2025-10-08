@@ -1,4 +1,5 @@
 import React from 'react';
+import './TodoList.css';
 
 const TodoList = () => {
   const [todos, setTodos] = React.useState([]);
@@ -34,7 +35,10 @@ const TodoList = () => {
   return (
     <div
       className={`todo-list ${darkMode ? 'dark-mode' : ''}`}
-      style={{ background: darkMode ? '#333' : '#f0f0f0', color: darkMode ? '#fff' : '#333' }}
+      style={{
+        backgroundColor: darkMode ? '#333' : '#f0f0f0',
+        color: darkMode ? '#fff' : '#333',
+      }}
     >
       <h2>Todo List</h2>
       <button className="mode-switch" onClick={handleModeSwitch}>
@@ -52,8 +56,18 @@ const TodoList = () => {
       <ul>
         {todos.map((todo) => (
           <li key={todo.id}>
-            <input type="checkbox" checked={todo.completed} onChange={() => handleCompleteTodo(todo.id)} />
-            <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>{todo.text}</span>
+            <input
+              type="checkbox"
+              checked={todo.completed}
+              onChange={() => handleCompleteTodo(todo.id)}
+            />
+            <span
+              style={{
+                textDecoration: todo.completed ? 'line-through' : 'none',
+              }}
+            >
+              {todo.text}
+            </span>
             <button className="delete-todo" onClick={() => handleDeleteTodo(todo.id)}>
               Delete
             </button>
