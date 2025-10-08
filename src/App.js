@@ -1,6 +1,7 @@
 // @flow
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './App.css';
 
 function App() {
@@ -8,6 +9,7 @@ function App() {
   const [password, setPassword] = useState('');
   const [loginStatus, setLoginStatus] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const [userDetails, setUserDetails] = useState({});
 
   const handleLogin = (event:SyntheticEvent) => {
     event.preventDefault();
@@ -23,6 +25,30 @@ function App() {
     setIsLoggedIn(false);
     setLoginStatus(false);
   };
+
+  const fetchUserDetails = async () => {
+    try {
+      const response = await axios.get('/api/me');
+      setUserDetails(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleSubmit = (event:SyntheticEvent) => {
+    event.preventDefault();
+    axios.put('/api/me', userDetails)
+      .then(() => {
+        console.log('User details updated successfully');
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  useEffect(() => {
+    fetchUserDetails();
+  }, []);
 
   return (
     <div className="App">
@@ -51,6 +77,27 @@ function App() {
           )
         )}
       </header>
+      {isLoggedIn === true && (
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="Enter name"
+            value={userDetails.name || ''}
+            onChange={(event) => {
+              setUserDetails({ ...userDetails, name: event.target.value });
+            }}
+          />
+          <input
+            type="email"
+            placeholder="Enter email"
+            value={userDetails.email || ''}
+            onChange={(event) => {
+              setUserDetails({ ...userDetails, email: event.target.value });
+            }}
+          />
+          <button type="submit">Save Changes</button>
+        </form>
+      )}
     </div>
   );
 }
