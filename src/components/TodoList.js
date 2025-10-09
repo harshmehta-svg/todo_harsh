@@ -1,34 +1,79 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 const TodoList = () => {
-  const [todos, setTodos] = React.useState([]);
-  const [newTodo, setNewTodo] = React.useState('');
-  const [darkMode, setDarkMode] = React.useState(localStorage.getItem('darkMode') === 'true');
+  const [todos, setTodos] = useState(() => {
+    const storedTodos = localStorage.getItem('todos');
+    return storedTodos ? JSON.parse(storedTodos) : [];
+  });
+  const [newTodo, setNewTodo] = useState('');
+  const [darkMode, setDarkMode] = useState(
+    localStorage.getItem('darkMode') === 'true'
+  );
+
+  useEffect(() => {
+    localStorage.setItem('todos', JSON.stringify(todos));
+  }, [todos]);
+
+  useEffect(() => {
+    localStorage.setItem('darkMode', darkMode);
+  }, [darkMode]);
+
+  useEffect(() => {
+    const storedTodos = localStorage.getItem('todos');
+    if (storedTodos) {
+      const parsedTodos = JSON.parse(storedTodos);
+      const updatedTodos = parsedTodos.map((todo) => ({ ...todo }));
+      setTodos(updatedTodos);
+    }
+  }, []);
 
   const handleModeSwitch = () => {
     setDarkMode(!darkMode);
-    localStorage.setItem('darkMode', !darkMode);
   };
 
   const handleAddTodo = () => {
-    setTodos([...todos, { id: Math.random().toString(36).substring(2, 15), text: newTodo, completed: false }]);
+    const newTodoObject = {
+      id: Math.random().toString(36).substring(2, 15),
+      text: newTodo,
+      completed: false,
+    };
+    setTodos([...todos, newTodoObject]);
     setNewTodo('');
   };
 
   const handleDeleteTodo = (id) => {
     setTodos(todos.filter((todo) => todo.id !== id));
+    localStorage.setItem('todos', JSON.stringify(todos));
   };
 
   const handleCompleteTodo = (id) => {
-    setTodos(
-      todos.map((todo) => (todo.id === id ? { ...todo, completed: !todo.completed } : todo))
-    );
+    const updatedTodos = todos.map((todo) => {
+      if (todo.id === id) {
+        return { ...todo, completed: !todo.completed };
+      }
+      return todo;
+    });
+    setTodos(updatedTodos);
+  };
+
+  const handleEditTodo = (id, text) => {
+    const updatedTodos = todos.map((todo) => {
+      if (todo.id === id) {
+        return { ...todo, text };
+      }
+      return todo;
+    });
+    setTodos(updatedTodos);
   };
 
   const handleUndoCompleteTodo = (id) => {
-    setTodos(
-      todos.map((todo) => (todo.id === id ? { ...todo, completed: false } : todo))
-    );
+    const updatedTodos = todos.map((todo) => {
+      if (todo.id === id) {
+        return { ...todo, completed: false };
+      }
+      return todo;
+    });
+    setTodos(updatedTodos);
   };
 
   return (
@@ -53,7 +98,12 @@ const TodoList = () => {
         {todos.map((todo) => (
           <li key={todo.id}>
             <input type="checkbox" checked={todo.completed} onChange={() => handleCompleteTodo(todo.id)} />
-            <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>{todo.text}</span>
+            <input
+              type="text"
+              value={todo.text}
+              onChange={(e) => handleEditTodo(todo.id, e.target.value)}
+              style={{ width: '100%' }}
+            />
             <button className="delete-todo" onClick={() => handleDeleteTodo(todo.id)}>
               Delete
             </button>
