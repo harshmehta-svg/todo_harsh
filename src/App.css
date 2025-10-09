@@ -1,4 +1,3 @@
-// New file
 /* global document */
 
 .login-card {
@@ -16,13 +15,52 @@
   margin-bottom: 10px;
 }
 
-.login-card input[type="text"], .login-card input[type="password"] {
-  width: 100%;
-  padding: 10px;
+.search-input-container {
+  position: relative;
+  height: 50px;
   margin-bottom: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: all 0.3s;
+}
+
+.search-input:focus {
+  outline: none;
+  box-shadow: 0 0 10px rgba(0, 140, 160, 0.5);
+}
+
+.suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: none;
+}
+
+.suggestions li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.suggestions li:hover {
+  background-color: #f0f0f0;
+}
+
+.suggestions.show {
+  display: block;
 }
 
 .login-card button[type="submit"] {

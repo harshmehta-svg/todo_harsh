@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import './App.css';
 
+import SearchInput from './SearchInput'; // Import the SearchInput component
+
 function App() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -23,6 +25,16 @@ function App() {
     setIsLoggedIn(false);
     setLoginStatus(false);
   };
+
+  const handleSearch = (query: string) => { // Handle search events
+    console.log(`Searching for: ${query}`);
+    // Make API call to /api/search with the query
+    // For demo purposes, simulate the API call
+    fetch('/api/search?q=' + query
+      .then(response => response.json())
+      .then(data => console.log(data))
+    );
+  }
 
   return (
     <div className="App">
@@ -51,6 +63,7 @@ function App() {
           )
         )}
       </header>
+      <SearchInput onSearch={handleSearch} /> // Render the SearchInput component
     </div>
   );
 }
