@@ -1,13 +1,51 @@
 // @flow
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './App.css';
 
+// Custom hook to handle HTTP requests with caching
+function useFetch(url) {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [cache, setCache] = useState({});
+
+  useEffect(() => {
+    // Check if the data is cached
+    if (cache[url]) {
+      setData(cache[url].data);
+      setError(cache[url].error);
+      setLoading(false);
+    } else {
+      setLoading(true);
+      setError(null);
+      axios.get(url)
+        .then((response) => {
+          setData(response.data);
+          setCache((prevCache) => ({ ...prevCache, [url]: { data: response.data, error: null } }));
+          setLoading(false);
+        })
+        .catch((error) => {
+          setError(error.message);
+          setCache((prevCache) => ({ ...prevCache, [url]: { data: null, error: error.message } }));
+          setLoading(false);
+        });
+    }
+  }, [url]);
+
+  return [data, loading, error];
+}
+
 function App() {
+  // Authentication state
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginStatus, setLoginStatus] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
+
+  // Use the useFetch hook to fetch data from the API
+  const [ userData, loading, error ] = useFetch('https://jsonplaceholder.typicode.com/users');
+  const [posts, loadingPosts, errorPosts ] = useFetch('https://jsonplaceholder.typicode.com/posts');
 
   const handleLogin = (event:SyntheticEvent) => {
     event.preventDefault();
@@ -29,7 +67,19 @@ function App() {
       <header className="App-header">
         {isLoggedIn === true ? (
           <h2>
-            Welcome, {username}! <button onClick={handleLogout}>Logout</button>
+            Welcome, users! <button onClick={handleLogout}>Logout</button>
+            <ul>
+            {loading ?
+                  'Loading...':
+                  userData.map((user, index) => <li key={index}>{user.name}</li>)
+            }
+              </ul>
+              <ul>
+            {loadingPosts ?
+                  'Loading...':
+                  posts.map((post, index) => <li key={index}>{post.title}</li>)
+            }
+              </ul>
           </h2>
         ) : (
           loginStatus === false && (
