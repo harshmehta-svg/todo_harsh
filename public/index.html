@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo App</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.css">
+</head>
+<body>
+  <div class="grid grid-cols-1 h-screen">
+    <header class="bg-gray-800 text-white py-4 shadow-sm">
+      <nav>
+        <h1 class="text-lg font-bold">Todo App</h1>
+        <ul class="flex justify-end">
+          <li class="mr-4">
+            <a href="#" class="hover:text-gray-200">About</a>
+          </li>
+          <li class="mr-4">
+            <a href="#" class="hover:text-gray-200">FAQ</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <div class="flex flex-col h-screen relative">
+      <div class="w-60 absolute top-0 left-0 bg-gray-800 shadow-sm">
+        <ul class="h-screen overflow-y-scroll">
+          <li class="p-4 bg-gray-800 hover:bg-gray-700">
+            <a href="#" class="text-white hover:text-white">Dashboard</a>
+          </li>
+          <li class="p-4 bg-gray-800 hover:bg-gray-700">
+            <a href="#" class="text-white hover:text-white">Profile</a>
+          </li>
+          <li class="p-4 bg-gray-800 hover:bg-gray-700">
+            <a href="#" class="text-white hover:text-white">Settings</a>
+          </li>
+        </ul>
+      </div>
+      <main class="w-full p-4">
+        <div class="bg-white p-4 shadow-sm rounded-sm">
+          <h2 class="text-lg font-bold mb-4">New Todo List</h2>
+          <input type="text" class="w-full p-4 mb-4 border border-gray-300 rounded-sm" placeholder="Enter a new todo item">
+          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add</button>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="/static/js/bundle.js"></script>
+</body>
+</html>
