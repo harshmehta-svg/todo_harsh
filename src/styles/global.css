@@ -1,0 +1,51 @@
+/* global.scss */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-gray-100 font-sans text-gray-600;
+}
+
+/* Layout classes */
+.container {
+  @apply max-w-7xl mx-auto p-4;
+}
+
+/* Button classes */
+.button {
+  @apply px-4 py-2 rounded-md text-sm font-medium;
+  @apply bg-blue-500 hover:bg-blue-700;
+  @apply text-white hover:text-white;
+}
+
+.dropdown {
+  @apply w-full relative;
+}
+
+.dropdown-icon {
+  @apply absolute top-1/2 transform -translate-y-1/2 text-sm text-gray-500;
+}
+
+/* Link classes */
+.link {
+  @apply text-blue-600 hover:text-blue-900;
+}
+
+.link:hover {
+  @apply underline;
+}
+
+/* Table classes */
+.table {
+  @apply w-full text-sm;
+}
+
+.table thead th {
+  @apply px-6 py-3 text-left text-gray-500;
+}
+
+.table tbody td {
+  @apply px-6 py-3 border-b;
+}
