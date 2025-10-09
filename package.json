@@ -21,9 +21,12 @@
     "@types/jest": "^28.1.6",
     "@types/jquery": "^3.6.2",
     "@types/live-server": "^1.2.7",
+    "ai-api-client": "^1.0.0", // Add AI API client dependency
     "jest": "^28.1.3",
     "live-server": "^1.2.1",
-    "glob": "^7.2.7" // Added glob dependency to remove unnecessary files
+    "glob": "^7.2.7", // Added glob dependency to remove unnecessary files
+    "prismjs": "^1.28.0", // Add Prism.js dependency
+    "prism-themes": "^1.12.0"
   },
   "repository": {
     "type": "git",

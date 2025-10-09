@@ -1,6 +1,9 @@
 // @flow
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Prism from 'prismjs';
+import 'prismjs/themes/prism.css';
+import CodeAssistant from './CodeAssistant';
 import './App.css';
 
 function App() {
@@ -8,8 +11,9 @@ function App() {
   const [password, setPassword] = useState('');
   const [loginStatus, setLoginStatus] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const [code, setCode] = useState('');
 
-  const handleLogin = (event:SyntheticEvent) => {
+  const handleLogin = (event: SyntheticEvent) => {
     event.preventDefault();
     if (username === 'admin' && password === 'password') {
       setIsLoggedIn(true);
@@ -24,12 +28,24 @@ function App() {
     setLoginStatus(false);
   };
 
+  useEffect(() => {
+    Prism.highlightAll();
+  }, [code]);
+
+  const handleCodeSubmission = (code: string) => {
+    setCode(code);
+    // Send the code to the AI API
+    // For demonstration purposes, we will just log it to the console
+    console.log(`Generated code: ${code}`);
+  };
+
   return (
     <div className="App">
       <header className="App-header">
         {isLoggedIn === true ? (
           <h2>
-            Welcome, {username}! <button onClick={handleLogout}>Logout</button>
+            Welcome, {username}!{' '}
+            <button onClick={handleLogout}>Logout</button>
           </h2>
         ) : (
           loginStatus === false && (
@@ -50,6 +66,11 @@ function App() {
             </form>
           )
         )}
+        <CodeAssistant
+          onCodeSubmission={handleCodeSubmission}
+          username={username}
+          isLoggedIn={isLoggedIn}
+        />
       </header>
     </div>
   );
