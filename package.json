@@ -7,7 +7,8 @@
     "start": "live-server",
     "build": "tsc --outDir build",
     "test": "jest",
-    "clean": "rm -rf build && touch build"
+    "clean": "rm -rf build && touch build",
+    "add-storage-dependency": "npm install --save localStorage-polyfill"
   },
   "keywords": [],
   "author": "",
@@ -15,7 +16,8 @@
   "dependencies": {
     "@types/node": "^16.11.3",
     "bcrypt": "^5.2.1",
-    "typescript": "^4.7.4"
+    "typescript": "^4.7.4",
+    "localStorage-polyfill": "^3.2.1" // Added localStorage dependency
   },
   "devDependencies": {
     "@types/jest": "^28.1.6",
