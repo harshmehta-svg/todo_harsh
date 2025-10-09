@@ -7,7 +7,8 @@
     "start": "live-server",
     "build": "tsc --outDir build",
     "test": "jest",
-    "clean": "rm -rf build && touch build"
+    "clean": "rm -rf build && touch build",
+    "chatbot": "npm run start-chatbot"
   },
   "keywords": [],
   "author": "",
@@ -15,15 +16,20 @@
   "dependencies": {
     "@types/node": "^16.11.3",
     "bcrypt": "^5.2.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "^5.0.1",
     "typescript": "^4.7.4"
   },
   "devDependencies": {
     "@types/jest": "^28.1.6",
     "@types/jquery": "^3.6.2",
     "@types/live-server": "^1.2.7",
+    "@types/openai": "^1.4.0",
+    "glob": "^7.2.7", // Added glob dependency to remove unnecessary files
     "jest": "^28.1.3",
     "live-server": "^1.2.1",
-    "glob": "^7.2.7" // Added glob dependency to remove unnecessary files
+    "openai": "^1.55.2" // Add OpenAI dependency
   },
   "repository": {
     "type": "git",
@@ -33,6 +39,7 @@
     "url": ""
   },
   "scripts": {
-    "remove-duplicates": "glob \"*.js\" && glob \"*.css\" && glob \"*.html\" && rm -rf styles.css && rm -rf index.html && rm -rf index.css && rm -rf app.js"
+    "remove-duplicates": "glob \"*.js\" && glob \"*.css\" && glob \"*.html\" && rm -rf styles.css && rm -rf index.html && rm -rf index.css && rm -rf app.js",
+    "start-chatbot": "tsc && webpack serve chatbot.js --mode development" // Added chatbot script
   }
 }

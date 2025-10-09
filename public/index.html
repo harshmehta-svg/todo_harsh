@@ -1,0 +1,237 @@
+// public/index.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo App</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="root"></div>
+  <script src="https://cdn.jsdelivr.net/npm/openai@0.64.0/dist/openai.min.js"></script>
+  <script>
+    import React from 'react';
+    import ReactDOM from 'react-dom';
+    import ChatBot from './ChatBot';
+    import './styles.css';
+
+    // Vanilla JavaScript implementation (kept for historical purposes)
+    function vanillaTodoApp() {
+      const todoList = {
+        items: JSON.parse(localStorage.getItem('todoList')) || [],
+        add: (item) => {
+          todoList.items.push(item);
+          localStorage.setItem('todoList', JSON.stringify(todoList.items));
+          renderVanillaApp();
+        },
+        complete: (index) => {
+          todoList.items[index].completed = true;
+          localStorage.setItem('todoList', JSON.stringify(todoList.items));
+          renderVanillaApp();
+        },
+        undo: () => {
+          todoList.items.forEach((item, index) => {
+            todoList.items[index].completed = false;
+          });
+          localStorage.setItem('todoList', JSON.stringify(todoList.items));
+          renderVanillaApp();
+        },
+        delete: (index) => {
+          todoList.items.splice(index, 1);
+          localStorage.setItem('todoList', JSON.stringify(todoList.items));
+          renderVanillaApp();
+        }
+      };
+
+      function renderVanillaApp() {
+        const todoListHtml = todoList.items.map((item, index) => {
+          return `
+            <li
+              class="list-item"
+              id="${index}"
+              style="background-color: lightgray; color: black"
+            >
+              ${item.text} (${item.completed ? 'Completed' : 'Not completed'})
+              <button class="complete-button" onclick="todoList.complete(${index})">
+                Complete
+              </button>
+              <button class="undo-button" onclick="todoList.undo()">
+                Undo
+              </button>
+              <button class="delete-button" onclick="todoList.delete(${index})">
+                Delete
+              </button>
+            </li>
+          `;
+        }).join('');
+
+        const todoListElement = document.getElementById('todo-list');
+        todoListElement.innerHTML = todoListHtml;
+      }
+
+      renderVanillaApp();
+
+      const inputElement = document.getElementById('todo-input');
+      const addButton = document.getElementById('add-button');
+
+      addButton.addEventListener('click', () => {
+        const todoItem = inputElement.value.trim();
+        if (todoItem) {
+          todoList.add({ text: todoItem, completed: false });
+          inputElement.value = '';
+        }
+      });
+    }
+
+    // Call the vanilla JavaScript implementation
+    vanillaTodoApp();
+
+    // React implementation
+    class TodoListItem extends React.Component {
+      render() {
+        const { item, completeItem, deleteItem } = this.props;
+        return (
+          <li
+            class="list-item"
+            id={item.index}
+            style={`background-color: ${item.completed ? 'gray' : 'lightgray'}; color: ${item.completed ? 'white' : 'black'}`}
+          >
+            {item.text} ({item.completed ? 'Completed' : 'Not completed'})
+            <button class="complete-button" onClick={() => completeItem(item.index)}>
+              Complete
+            </button>
+            <button class="delete-button" onClick={() => deleteItem(item.index)}>
+              Delete
+            </button>
+          </li>
+        );
+      }
+    }
+
+    class TodoList extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {
+          items: JSON.parse(localStorage.getItem('todoList')) || [],
+          currentItem: ''
+        };
+      }
+
+      addTodoItem = () => {
+        const { items, currentItem } = this.state;
+        const newTodoItem = { text: currentItem, completed: false, index: items.length };
+        this.setState({
+          items: [...items, newTodoItem],
+          currentItem: ''
+        });
+        localStorage.setItem('todoList', JSON.stringify(items));
+        ReactDOM.render(<TodoApp />, document.getElementById('root'));
+      };
+
+      completeItem = (index) => {
+        const { items } = this.state;
+        items[index].completed = true;
+        this.setState({ items });
+        localStorage.setItem('todoList', JSON.stringify(items));
+        ReactDOM.render(<TodoApp />, document.getElementById('root'));
+      };
+
+      deleteItem = (index) => {
+        const { items } = this.state;
+        items.splice(index, 1);
+        this.setState({ items });
+        localStorage.setItem('todoList', JSON.stringify(items));
+        ReactDOM.render(<TodoApp />, document.getElementById('root'));
+      };
+
+      handleInputChange = (e) => {
+        this.setState({ currentItem: e.target.value });
+      };
+
+      render() {
+        const { items, currentItem } = this.state;
+        return (
+          <div class="todo-list-container">
+            <input
+              class="todo-input"
+              type="text"
+              value={currentItem}
+              onChange={this.handleInputChange}
+              placeholder="Add new Todo Item"
+            />
+            <button class="add-button" onClick={this.addTodoItem}>
+              Add
+            </button>
+            <ul class="todo-list" id="todo-list">
+              {items.map((item, index) => <TodoListItem item={item} key={index} completeItem={this.completeItem} deleteItem={this.deleteItem} />)}
+            </ul>
+          </div>
+        );
+      }
+    }
+
+    class TodoApp extends React.Component {
+      componentDidMount() {
+        // Initialize OpenAI API
+        OpenAI.init({
+          apiKey: 'YOUR_OPENAI_API_KEY',
+          organization: 'YOUR_OPENAI_ORGANIZATION',
+        });
+      }
+
+      handleUserMessage = (userMessage) => {
+        const prompt = `User: ${userMessage}\nAI: `;
+        OpenAI.createCompletion({
+          model: 'text-davinci-003',
+          prompt,
+          maxTokens: 200,
+        })
+        .then((response) => {
+          const aiResponse = response.data.output.text;
+          // Display the AI response in the ChatBot component
+          ReactDOM.render(<ChatBot userInput={userMessage} aiResponse={aiResponse} />, document.getElementById('root'));
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      };
+
+      render() {
+        return (
+          <div class="app-container">
+            <ChatBot />
+          </div>
+        );
+      }
+    }
+
+    ReactDOM.render(<TodoList />, document.getElementById('root'));
+
+    class ChatBot extends React.Component {
+      render() {
+        const { userInput, aiResponse } = this.props;
+        return (
+          <div class="chat-bot-container">
+            <div class="user-message-container" style="float: right;">
+              <p class="user-message">{userInput}</p>
+            </div>
+            <div class="ai-response-container" style="float: left;">
+              <p class="ai-response">{aiResponse}</p>
+            </div>
+            <div class="input-box-container" style="clear: both; padding: 10px;">
+              <input
+                class="input-box"
+                type="text"
+                placeholder="Ask a question or send a message"
+                onChange={(e) => this.handleUserMessage(e.target.value)}
+              />
+            </div>
+          </div>
+        );
+      }
+    }
+  </script>
+</body>
+</html>

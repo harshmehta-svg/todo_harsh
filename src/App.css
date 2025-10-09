@@ -1,32 +1,50 @@
-// New file
 /* global document */
 
-.login-card {
-  max-width: 350px;
-  margin: 0 auto;
+/* Styles for the ChatBot component */
+
+.chatbot-container {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.left-pane {
+  width: 40%;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-.login-card label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 10px;
+.right-pane {
+  width: 40%;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  margin-left: 20px;
 }
 
-.login-card input[type="text"], .login-card input[type="password"] {
+.input-box {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 80%;
+}
+
+.input-box input {
   width: 100%;
   padding: 10px;
-  margin-bottom: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-.login-card button[type="submit"] {
-  width: 100%;
+.input-box button[type="submit"] {
+  width: 100px;
   padding: 10px;
   background-color: #4CAF50;
   color: #fff;
@@ -35,6 +53,24 @@
   cursor: pointer;
 }
 
-.login-card button[type="submit"]:hover {
+.input-box button[type="submit"]:hover {
   background-color: #3e8e41;
+}
+
+.message-list {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.message-list .message {
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.message-list .message:last-child {
+  border-bottom: none;
 }
