@@ -2,12 +2,14 @@
   "name": "todo-app",
   "version": "1.0.0",
   "description": "A simple Todo List application built with front-end technologies.",
-  "main": "index.js", // Changed main field to a valid entry point (in this case, a JavaScript file)
+  "main": "index.js",
   "scripts": {
     "start": "live-server",
     "build": "tsc --outDir build",
     "test": "jest",
-    "clean": "rm -rf build && touch build"
+    "clean": "rm -rf build && touch build",
+    "remove-duplicates": "glob \"*.js\" && glob \"*.css\" && glob \"*.html\" && rm -rf styles.css && rm -rf index.html && rm -rf index.css && rm -rf app.js",
+    "setup-dev": "rimraf node_modules && npm install @types/node @types/react @types/react-dom typescript react react-dom && ngcc --properties es2020 react react-dom"
   },
   "keywords": [],
   "author": "",
@@ -15,15 +17,23 @@
   "dependencies": {
     "@types/node": "^16.11.3",
     "bcrypt": "^5.2.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "typescript": "^4.7.4"
   },
   "devDependencies": {
     "@types/jest": "^28.1.6",
     "@types/jquery": "^3.6.2",
     "@types/live-server": "^1.2.7",
+    "bcryptjs": "^2.4.0",
     "jest": "^28.1.3",
+    "jsonwebtoken": "^9.0.0",
     "live-server": "^1.2.1",
-    "glob": "^7.2.7" // Added glob dependency to remove unnecessary files
+    "glob": "^7.2.7",
+    "ngcc": "^11.0.0",
+    "react-router-dom": "^6.3.0",
+    "rimraf": "^3.0.2",
+    "typescript-styled-plugin": "^0.6.1"
   },
   "repository": {
     "type": "git",
@@ -33,6 +43,6 @@
     "url": ""
   },
   "scripts": {
-    "remove-duplicates": "glob \"*.js\" && glob \"*.css\" && glob \"*.html\" && rm -rf styles.css && rm -rf index.html && rm -rf index.css && rm -rf app.js"
+    "setup-admin": "npm install jsonwebtoken react-router-dom && npm install --save-dev @types/jsonwebtoken @types/react-router-dom"
   }
 }
