@@ -2,6 +2,10 @@
 
 import React, { useState } from 'react';
 import './App.css';
+import { Route, Switch, Redirect } from 'react-router-dom';
+import AdminRoute from './components/AdminRoute';
+import Dashboard from './components/Dashboard';
+import Login from './components/Login";
 
 function App() {
   const [username, setUsername] = useState('');
@@ -26,6 +30,11 @@ function App() {
 
   return (
     <div className="App">
+      <Switch>
+        <Route path="/login" component={Login} />
+        <AdminRoute path="/admin" component={Dashboard} />
+        <Redirect from="/" to="/login" />
+      </Switch>
       <header className="App-header">
         {isLoggedIn === true ? (
           <h2>
