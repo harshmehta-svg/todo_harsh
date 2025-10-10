@@ -94,5 +94,78 @@ todoInput.addEventListener('keypress', (e) => {
     }
 });
 
+// Check if user is admin before rendering /admin routes
+const adminRole = 'admin';
+if (localStorage.getItem('role') === adminRole) {
+    const adminList = document.getElementById('admin-list');
+    if (adminList) {
+        // Render admin todo
+        function renderAdminTodos() {
+            adminList.innerHTML = '';
+            const adminTodos = JSON.parse(localStorage.getItem('admin-todos')) || [];
+            adminTodos.forEach((todo, index) => {
+                const li = document.createElement('li');
+                li.className = 'todo-item';
+
+                const span = document.createElement('span');
+                span.className = 'todo-text';
+                span.textContent = todo.text;
+                if (todo.completed) {
+                    span.classList.add('completed');
+                }
+
+                const completeBtn = document.createElement('button');
+                completeBtn.className = 'complete-btn';
+                completeBtn.textContent = todo.completed ? 'Undo' : 'Complete';
+                completeBtn.onclick = () => toggleAdminComplete(index);
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'delete-btn';
+                deleteBtn.textContent = 'Delete';
+                deleteBtn.onclick = () => deleteAdminTodo(index);
+
+                li.appendChild(span);
+                li.appendChild(completeBtn);
+                li.appendChild(deleteBtn);
+                adminList.appendChild(li);
+            });
+        }
+
+        function addAdminTodo() {
+            const text = document.getElementById('admin-input').value.trim();
+            if (text) {
+                const adminTodos = JSON.parse(localStorage.getItem('admin-todos')) || [];
+                adminTodos.push({ text, completed: false });
+                localStorage.setItem('admin-todos', JSON.stringify(adminTodos));
+                document.getElementById('admin-input').value = '';
+                renderAdminTodos();
+            }
+        }
+
+        function toggleAdminComplete(index) {
+            const adminTodos = JSON.parse(localStorage.getItem('admin-todos')) || [];
+            adminTodos[index].completed = !adminTodos[index].completed;
+            localStorage.setItem('admin-todos', JSON.stringify(adminTodos));
+            renderAdminTodos();
+        }
+
+        function deleteAdminTodo(index) {
+            const adminTodos = JSON.parse(localStorage.getItem('admin-todos')) || [];
+            adminTodos.splice(index, 1);
+            localStorage.setItem('admin-todos', JSON.stringify(adminTodos));
+            renderAdminTodos();
+        }
+
+        document.getElementById('admin-btn').addEventListener('click', addAdminTodo);
+        document.getElementById('admin-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                addAdminTodo();
+            }
+        });
+
+        renderAdminTodos();
+    }
+}
+
 // Initial render
 renderTodos();

@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import './App.css';
+import { Link, withRouter } from 'react-router-dom'; // ADDED IMPORT
 
 function App() {
   const [username, setUsername] = useState('');
@@ -17,12 +18,17 @@ function App() {
     } else {
       alert('Invalid username or password');
     }
-  };
+ );
 
   const handleLogout = () => {
     setIsLoggedIn(false);
     setLoginStatus(false);
   };
+
+  const isUserAdmin = () => {
+    return isAdmin && isAdmin === true;
+  };
+  const isAdmin = true; // FOR DEMONSTRATION PURPOSES - PLEASE UPDATE WITH ACTUAL ADMIN CHECK
 
   return (
     <div className="App">
@@ -51,7 +57,44 @@ function App() {
           )
         )}
       </header>
+      <nav>
+        <ul>
+          {isUserAdmin() ? (
+            <li>
+              <Link to="/admin/dashboard">Admin Dashboard</Link>
+            </li>
+          ) : null}
+          {isUserAdmin() ? (
+            <li>
+              <Link to="/admin/settings">Admin Settings</Link>
+            </li>
+          ) : null}
+        </ul>
+      </nav>
+      {isLoggedIn === true && isUserAdmin() && <Route path="/admin/dashboard" render={() => <h1>Admin Dashboard</h1>} />} {/* ADDED ROUTE WITH ADMIN RESTRICTION */}
+      {isLoggedIn === true && isUserAdmin() && <Route path="/admin/settings" render={() => <h1>Admin Settings</h1>} />} {/* ADDED ROUTE WITH ADMIN RESTRICTION */}
     </div>
+  );
+}
+
+function isAdminCheck(Comp) {
+  const isUserAdmin = () => {
+    return isAdmin && isAdmin === true;
+  };
+  const isAdmin = true; // FOR DEMONSTRATION PURPOSES - PLEASE UPDATE WITH ACTUAL ADMIN CHECK
+  return function (props) {
+    return isUserAdmin() ? <Comp {...props} /> : null;
+  };
+}
+
+function ProtectedRoute({ component: Component, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={(props) =>
+        isUserAdmin() ? <Component {...props} /> : <h1>You do not have access to this page.</h1> 
+      }
+    />
   );
 }
 
