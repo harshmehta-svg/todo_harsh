@@ -1,5 +1,5 @@
-// New file
 /* global document */
+/* global WebSocket */
 
 .login-card {
   max-width: 350px;
@@ -37,4 +37,49 @@
 
 .login-card button[type="submit"]:hover {
   background-color: #3e8e41;
+}
+
+.quill-container {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  width: 800px;
+  margin: 0 auto;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.quill-container .ql-editor {
+  height: 700px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow-y: auto;
+}
+
+.quill-container .ql-toolbar {
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #ccc;
+}
+
+.quill-container .ql-toolbar button {
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.quill-container .ql-status {
+  padding: 10px;
+  background-color: #ccc;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  color: #666;
+}
+
+.quill-container .ql-status span {
+  margin-right: 10px;
 }
