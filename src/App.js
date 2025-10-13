@@ -1,7 +1,10 @@
-// @flow
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { QueryClient, QueryClientProvider } from 'tanstack-query-client';
 import './App.css';
+import ProductList from './components/ProductList';
+
+// Create client
+const queryClient = new QueryClient();
 
 function App() {
   const [username, setUsername] = useState('');
@@ -9,7 +12,7 @@ function App() {
   const [loginStatus, setLoginStatus] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
 
-  const handleLogin = (event:SyntheticEvent) => {
+  const handleLogin = (event: SyntheticEvent) => {
     event.preventDefault();
     if (username === 'admin' && password === 'password') {
       setIsLoggedIn(true);
@@ -23,6 +26,23 @@ function App() {
     setIsLoggedIn(false);
     setLoginStatus(false);
   };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
+        // fetch more products
+      }
+    }, {
+      rootMargin: '50px',
+    });
+
+    // observe the container
+    observer.observe(document.getElementById('product-list'));
+
+    return () => {
+      observer.unobserve(document.getElementById('product-list'));
+    };
+  }, []);
 
   return (
     <div className="App">
@@ -51,6 +71,9 @@ function App() {
           )
         )}
       </header>
+      <QueryClientProvider client={queryClient}>
+        <ProductList initialItems={10} />
+      </QueryClientProvider>
     </div>
   );
 }

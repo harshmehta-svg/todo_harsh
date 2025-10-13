@@ -1,0 +1,27 @@
+/* src/components/ProductList.css */
+
+/* Import necessary styles and dependencies */
+@import "../../styles/styles.css";
+
+/* Add styles for infinite scrolling component */
+.product-list-container {
+  /* Set the max height for infinite scrolling */
+  max-height: 400px;
+  /* Add overflow-y for scrolling */
+  overflow-y: auto;
+}
+
+/* Use scroll-behavior: smooth to ensure smooth scrolling */
+.product-list-container {
+  scroll-behavior: smooth;
+}
+
+/* Define styles for the items in the list */
+.product-list-item {
+  /* Add a unique key to each item for React to track */
+  /* Note: TanStack Query requires a key prop on JSX elements */
+  key: string;
+  /* Set the default style for each item */
+  background-color: white;
+  border-bottom: 1px solid #ddd;
+}
