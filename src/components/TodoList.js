@@ -1,17 +1,24 @@
 import React from 'react';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 const TodoList = () => {
   const [todos, setTodos] = React.useState([]);
   const [newTodo, setNewTodo] = React.useState('');
-  const [darkMode, setDarkMode] = React.useState(localStorage.getItem('darkMode') === 'true');
+  const [darkMode, setDarkMode] = useLocalStorage('darkMode', false);
 
   const handleModeSwitch = () => {
     setDarkMode(!darkMode);
-    localStorage.setItem('darkMode', !darkMode);
   };
 
   const handleAddTodo = () => {
-    setTodos([...todos, { id: Math.random().toString(36).substring(2, 15), text: newTodo, completed: false }]);
+    setTodos([
+      ...todos,
+      {
+        id: Math.random().toString(36).substring(2, 15),
+        text: newTodo,
+        completed: false,
+      },
+    ]);
     setNewTodo('');
   };
 
@@ -34,7 +41,10 @@ const TodoList = () => {
   return (
     <div
       className={`todo-list ${darkMode ? 'dark-mode' : ''}`}
-      style={{ background: darkMode ? '#333' : '#f0f0f0', color: darkMode ? '#fff' : '#333' }}
+      style={{
+        background: darkMode ? '#333' : '#f0f0f0',
+        color: darkMode ? '#fff' : '#333',
+      }}
     >
       <h2>Todo List</h2>
       <button className="mode-switch" onClick={handleModeSwitch}>
@@ -52,8 +62,14 @@ const TodoList = () => {
       <ul>
         {todos.map((todo) => (
           <li key={todo.id}>
-            <input type="checkbox" checked={todo.completed} onChange={() => handleCompleteTodo(todo.id)} />
-            <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>{todo.text}</span>
+            <input
+              type="checkbox"
+              checked={todo.completed}
+              onChange={() => handleCompleteTodo(todo.id)}
+            />
+            <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>
+              {todo.text}
+            </span>
             <button className="delete-todo" onClick={() => handleDeleteTodo(todo.id)}>
               Delete
             </button>
