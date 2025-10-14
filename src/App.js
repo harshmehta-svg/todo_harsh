@@ -1,6 +1,6 @@
 // @flow
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
@@ -8,6 +8,9 @@ function App() {
   const [password, setPassword] = useState('');
   const [loginStatus, setLoginStatus] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const [sidebarExpanded, setSidebarExpanded] = useState(true);
+  const [darkMode, setDarkMode] = useState(false);
+  const [activeRoute, setActiveRoute] = useState('/');
 
   const handleLogin = (event:SyntheticEvent) => {
     event.preventDefault();
@@ -24,8 +27,36 @@ function App() {
     setLoginStatus(false);
   };
 
+  useEffect(() => {
+    const currentRoute = window.location.pathname;
+    setActiveRoute(currentRoute);
+  }, [activeRoute]);
+
+  const handleSidebarToggle = () => {
+    setSidebarExpanded(!sidebarExpanded);
+  };
+
+  const handleDarkModeToggle = () => {
+    setDarkMode(!darkMode);
+  };
+
+  useEffect(() => {
+    document.body.classList.toggle('dark-mode', darkMode);
+  }, [darkMode]);
+
+  useEffect(() => {
+    const currentRoute = window.location.pathname;
+    setActiveRoute(currentRoute);
+  }, [activeRoute]);
+
+  const routes = [
+    { id: 1, name: 'Home', path: '/' },
+    { id: 2, name: 'Dashboard', path: '/dashboard' },
+    { id: 3, name: 'Users', path: '/users' },
+  ];
+
   return (
-    <div className="App">
+    <div className={`App ${!sidebarExpanded ? 'sidebar-expanded' : ''} ${darkMode ? 'dark-mode' : ''}`}>
       <header className="App-header">
         {isLoggedIn === true ? (
           <h2>
@@ -50,7 +81,23 @@ function App() {
             </form>
           )
         )}
+        <button className={`toggle-dark-mode ${darkMode ? 'dark-mode-active' : ''}`} onClick={handleDarkModeToggle}>Toggle Dark Mode</button>
       </header>
+      <div className={`sidebar ${!sidebarExpanded ? 'expanded' : ''}`}>
+        <button onClick={handleSidebarToggle}>Toggle Sidebar</button>
+        <ul>
+          {routes.map((route) => (
+            <li key={route.id}>
+              <a
+                className={activeRoute === route.path ? `link ${darkMode ? 'dark-link' : ''}` : ''}
+                href={route.path}
+              >
+                {route.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
