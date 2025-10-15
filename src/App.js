@@ -2,12 +2,15 @@
 
 import React, { useState } from 'react';
 import './App.css';
+import Pagination from './components/Pagination'; // Import Pagination component
 
 function App() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginStatus, setLoginStatus] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const [totalPages, setTotalPages] = useState(10); // Add state for total pages
+  const [currentPage, setCurrentPage] = useState(1); // Add state for current page
 
   const handleLogin = (event:SyntheticEvent) => {
     event.preventDefault();
@@ -22,6 +25,11 @@ function App() {
   const handleLogout = () => {
     setIsLoggedIn(false);
     setLoginStatus(false);
+  };
+
+  // Function to handle page change
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
   };
 
   return (
@@ -51,8 +59,25 @@ function App() {
           )
         )}
       </header>
+      <main className="App-content">
+        {/* Content will go here */}
+      </main>
+      <footer className="App-footer">
+        <Pagination
+          total={totalPages} // Pass total pages to Pagination component
+          currentPage={currentPage} // Pass current page to Pagination component
+          onChange={handlePageChange} // Pass handlePageChange function to Pagination component
+        />
+      </footer>
     </div>
   );
 }
+
+// Props for the Pagination component
+type Props = {
+  total: number,
+  currentPage: number,
+  onChange: (newPage: number) => void,
+};
 
 export default App;
