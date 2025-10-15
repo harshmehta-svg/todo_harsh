@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="root"></div>
+    <script src="https://cdn.jsdelivr.net/npm/react@17.0.2/umd/react.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.16.7/babel.min.js"></script>
+    <script>
+        const { render } = React;
+        const { createRoot } = ReactDOM;
+
+        class ModalPortal extends HTMLElement {
+            connectedCallback() {
+                this.root = createRoot(this);
+            }
+        }
+        customElements.define('modal-portal', ModalPortal);
+
+        const modalRoot = document.createElement('modal-portal');
+        document.body.appendChild(modalRoot);
+        const modalElement = modalRoot.attachShadow({ mode: 'open' });
+        document.body.innerHTML += '<div id="modal-root"></div>';
+        modalElement.appendChild(document.getElementById('modal-root'));
+
+        class TodoList {
+            constructor() {
+                this.state = { todos: [], error: null, isLoaded: false };
+                this.tasks = [
+                    { name: 'Buy eggs', checked: false },
+                    { name: 'Buy milk', checked: false },
+                    { name: 'Buy bread', checked: false },
+                ];
+            }
+            componentDidMount() {}
+            UNSAFE_componentWillMount() {}
+            render() {
+                const { todos, error, isLoaded } = this.state;
+                return (
+                    <div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <h2 style="display: inline-block;">Todos</h2>
+                            <button
+                                style="background-color: #4CAF50; color: #fff; padding: 8px 10px;">
+                                <a href="#!" style="color: #fff;">Open Modal</a>
+                            </button>
+                        </div>
+                        <div>
+                            {error ? (
+                                <div>
+                                    {error}
+                                </div>
+                            ) : (
+                                <React.Fragment>
+                                    {todos.map((todo, index) => (
+                                        <div key={index} style="padding: 10px;">
+                                            <input
+                                                        type="checkbox"
+                                                        id={todo.name}
+                                                        checked={todo.checked}
+                                                        onChange={() => this.handleChange(todo)}
+                                                    />
+                                            <label style="display: inline-block; margin-left: 10px;">{todo.name}</label>
+                                        </div>
+                                    ))}
+                                </React.Fragment>
+                            )}
+                        </div>
+                        <button
+                            style="background-color: #4CAF50; color: #fff; padding: 8px 10px; margin-bottom: 20px;"
+                                onClick={() => this.setState({ isLoaded: true })}>
+                            Load More
+                        </button>
+                    </div>
+                );
+            }
+            handleChange(event) {
+                const { checked } = event.target;
+                const { name } = event.target;
+                this.setState({ isLoaded: false });
+                const taskIndex = this.tasks.findIndex((task) => task.name == name);
+                this.tasks[taskIndex] = { ...this.tasks[taskIndex], checked: checked };
+                this.setState({ todos: this.tasks });
+            }
+        }
+
+        const App = () => {
+            return (
+                <TodoList />
+            );
+        };
+
+        const root = document.getElementById('root');
+        render(
+            <React.StrictMode>
+                <App />
+            </React.StrictMode>,
+            root
+        );
+    </script>
+</body>
+</html>
