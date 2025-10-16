@@ -1,13 +1,29 @@
-import React from 'react';
+/// <reference types="react" />
+
+import React, { useState, useEffect } from 'react';
+import './TodoList.css';
 
 const TodoList = () => {
-  const [todos, setTodos] = React.useState([]);
-  const [newTodo, setNewTodo] = React.useState('');
-  const [darkMode, setDarkMode] = React.useState(localStorage.getItem('darkMode') === 'true');
+  const [todos, setTodos] = useState([]);
+  const [newTodo, setNewTodo] = useState('');
+  const [darkMode, setDarkMode] = useState(
+    localStorage.getItem('darkMode') === 'true'
+  );
+
+  useEffect(() => {
+    const savedTodos = localStorage.getItem('todos');
+    if (savedTodos) {
+      setTodos(JSON.parse(savedTodos));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('todos', JSON.stringify(todos));
+  }, [todos]);
 
   const handleModeSwitch = () => {
     setDarkMode(!darkMode);
-    localStorage.setItem('darkMode', !darkMode);
+    localStorage.setItem('darkMode', !darkMode.toString());
   };
 
   const handleAddTodo = () => {
@@ -34,7 +50,10 @@ const TodoList = () => {
   return (
     <div
       className={`todo-list ${darkMode ? 'dark-mode' : ''}`}
-      style={{ background: darkMode ? '#333' : '#f0f0f0', color: darkMode ? '#fff' : '#333' }}
+      style={{
+        background: darkMode ? '#333' : '#f0f0f0',
+        color: darkMode ? '#fff' : '#333',
+      }}
     >
       <h2>Todo List</h2>
       <button className="mode-switch" onClick={handleModeSwitch}>
@@ -52,15 +71,27 @@ const TodoList = () => {
       <ul>
         {todos.map((todo) => (
           <li key={todo.id}>
-            <input type="checkbox" checked={todo.completed} onChange={() => handleCompleteTodo(todo.id)} />
-            <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>{todo.text}</span>
+            <input
+              type="checkbox"
+              checked={todo.completed}
+              onChange={() => handleCompleteTodo(todo.id)}
+            />
+            <span
+              style={{
+                textDecoration: todo.completed ? 'line-through' : 'none',
+              }}
+            >
+              {todo.text}
+            </span>
             <button className="delete-todo" onClick={() => handleDeleteTodo(todo.id)}>
               Delete
             </button>
             <button
               className="undo-complete-todo"
               onClick={() => handleUndoCompleteTodo(todo.id)}
-              style={{ display: todo.completed ? 'inline-block' : 'none' }}
+              style={{
+                display: todo.completed ? 'inline-block' : 'none',
+              }}
             >
               Undo
             </button>

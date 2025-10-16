@@ -1,14 +1,1 @@
-public/
-  index.html
-  app.js
-src/
-  components/
-    TodoList.js
-    Task.js
-  styles/
-    styles.css
-  scripts/
-    script.js
-    services/
-      auth.js
-package.json
+npm install

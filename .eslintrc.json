@@ -1,0 +1,52 @@
+// New file
+
+{
+  "root": true,
+  "env": {
+    "node": true,
+    "es2021": true,
+    "browser": true
+  },
+  "extends": ["plugin:react/recommended", "eslint:recommended", "prettier"],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "parserOptions": {
+    "ecmaVersion": 12,
+    "ecmaFeatures": {}
+  },
+  "rules": {
+    "no-return-empty-function": "error",
+    "no-undef": "error",
+    "no-unused-imports": "error",
+    "react/prop-types": "off"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "plugins": ["prettier", "react", "react-hooks"],
+  "overrides": [
+    {
+      "files": ["**/*.js", "**/*.jsx"],
+      "rules": {
+        "jsx-a11y/anchor-is-valid": "off"
+      }
+    },
+    {
+      "files": ["**/*.ts", "**/*.tsx"],
+      "rules": {
+        "@typescript-eslint/no-unused-vars": "warn"
+      }
+    }
+  ],
+  "prettierOptions": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "separated':': false,
+    "semi": true,
+    "singleQuote": false
+  }
+}
