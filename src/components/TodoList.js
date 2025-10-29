@@ -1,4 +1,5 @@
 import React from 'react';
+import { Toaster } from 'react-hot-toast';
 
 const TodoList = () => {
   const [todos, setTodos] = React.useState([]);
@@ -36,6 +37,7 @@ const TodoList = () => {
       className={`todo-list ${darkMode ? 'dark-mode' : ''}`}
       style={{ background: darkMode ? '#333' : '#f0f0f0', color: darkMode ? '#fff' : '#333' }}
     >
+      <Toaster />
       <h2>Todo List</h2>
       <button className="mode-switch" onClick={handleModeSwitch}>
         {darkMode ? 'Light Mode' : 'Dark Mode'}
