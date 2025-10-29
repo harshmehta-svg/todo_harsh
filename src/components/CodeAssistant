@@ -1,0 +1,74 @@
+// src/components/CodeAssistant.js
+
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { SyncScopes } from 'react-syntax-highlighter';
+import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/hljs';
+import { default as highlightJS } from 'react-syntax-highlighter/dist/cjs/prism';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import hljs from 'highlight.js';
+import styles from '../styles/styles.css';
+
+const AI_API_URL = 'https://api.example.com/ai';
+
+function CodeAssistant() {
+  const [question, setQuestion] = useState('');
+  const [response, setResponse] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const sendQuestion = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.post(AI_API_URL, { question: question });
+      setResponse(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
+    }
+  };
+
+  const codeResponse = () => {
+    if (!response || response.type === 'text') {
+      return <p>No code response available.</p>;
+    }
+    return (
+      <SyntaxHighlighter language={response.language} style={dracula}>
+        {response.code}
+      </SyntaxHighlighter>
+    );
+  };
+
+  useEffect(() => {
+    if (response && response.type !== 'text') {
+      hljs.configure({ useClasses: true });
+    }
+    return () => {
+      // cleanup
+    };
+  }, [response]);
+
+  return (
+    <div>
+      <h2>Code Assistant</h2>
+      <input
+        type="text"
+        value={question}
+        onChange={(e) => setQuestion(e.target.value)}
+        placeholder="type your question here"
+        className={styles.input}
+      />
+      <button onClick={sendQuestion} className={styles.button}>
+        {loading ? 'Loading...' : 'Ask AI'}
+      </button>
+      {response && (
+        <div>
+          <p>AI Response:</p>
+          {codeResponse()}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default CodeAssistant;
