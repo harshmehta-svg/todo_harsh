@@ -2,12 +2,13 @@
   "name": "todo-app",
   "version": "1.0.0",
   "description": "A simple Todo List application built with front-end technologies.",
-  "main": "index.js", // Changed main field to a valid entry point (in this case, a JavaScript file)
+  "main": "index.js",
   "scripts": {
     "start": "live-server",
     "build": "tsc --outDir build",
     "test": "jest",
-    "clean": "rm -rf build && touch build"
+    "clean": "rm -rf build && touch build",
+    "remove-duplicates": "glob \"*.js\" && glob \"*.css\" && glob \"*.html\" && rm -rf styles.css && rm -rf index.html && rm -rf index.css && rm -rf app.js"
   },
   "keywords": [],
   "author": "",
@@ -15,7 +16,10 @@
   "dependencies": {
     "@types/node": "^16.11.3",
     "bcrypt": "^5.2.1",
-    "typescript": "^4.7.4"
+    "typescript": "^4.7.4",
+    "monaco-editor": "^0.25.0",
+    "highlight.js": "^11.6.0",
+    "prismjs": "^1.28.0"
   },
   "devDependencies": {
     "@types/jest": "^28.1.6",
@@ -23,7 +27,7 @@
     "@types/live-server": "^1.2.7",
     "jest": "^28.1.3",
     "live-server": "^1.2.1",
-    "glob": "^7.2.7" // Added glob dependency to remove unnecessary files
+    "glob": "^7.2.7"
   },
   "repository": {
     "type": "git",
@@ -31,8 +35,5 @@
   },
   "bugs": {
     "url": ""
-  },
-  "scripts": {
-    "remove-duplicates": "glob \"*.js\" && glob \"*.css\" && glob \"*.html\" && rm -rf styles.css && rm -rf index.html && rm -rf index.css && rm -rf app.js"
   }
 }
