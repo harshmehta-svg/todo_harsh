@@ -1,6 +1,8 @@
-// New file
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import 'react-sortable-hoc/stylesheet.css';
+import DataTable from 'react-data-table-component';
+import axios from 'axios';
 
 // Import local storage data
 const storedTodos = localStorage.getItem('todos') ? JSON.parse(localStorage.getItem('todos')) : [];
@@ -102,47 +104,58 @@ function App() {
     setTodos(newTodos);
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('https://example.com/api/data');
+        const data = response.data;
+        setTodos(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const columns = [
+    {
+      name: 'Username',
+      selector: 'username',
+      sortable: true,
+    },
+    {
+      name: 'Email',
+      selector: 'email',
+      sortable: true,
+    },
+    {
+      name: 'Phone',
+      selector: 'phone',
+      sortable: true,
+    },
+    {
+      name: 'Country',
+      selector: 'country',
+      sortable: true,
+    },
+  ];
+
   return (
     <div className="app-container">
-      <h1>Todo List App</h1>
-      {localStorage.getItem('logged_in') ? (
-        <Login />
-      ) : (
-        <Login></Login>
-      )}
+      <h1>Data Table App</h1>
       {localStorage.getItem('logged_in') ? (
         <div>
-          <input
-            type="text"
-            placeholder="What needs to be done?"
-            onKeyPress={(e) => {
-              if (e.key === 'Enter') {
-                handleAddTodo(e.target.value);
-                e.target.value = '';
-              }
-            }}
+          <DataTable
+            title="Data Table"
+            columns={columns}
+            data={todos}
+            pageable
+            pagination
+            selectableRows
           />
-          <ul>
-            {todos.map((todo, index) => (
-              <li key={index}>
-                <input
-                  type="checkbox"
-                  checked={todo.completed}
-                  onChange={() => handleToggleCompleted(index)}
-                />
-                <span
-                  style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}
-                >
-                  {todo.text}
-                </span>
-                <button onClick={() => handleDeleteTodo(index)}>Delete</button>
-              </li>
-            ))}
-          </ul>
-          <button onClick={handleUndoCompleted}>Undo Completed</button>
         </div>
       ) : (
-        <div>Please log in to access the Todo List App.</div>
+        <div>Please log in to access the Data Table App.</div>
       )}
     </div>
   );
