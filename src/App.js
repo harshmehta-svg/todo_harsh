@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import './App.css';
+import Navbar from './components/Navbar'; // import Navbar component
 
 function App() {
   const [username, setUsername] = useState('');
@@ -26,6 +27,7 @@ function App() {
 
   return (
     <div className="App">
+      <Navbar /> {/* render Navbar component */}
       <header className="App-header">
         {isLoggedIn === true ? (
           <h2>
@@ -56,3 +58,5 @@ function App() {
 }
 
 export default App;
+
+That's the entire file with the requested changes.
