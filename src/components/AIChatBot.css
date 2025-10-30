@@ -1,0 +1,96 @@
+// src/components/AIChatBot.css
+
+/* Add custom styles for the AI chat bot component */
+.ai-chat-bot {
+  height: 500px;
+  width: 300px;
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.ai-chat-bot__messages {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.ai-chat-bot__messages > * {
+  margin-bottom: 10px;
+}
+
+.ai-chat-bot__user-msg {
+  display: flex;
+  justify-content: flex-start;
+  padding: 10px;
+  margin-left: auto;
+  margin-right: 10px;
+  background-color: #e6f5ff;
+  border-radius: 10px;
+  max-width: 70%;
+  margin-bottom: 10px;
+}
+
+.ai-chat-bot__ai-msg {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+  margin-right: auto;
+  margin-left: 10px;
+  background-color: #e6f5ff;
+  border-radius: 10px;
+  max-width: 70%;
+  margin-bottom: 10px;
+}
+
+.ai-chat-bot__user-msg::before {
+  content: '';
+  display: inline-block;
+  background-color: #007bff;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  margin-right: 10px;
+}
+
+.ai-chat-bot__ai-msg::before {
+  content: '';
+  display: inline-block;
+  background-color: #007bff;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  margin-left: 10px;
+}
+
+.ai-chat-bot__input {
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 16px;
+  width: calc(100% - 50px);
+  margin-top: 10px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+.ai-chat-bot__send-btn {
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #007bff;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.ai-chat-bot__input-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.ai-chat-bot__send-btn:hover {
+  background-color: #0069d9;
+}
