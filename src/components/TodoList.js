@@ -1,72 +1,119 @@
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
+import { DataGrid } from '@mui/x-data-grid';
+import { TodoContext } from '../context/TodoContext';
+import { useDarkMode } from '../hooks/useDarkMode';
+import { getTodos, addTodo, deleteTodo, updateTodo, undoCompleteTodo } from '../services/services';
+import { Pagination } from '@mui/material';
 
 const TodoList = () => {
-  const [todos, setTodos] = React.useState([]);
-  const [newTodo, setNewTodo] = React.useState('');
-  const [darkMode, setDarkMode] = React.useState(localStorage.getItem('darkMode') === 'true');
+  const { todos, setTodos } = useContext(TodoContext);
+  const { darkMode, setDarkMode } = useDarkMode();
 
-  const handleModeSwitch = () => {
-    setDarkMode(!darkMode);
-    localStorage.setItem('darkMode', !darkMode);
-  };
+  const columns = [
+    {
+      field: 'text',
+      headerName: 'Task',
+      renderCell: (params) => <span style={{ textDecoration: params.row.completed ? 'line-through' : 'none' }}>{params.value}</span>,
+      sortable: true
+    },
+    {
+      field: 'completed',
+      headerName: 'Completed',
+      renderCell: (params) => <input type="checkbox" checked={params.value} onChange={() => updateTodo(params.row.id, { completed: !params.row.completed })} />,
+      sortable: true
+    },
+    {
+      field: 'actions',
+      headerName: 'Actions',
+      renderCell: (params) => (
+        <div>
+          <button className="delete-todo" onClick={() => deleteTodo(params.row.id)}>Delete</button>
+          {params.row.completed && <button className="undo-complete-todo" onClick={() => undoCompleteTodo(params.row.id)}>Undo</button>}
+        </div>
+      ),
+      sortable: false
+    }
+  ];
 
   const handleAddTodo = () => {
-    setTodos([...todos, { id: Math.random().toString(36).substring(2, 15), text: newTodo, completed: false }]);
-    setNewTodo('');
+    addTodo({ text: 'New Todo', completed: false })
+      .then((newTodo) => {
+        setTodos([...todos, newTodo]);
+      })
+      .catch((error) => console.error(error));
   };
 
   const handleDeleteTodo = (id) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
+    deleteTodo(id)
+      .then(() => {
+        setTodos(todos.filter((todo) => todo.id !== id));
+      })
+      .catch((error) => console.error(error));
   };
 
-  const handleCompleteTodo = (id) => {
-    setTodos(
-      todos.map((todo) => (todo.id === id ? { ...todo, completed: !todo.completed } : todo))
-    );
+  const handleUpdateTodoCompleted = (id) => {
+    updateTodo(id, { completed: true })
+      .then((updatedTodo) => {
+        setTodos(
+          todos.map((todo) => (todo.id === id ? updatedTodo : todo))
+        );
+      })
+      .catch((error) => console.error(error));
   };
 
   const handleUndoCompleteTodo = (id) => {
-    setTodos(
-      todos.map((todo) => (todo.id === id ? { ...todo, completed: false } : todo))
-    );
+    updateTodo(id, { completed: false })
+      .then((updatedTodo) => {
+        setTodos(
+          todos.map((todo) => (todo.id === id ? updatedTodo : todo))
+        );
+      })
+      .catch((error) => console.error(error));
+  };
+
+  useEffect(() => {
+    getTodos()
+      .then((data) => {
+        setTodos(data);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+
+  const handlePageChange = (newPage) => {
+    const pageSize = 10;
+    const offset = (newPage - 1) * pageSize;
+    const filteredTodos = todos.slice(offset, offset + pageSize);
+    setTodos(filteredTodos);
   };
 
   return (
-    <div
-      className={`todo-list ${darkMode ? 'dark-mode' : ''}`}
-      style={{ background: darkMode ? '#333' : '#f0f0f0', color: darkMode ? '#fff' : '#333' }}
-    >
+    <div className={darkMode ? 'dark-mode' : ''}>
       <h2>Todo List</h2>
-      <button className="mode-switch" onClick={handleModeSwitch}>
+      <button className="mode-switch" onClick={() => setDarkMode(!darkMode)}>
         {darkMode ? 'Light Mode' : 'Dark Mode'}
       </button>
       <input
         type="text"
         placeholder="New Todo..."
-        value={newTodo}
-        onChange={(e) => setNewTodo(e.target.value)}
+        style={{ marginBottom: '1em' }}
       />
       <button className="add-todo" onClick={handleAddTodo}>
         Add Todo
       </button>
-      <ul>
-        {todos.map((todo) => (
-          <li key={todo.id}>
-            <input type="checkbox" checked={todo.completed} onChange={() => handleCompleteTodo(todo.id)} />
-            <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>{todo.text}</span>
-            <button className="delete-todo" onClick={() => handleDeleteTodo(todo.id)}>
-              Delete
-            </button>
-            <button
-              className="undo-complete-todo"
-              onClick={() => handleUndoCompleteTodo(todo.id)}
-              style={{ display: todo.completed ? 'inline-block' : 'none' }}
-            >
-              Undo
-            </button>
-          </li>
-        ))}
-      </ul>
+      <DataGrid
+        rows={todos}
+        columns={columns}
+        pageSize={10}
+        rowsPerPageOptions={[10, 20, 30]}
+        disableSelectionOnClick
+      >
+        <Pagination
+          rowsPerPageOptions={[10, 20, 30]}
+          count={Math.ceil(todos.length / 10)}
+          page={Math.ceil(todos.length / 10)}
+          onChangePage={handlePageChange}
+        />
+      </DataGrid>
     </div>
   );
 };

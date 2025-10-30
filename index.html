@@ -6,6 +6,39 @@
     <title>Todo App</title>
     <!-- Update the CSS file link -->
     <link rel="stylesheet" href="public/index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/dist/react.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/dist/react-dom.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.17.11/babel.min.js"></script>
+    <style>
+        .react-table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .react-table th, .react-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .react-table th {
+            background-color: #f0f0f0;
+        }
+        .pagination {
+            padding: 10px;
+            text-align: center;
+        }
+        .pagination a {
+            color: #337ab7;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+        }
+        .pagination a.active {
+            background-color: #337ab7;
+            color: white;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -14,59 +47,136 @@
             <input type="text" id="todo-input" placeholder="Enter a new todo">
             <button id="add-btn">Add Todo</button>
         </div>
-        <ul id="todo-list"></ul>
+        <div id="table-container"></div>
+        <div class="pagination">
+            <div id="pagination"></div>
+        </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/packagist@1.1.0/dist/packagist.min.js"></script>
     <script>
-        console.log("Package installed successfully");
-        // Create a new package for the project
-        const packageJson = {
-            "name": "todo-app",
-            "version": "1.0.0",
-            "description": "A Simple Todo List Application",
-            "main": "app.js",
-            "scripts": {
-                "start": "node app.js"
-            },
-            "dependencies": {
-                // Add any dependencies here
-            }
-        };
-        packagist.writePackageFile("package.json", packageJson);
-        console.log(packageJson);
+        function Table({ columns, data, onPageChange }) {
+            const [currentPage, setCurrentPage] = React.useState(0);
+            const [pageSize, setPageSize] = React.useState(10);
 
-        // Create a new README file
-        const fs = require('fs');
-        const md = `
-# Todo App
+            const handlePageChange = (pageNumber) => {
+                onPageChange(pageNumber);
+                setCurrentPage(pageNumber);
+            };
 
-## Table of Contents
-- [Overview](#overview)
-- [Technology Stack](#technology-stack)
-- [Project Structure](#project-structure)
-- [Features](#features)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Usage](#usage)
-- [API Documentation](#api-documentation)
-- [Key Components](#key-components)
-- [Testing](#testing)
-- [Deployment](#deployment)
-- [Contributing](#contributing)
-- [License](#license)
+            const handlePageSizeChange = (newPageSize) => {
+                setPageSize(newPageSize);
+                onPageChange(0);
+            };
 
-## Overview
-This project is a simple, clean, and intuitive Todo List application built entirely with front-end technologies. It allows users to add, complete, undo, and delete tasks. All tasks are persisted in the browser's local storage, ensuring that the user's todo list is saved between sessions. The application features a minimalist design for a user-friendly experience.
+            const start = currentPage * pageSize;
+            const end = start + pageSize;
+            const paginatedData = data.slice(start, end);
 
-## Technology Stack
-This project is built using fundamental web technologies and does not rely on any external frameworks or libraries.
-- **HTML5**: For the structure and layout of the application
-- **CSS3**: For styling and visual design
-- **JavaScript**: For dynamic functionality and interactivity
-`;
-        fs.writeFileSync("README.md", md);
-        console.log("README file created successfully");
+            return (
+                <table className="react-table">
+                    <thead>
+                        <tr>
+                            {columns.map((column, index) => (
+                                <th key={index}>{column.Header}</th>
+                            ))}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {paginatedData.map((row, index) => (
+                            <tr key={index}>
+                                {columns.map((column, columnIndex) => (
+                                    <td key={columnIndex}>{row[column.id]}</td>
+                                ))}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            );
+        }
+
+        function Pagination({ pageNumber, onPageChange }) {
+            const pages = Math.ceil(pageNumber.length / 10);
+
+            return (
+                <nav>
+                    {Array(pages).fill(0).map((_, index) => (
+                        <a
+                            key={index}
+                            className={pageNumber.indexOf(index) !== -1 ? 'active' : ''}
+                            onClick={() => onPageChange(index)}
+                        >
+                            {index + 1}
+                        </a>
+                    ))}
+                </nav>
+            );
+        }
+
+        function App() {
+            const [data, setData] = React.useState([
+                { id: 1, name: 'Todo 1', completed: false },
+                { id: 2, name: 'Todo 2', completed: false },
+                { id: 3, name: 'Todo 3', completed: false },
+                // Add more todos here
+            ]);
+
+            let pageNumber = Array(Math.ceil(data.length / 10)).fill(0).map((_, index) => index).filter((index) => data.slice(index * 10, index * 10 + 10).length > 0);
+
+            const handleAddTodo = () => {
+                setData([...data, { id: data.length + 1, name: `Todo ${data.length + 1}`, completed: false }]);
+            };
+
+            const handleSort = (sortColumn, order) => {
+                if (sortColumn.id === 'completed') {
+                    const newTodos = [];
+
+                    if (order === 'asc') {
+                        newTodos.push(...data.filter((todo) => todo[sortColumn.id]));
+                        newTodos.push(...data.filter((todo) => !todo[sortColumn.id]));
+                    } else {
+                        newTodos.push(...data.filter((todo) => !todo[sortColumn.id]));
+                        newTodos.push(...data.filter((todo) => todo[sortColumn.id]));
+                    }
+
+                    setData(newTodos);
+                } else {
+                    const sortedData = [...data].sort((a, b) => {
+                        if (a[sortColumn.id] < b[sortColumn.id]) return -1;
+                        if (a[sortColumn.id] > b[sortColumn.id]) return 1;
+                        return 0;
+                    });
+
+                    if (order === 'asc') {
+                        setData(sortedData);
+                    } else {
+                        setData(sortedData.reverse());
+                    }
+                }
+            };
+
+            return (
+                <div>
+                    <button onClick={handleAddTodo}>Add Todo</button>
+                    <Table
+                        columns={[
+                            { Header: 'ID', id: 'id', sort: handleSort },
+                            { Header: 'Todo', id: 'name', sort: handleSort },
+                            { Header: 'Completed', id: 'completed', sort: handleSort },
+                        ]}
+                        data={data}
+                        onPageChange={(pageNumber) => {
+                            pageNumber = Array(Math.ceil(data.length / 10)).fill(0).map((_, index) => index).filter((index) => data.slice(index * 10, index * 10 + 10).length > 0);
+                            setData(pageNumber.indexOf(pageNumber) >= 0 ? data.slice(pageNumber, pageNumber + 10) : data);
+                        }}
+                    />
+                    <Pagination pageNumber={pageNumber} onPageChange={(pageNumber) => {
+                        pageNumber = Array(Math.ceil(data.length / 10)).fill(0).map((_, index) => index).filter((index) => data.slice(index * 10, index * 10 + 10).length > 0);
+                        setData(pageNumber.indexOf(pageNumber) >= 0 ? data.slice(pageNumber * 10, pageNumber * 10 + 10) : data);
+                    }} />
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, document.getElementById('table-container'));
     </script>
     <script src="public/app.js"></script>
     <script>
