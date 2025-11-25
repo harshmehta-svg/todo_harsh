@@ -1,0 +1,67 @@
+.loginform-container {
+  padding: 20px;
+  margin: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+}
+
+.loginform-header {
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.loginform-header h2 {
+  color: #333;
+  margin: 0 0 10px 0;
+  font-size: 1.5rem;
+}
+
+.loginform-header .description {
+  color: #666;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.loginform-content {
+  margin: 20px 0;
+}
+
+.task-implementation {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 4px;
+  border-left: 4px solid #007bff;
+}
+
+.task-implementation h3 {
+  margin: 0 0 10px 0;
+  color: #007bff;
+}
+
+.task-implementation p {
+  margin: 5px 0;
+  color: #555;
+}
+
+.loginform-footer {
+  margin-top: 20px;
+  padding-top: 10px;
+  border-top: 1px solid #e0e0e0;
+  color: #999;
+  font-size: 0.8rem;
+}
+
+/* Task priority styling */
+.priority-high {
+  border-left-color: #dc3545;
+}
+
+.priority-medium {
+  border-left-color: #ffc107;
+}
+
+.priority-low {
+  border-left-color: #28a745;
+}
