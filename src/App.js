@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import './App.css';
+import Calendar from './components/Calendar';
 
 function App() {
   const [username, setUsername] = useState('');
@@ -51,6 +52,7 @@ function App() {
           )
         )}
       </header>
+      <Calendar />
     </div>
   );
 }
