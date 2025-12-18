@@ -38,3 +38,23 @@
 .login-card button[type="submit"]:hover {
   background-color: #3e8e41;
 }
+
+header {
+  background-color: #f0f0f0;
+  padding: 10px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+header nav button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+header nav button:hover {
+  background-color: #ddd;
+}
